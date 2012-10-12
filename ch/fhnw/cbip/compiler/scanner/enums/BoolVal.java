@@ -1,6 +1,5 @@
 package ch.fhnw.cbip.compiler.scanner.enums;
 
-import ch.fhnw.cbip.compiler.scanner.Terminal;
 
 public enum BoolVal {
   TRUE(1), FALSE(0);
