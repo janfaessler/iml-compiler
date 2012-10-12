@@ -21,7 +21,7 @@ public class Literal extends AbstractToken {
   @Override
   public String toString() {
     if (bool != null) {
-      return "(LITERAL, BoolVal " + bool.toString() + ")";
+      return "(LITERAL, " + bool.toString() + ")";
     } else {
       return "(LITERAL, IntVal " + value + ")";
     }
