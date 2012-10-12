@@ -25,7 +25,7 @@ public abstract class AbstractToken implements IToken {
   }
   
   /**
-   * @return the token's terminal smybol
+   * @return the token's terminal symbol
    */
   protected Terminal getTerminal() {
     return terminal;
