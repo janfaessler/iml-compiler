@@ -26,12 +26,6 @@ public abstract class Keyword extends AbstractToken {
     }
   }
   
-  public static class Becomes extends Keyword {
-    public Becomes(int line){
-      super(Terminal.BECOMES, line);
-    }
-  }
-  
   public static class Call extends Keyword {
     public Call(int line){
       super(Terminal.CALL, line);
