@@ -5,12 +5,10 @@ import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public abstract class Operator extends AbstractToken {
-  private final Terminal terminal;
   private final OperatorAttribute attribute;
 
   public Operator(int line, Terminal terminal, OperatorAttribute attribute) {
     super(terminal, line);
-    this.terminal = terminal;
     this.attribute = attribute;
   }
 
@@ -20,7 +18,7 @@ public abstract class Operator extends AbstractToken {
 
   @Override
   public String toString() {
-    return "(" + terminal.toString() + ", " + attribute.toString() + ")";
+    return "(" + getTerminal().toString() + ", " + attribute.toString() + ")";
   }
 
   public static class AddOpr extends Operator {

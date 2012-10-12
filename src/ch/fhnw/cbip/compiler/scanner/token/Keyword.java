@@ -3,20 +3,14 @@ package ch.fhnw.cbip.compiler.scanner.token;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public abstract class Keyword extends AbstractToken {
-  private final Terminal terminal;
 
   public Keyword(Terminal terminal, int line) {
     super(terminal, line);
-    this.terminal = terminal;
-  }
-  
-  public Terminal getTerminal(){
-    return terminal;
   }
   
   @Override
   public String toString() {
-    return terminal.toString();
+    return getTerminal().toString();
   }
   
   public static class Programm extends Keyword {

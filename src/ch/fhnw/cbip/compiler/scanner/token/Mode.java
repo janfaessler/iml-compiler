@@ -5,12 +5,10 @@ import ch.fhnw.cbip.compiler.scanner.enums.ModeAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public abstract class Mode extends AbstractToken {
-  private final Terminal terminal;
   private final ModeAttribute attribute;
 
   public Mode(Terminal terminal, ModeAttribute attribute, int line) {
     super(terminal, line);
-    this.terminal = terminal;
     this.attribute = attribute;
   }
 
@@ -20,7 +18,7 @@ public abstract class Mode extends AbstractToken {
 
   @Override
   public String toString() {
-    return "(" + terminal.toString() + ", " + attribute.toString() + ")";
+    return "(" + getTerminal().toString() + ", " + attribute.toString() + ")";
   }
 
   public static class ChangeMode extends Mode {
