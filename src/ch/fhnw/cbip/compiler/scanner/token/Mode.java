@@ -28,7 +28,7 @@ public abstract class Mode extends AbstractToken {
     public ChangeMode(ModeAttribute attribute, int line) throws LexicalError {
       super(line, Terminal.CHANGEMODE, attribute);
       if ((attribute != ModeAttribute.CONST) && (attribute != ModeAttribute.VAR))
-        throw new LexicalError("Invalid MechMode attribute", line);
+        throw new LexicalError("Invalid ChangeMode attribute", line);
     }
 
   }
@@ -38,7 +38,7 @@ public abstract class Mode extends AbstractToken {
       super(line, Terminal.FLOWMODE, attribute);
       if ((attribute != ModeAttribute.IN) && (attribute != ModeAttribute.OUT)
           && (attribute != ModeAttribute.INOUT))
-        throw new LexicalError("Invalid MechMode attribute", line);
+        throw new LexicalError("Invalid FlowMode attribute", line);
     }
   }
 
