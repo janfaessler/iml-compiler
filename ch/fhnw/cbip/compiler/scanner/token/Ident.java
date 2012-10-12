@@ -17,6 +17,6 @@ public class Ident extends AbstractToken {
 
   @Override
   public String toString() {
-    return "(IDENT,\"" + name + "\")";
+    return "(IDENT, \"" + name + "\")";
   }
 }
