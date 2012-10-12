@@ -1,9 +1,17 @@
 package ch.fhnw.cbip.compiler.scanner.enums;
 
-public enum ChangeModeAttr {
+public enum ModeAttribute {
+  
+  // Mech Mode
+  COPY("COPY"), REF("REF"),
+  
+  // Flow Mode
+  IN("IN"), OUT("OUT"), INOUT("INOUT"),
+  
+  // Change Mode
   CONST("CONST"), VAR("VAR");
   
-  ChangeModeAttr(String toString) {
+  ModeAttribute(String toString) {
     this.toString = toString;
   }
 
