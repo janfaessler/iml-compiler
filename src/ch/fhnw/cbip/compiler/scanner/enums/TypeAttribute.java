@@ -1,9 +1,9 @@
 package ch.fhnw.cbip.compiler.scanner.enums;
 
-public enum TypeAttr {
+public enum TypeAttribute {
   INT("INT"), BOOL("BOOL");
 
-  TypeAttr(String toString) {
+  TypeAttribute(String toString) {
     this.toString = toString;
   }
 

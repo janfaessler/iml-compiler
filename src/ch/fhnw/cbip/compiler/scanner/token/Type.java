@@ -2,17 +2,17 @@ package ch.fhnw.cbip.compiler.scanner.token;
 
 import ch.fhnw.cbip.compiler.scanner.AbstractToken;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
-import ch.fhnw.cbip.compiler.scanner.enums.TypeAttr;
+import ch.fhnw.cbip.compiler.scanner.enums.TypeAttribute;
 
 public class Type extends AbstractToken {
-  private final TypeAttr attribute;
+  private final TypeAttribute attribute;
 
-  public Type(TypeAttr attribute, int line) {
+  public Type(TypeAttribute attribute, int line) {
     super(Terminal.TYPE, line);
     this.attribute = attribute;
   }
 
-  public TypeAttr getAttribute() {
+  public TypeAttribute getAttribute() {
     return attribute;
   }
 
