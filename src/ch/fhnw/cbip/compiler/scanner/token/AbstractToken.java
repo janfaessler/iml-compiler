@@ -1,4 +1,4 @@
-package ch.fhnw.cbip.compiler.scanner;
+package ch.fhnw.cbip.compiler.scanner.token;
 
 import ch.fhnw.cbip.compiler.scanner.IToken;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;

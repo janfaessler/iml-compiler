@@ -1,7 +1,6 @@
 package ch.fhnw.cbip.compiler.scanner.token;
 
 import ch.fhnw.cbip.compiler.error.LexicalError;
-import ch.fhnw.cbip.compiler.scanner.AbstractToken;
 import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
