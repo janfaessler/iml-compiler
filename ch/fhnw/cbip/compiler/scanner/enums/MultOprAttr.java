@@ -1,5 +1,5 @@
 package ch.fhnw.cbip.compiler.scanner.enums;
 
-public enum MultOprrAttr {
+public enum MultOprAttr {
   TIMES, MOD;
 }
