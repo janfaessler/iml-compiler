@@ -19,7 +19,11 @@ public enum Terminal {
 
   FUN("FUN"), GLOBAL("GLOBAL"), LOCAL("LOCAL"), INIT("INIT"),
 
-  PROC("PROC"), RETURNS("RETURNS"), WHILE("WHILE"), SKIP("SKIP");
+  PROC("PROC"), RETURNS("RETURNS"), SKIP("SKIP"),
+  
+  WHILE("WHILE"), DO("DO"), ENDWHILE("ENDWHILE"),
+  
+  SENTINEL("SENTINEL");
 
   Terminal(String toString) {
     this.toString = toString;
