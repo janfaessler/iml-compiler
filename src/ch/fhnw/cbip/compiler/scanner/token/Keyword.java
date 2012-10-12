@@ -6,7 +6,7 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 public abstract class Keyword extends AbstractToken {
   private final Terminal terminal;
 
-  public Keyword(int line, Terminal terminal) {
+  public Keyword(Terminal terminal, int line) {
     super(terminal, line);
     this.terminal = terminal;
   }
@@ -22,103 +22,103 @@ public abstract class Keyword extends AbstractToken {
   
   public static class Programm extends Keyword {
     public Programm(int line){
-      super(line, Terminal.PROGRAM);
+      super(Terminal.PROGRAM, line);
     }
   }
   
   public static class Becomes extends Keyword {
     public Becomes(int line){
-      super(line, Terminal.BECOMES);
+      super(Terminal.BECOMES, line);
     }
   }
   
   public static class Call extends Keyword {
     public Call(int line){
-      super(line, Terminal.CALL);
+      super(Terminal.CALL, line);
     }
   }
   
   public static class If extends Keyword {
     public If(int line){
-      super(line, Terminal.IF);
+      super(Terminal.IF, line);
     }
   }
   
   public static class Else extends Keyword {
     public Else(int line){
-      super(line, Terminal.ELSE);
+      super(Terminal.ELSE, line);
     }
   }
   
   public static class Fun extends Keyword {
     public Fun(int line){
-      super(line, Terminal.FUN);
+      super(Terminal.FUN, line);
     }
   }
   
   public static class Proc extends Keyword {
     public Proc(int line){
-      super(line, Terminal.PROC);
+      super(Terminal.PROC, line);
     }
   }
   
   public static class Global extends Keyword {
     public Global(int line){
-      super(line, Terminal.GLOBAL);
+      super(Terminal.GLOBAL, line);
     }
   }
   
   public static class Local extends Keyword {
     public Local(int line){
-      super(line, Terminal.LOCAL);
+      super(Terminal.LOCAL, line);
     }
   }
   
   public static class Not extends Keyword {
     public Not(int line){
-      super(line, Terminal.NOT);
+      super(Terminal.NOT, line);
     }
   }
   
   public static class Init extends Keyword {
     public Init(int line){
-      super(line, Terminal.INIT);
+      super(Terminal.INIT, line);
     }
   }
   
   public static class Returns extends Keyword {
     public Returns(int line){
-      super(line, Terminal.RETURNS);
+      super(Terminal.RETURNS, line);
     }
   }
   
   public static class Skip extends Keyword {
     public Skip(int line){
-      super(line, Terminal.SKIP);
+      super(Terminal.SKIP, line);
     }
   }
   
   public static class While extends Keyword {
     public While(int line){
-      super(line, Terminal.WHILE);
+      super(Terminal.WHILE, line);
     }
   }
   
   public static class Do extends Keyword {
     public Do(int line){
-      super(line, Terminal.DO);
+      super(Terminal.DO, line);
     }
   }
   
   public static class EndWhile extends Keyword {
     public EndWhile(int line){
-      super(line, Terminal.ENDWHILE);
+      super(Terminal.ENDWHILE, line);
     }
   }
   
   public static class Sentinel extends Keyword {
     public Sentinel(int line){
-      super(line, Terminal.SENTINEL);
+      super(Terminal.SENTINEL, line);
     }
   }
   
