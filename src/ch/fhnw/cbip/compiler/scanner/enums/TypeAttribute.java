@@ -1,7 +1,7 @@
 package ch.fhnw.cbip.compiler.scanner.enums;
 
 public enum TypeAttribute {
-  INT("INT"), BOOL("BOOL");
+  INT32("INT32"), BOOL("BOOL");
 
   TypeAttribute(String toString) {
     this.toString = toString;
