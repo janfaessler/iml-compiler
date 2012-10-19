@@ -22,12 +22,12 @@ public class LiteralState implements IScannerState {
     } else {
       // literal ends
       if (ScannerSymbol.contains(c[lastChar]) 
-          || (' ' == c[0])
-          || ('\t' == c[0])) {
-        String literal = new String(Arrays.copyOfRange(c, 0, c.length - 2));
+          || (' ' == c[lastChar])
+          || ('\t' == c[lastChar])) {
+        String literal = new String(Arrays.copyOfRange(c, 0, c.length - 1));
         Literal token = new Literal(Integer.parseInt(literal), context.getLineNumber());
         context.addToken((IToken)token);
-        c = new char[0];
+        c = Arrays.copyOfRange(c, lastChar, lastChar+1);
         context.setState(new InitialState());
       } else {
         throw new LexicalError("Illegal character after literal",

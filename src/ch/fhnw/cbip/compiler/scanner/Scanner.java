@@ -19,6 +19,11 @@ public class Scanner implements IScannerContext {
   public Scanner(String input){
     
   }
+
+  @Override
+  public int getLineNumber() {
+    return 0;
+  }
   
   
 }

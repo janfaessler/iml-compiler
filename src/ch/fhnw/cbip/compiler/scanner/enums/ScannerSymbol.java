@@ -17,6 +17,10 @@ public enum ScannerSymbol {
   }
   private int charValue;
   
+  public char getCharValue(){
+    return (char)charValue;
+  }
+  
   public static boolean contains(int value){
     for(ScannerSymbol s : values()) {
       if(value == s.charValue){
