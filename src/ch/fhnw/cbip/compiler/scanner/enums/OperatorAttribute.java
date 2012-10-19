@@ -5,13 +5,13 @@ public enum OperatorAttribute {
   PLUS("PLUS"), MINUS("MINUS"),
   
   // MultOpr
-  TIMES("TIMES"), MOD("MOD"),
+  TIMES("TIMES"), MOD("MOD"), DIV("DIV"),
   
   // RelOpr
   EQ("EQ"), NE("NE"), LT("LT"), GT("GT"), LE("LE"), GE("GE"),
   
   // BoolOpr
-  CAND("CAND"), COR("COR")
+  CAND("CAND"), COR("COR"), 
   ;  
   
   OperatorAttribute(String toString) {
