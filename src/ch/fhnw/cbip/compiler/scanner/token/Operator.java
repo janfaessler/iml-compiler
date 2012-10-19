@@ -43,7 +43,8 @@ public abstract class Operator extends AbstractToken {
     public MultOpr(int line, OperatorAttribute attribute) throws LexicalError {
       super(line, Terminal.MULTOPR, attribute);
       if ((attribute != OperatorAttribute.MOD)
-          && (attribute != OperatorAttribute.TIMES))
+          && (attribute != OperatorAttribute.TIMES)
+          && (attribute != OperatorAttribute.DIV))
         throw new LexicalError("Invalid MultOpr attribute", line);
     }
   }
