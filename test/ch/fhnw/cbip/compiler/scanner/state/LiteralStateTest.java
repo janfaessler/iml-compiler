@@ -54,16 +54,16 @@ public class LiteralStateTest {
 
   @Test
   public void testHandleCharEndTab() throws LexicalError {
-    char[] tabChar = { '3', '\t' };
+    char[] tabChar = { '3', '4', '5', '6', '\t' };
     int lineNumber = 1;
-    Literal expectedToken = new Literal(3, lineNumber);
+    Literal expectedToken = new Literal(3456, lineNumber);
     InitialState expectedState = new InitialState();
 
     when(mockScanner.getLineNumber()).thenReturn(lineNumber);
     char[] returnChar = state.handleChar(tabChar, mockScanner);
 
     assertEquals(1, returnChar.length);
-    assertEquals(' ', returnChar[0]);
+    assertEquals('\t', returnChar[0]);
     verify(mockScanner).addToken(expectedToken);
     verify(mockScanner).setState(expectedState);
   }
@@ -79,7 +79,7 @@ public class LiteralStateTest {
     char[] returnChar = state.handleChar(symbolChar, mockScanner);
 
     assertEquals(1, returnChar.length);
-    assertEquals(' ', returnChar[0]);
+    assertEquals(symbolChar[symbolChar.length - 1], returnChar[0]);
     verify(mockScanner).addToken(expectedToken);
     verify(mockScanner).setState(expectedState);
   }
