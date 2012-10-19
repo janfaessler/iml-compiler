@@ -7,12 +7,12 @@ public class Literal extends AbstractToken {
   private final int value;
   private BoolVal bool;
 
-  Literal(int value, int line) {
+  public Literal(int value, int line) {
     super(Terminal.LITERAL, line);
     this.value = value;
   }
 
-  Literal(BoolVal bool, int line) {
+  public Literal(BoolVal bool, int line) {
     super(Terminal.LITERAL, line);
     this.value = bool.getIntVal();
     this.bool = bool;

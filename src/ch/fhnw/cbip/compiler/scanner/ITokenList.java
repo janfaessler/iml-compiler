@@ -2,15 +2,15 @@ package ch.fhnw.cbip.compiler.scanner;
 
 import ch.fhnw.cbip.compiler.scanner.IToken;
 
-public interface ITokenList<T extends IToken> {
+public interface ITokenList {
   /**
-   *  Add a token to the list
+   * Add a token to the list
    * @param token
    */
-  public void add(T token);
+  public void add(IToken token);
   
   /**
-   * Resets the Token list?!
+   * Resets the list pointer
    */
   public void reset();
   
@@ -18,5 +18,5 @@ public interface ITokenList<T extends IToken> {
    * Returns the next Token and then moves the cursor ahead by one token.
    * @return next Token
    */
-  public T nextToken();
+  public IToken nextToken();
 }
