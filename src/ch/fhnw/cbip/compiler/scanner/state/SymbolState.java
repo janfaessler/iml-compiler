@@ -17,7 +17,7 @@ public class SymbolState implements IScannerState {
     public char[] handleChar(char[] c, IScannerContext context) throws LexicalError {
         assert (c.length > 1);
         int lastChar = c.length - 1;
-        if (c[lastChar] == '=') {
+        if (c[lastChar] == '=') { // = is only possible follow-up
             // symbol continues
             context.setState(this);
         } else {
@@ -73,29 +73,30 @@ public class SymbolState implements IScannerState {
                         context.addToken(new Operator.AddOpr(line, OperatorAttribute.MINUS));
                         break;
                     case EQ:
-                        context.addToken(new Operator.AddOpr(line, OperatorAttribute.EQ));
+                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.EQ));
                         break;
                     case NE:
-                        context.addToken(new Operator.AddOpr(line, OperatorAttribute.NE));
+                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.NE));
                         break;
                     case LT:
-                        context.addToken(new Operator.AddOpr(line, OperatorAttribute.LT));
+                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.LT));
                         break;
                     case GT:
-                        context.addToken(new Operator.AddOpr(line, OperatorAttribute.GT));
+                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.GT));
                         break;
                     case LE:
-                        context.addToken(new Operator.AddOpr(line, OperatorAttribute.LE));
+                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.LE));
                         break;
                     case GE:
-                        context.addToken(new Operator.AddOpr(line, OperatorAttribute.GE));
+                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.GE));
                         break;
                     default:
                         throw new LexicalError("No matching symbol", line);
                     }
                     c = Arrays.copyOfRange(c, lastChar, lastChar + 1);
+                    context.setState(new InitialState());
                 } else {
-                    throw new LexicalError("Illegal symbol", context.getLineNumber());
+                    throw new LexicalError("Illegal symbol '" + letters + "'", context.getLineNumber());
                 }
             } else {
                 throw new LexicalError("Illegal character " + c[lastChar] + " after symbol", context.getLineNumber());
