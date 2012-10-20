@@ -64,31 +64,31 @@ public class SymbolState implements IScannerState {
                         context.addToken(new Symbol.Becomes(line));
                         break;
                     case MULTOPR:
-                        context.addToken(new Operator.MultOpr(line, OperatorAttribute.TIMES));
+                        context.addToken(new Operator.MultOpr(OperatorAttribute.TIMES, line));
                         break;
                     case PLUS:
-                        context.addToken(new Operator.AddOpr(line, OperatorAttribute.PLUS));
+                        context.addToken(new Operator.AddOpr(OperatorAttribute.PLUS, line));
                         break;
                     case MINUS:
-                        context.addToken(new Operator.AddOpr(line, OperatorAttribute.MINUS));
+                        context.addToken(new Operator.AddOpr(OperatorAttribute.MINUS, line));
                         break;
                     case EQ:
-                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.EQ));
+                        context.addToken(new Operator.RelOpr(OperatorAttribute.EQ, line));
                         break;
                     case NE:
-                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.NE));
+                        context.addToken(new Operator.RelOpr(OperatorAttribute.NE, line));
                         break;
                     case LT:
-                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.LT));
+                        context.addToken(new Operator.RelOpr(OperatorAttribute.LT, line));
                         break;
                     case GT:
-                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.GT));
+                        context.addToken(new Operator.RelOpr(OperatorAttribute.GT, line));
                         break;
                     case LE:
-                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.LE));
+                        context.addToken(new Operator.RelOpr(OperatorAttribute.LE, line));
                         break;
                     case GE:
-                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.GE));
+                        context.addToken(new Operator.RelOpr(OperatorAttribute.GE, line));
                         break;
                     default:
                         throw new LexicalError("No matching symbol", line);

@@ -79,7 +79,7 @@ public class SymbolStateTest {
     public void testHandleGEEnd() throws LexicalError {
         char[] geChar = { '>', '=', '1' };
         int lineNumber = 1;
-        Operator expectedToken = new Operator.RelOpr(lineNumber, OperatorAttribute.GE);
+        Operator expectedToken = new Operator.RelOpr(OperatorAttribute.GE, lineNumber);
         InitialState expectedState = new InitialState();
 
         when(mockScanner.getLineNumber()).thenReturn(lineNumber);

@@ -7,7 +7,7 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 public abstract class Operator extends AbstractToken {
     private final OperatorAttribute attribute;
 
-    public Operator(int line, Terminal terminal, OperatorAttribute attribute) {
+    public Operator(Terminal terminal, OperatorAttribute attribute, int line) {
         super(terminal, line);
         this.attribute = attribute;
     }
@@ -34,24 +34,24 @@ public abstract class Operator extends AbstractToken {
     }
 
     public static class AddOpr extends Operator {
-        public AddOpr(int line, OperatorAttribute attribute) throws LexicalError {
-            super(line, Terminal.ADDOPR, attribute);
+        public AddOpr(OperatorAttribute attribute, int line) throws LexicalError {
+            super(Terminal.ADDOPR, attribute, line);
             if ((attribute != OperatorAttribute.PLUS) && (attribute != OperatorAttribute.MINUS))
                 throw new LexicalError("Invalid AddOpr attribute", line);
         }
     }
 
     public static class BoolOpr extends Operator {
-        public BoolOpr(int line, OperatorAttribute attribute) throws LexicalError {
-            super(line, Terminal.BOOLOPR, attribute);
+        public BoolOpr(OperatorAttribute attribute, int line) throws LexicalError {
+            super(Terminal.BOOLOPR, attribute, line);
             if ((attribute != OperatorAttribute.CAND) && (attribute != OperatorAttribute.COR))
                 throw new LexicalError("Invalid BoolOpr attribute", line);
         }
     }
 
     public static class MultOpr extends Operator {
-        public MultOpr(int line, OperatorAttribute attribute) throws LexicalError {
-            super(line, Terminal.MULTOPR, attribute);
+        public MultOpr(OperatorAttribute attribute, int line) throws LexicalError {
+            super(Terminal.MULTOPR, attribute, line);
             if ((attribute != OperatorAttribute.MOD) && (attribute != OperatorAttribute.TIMES)
                     && (attribute != OperatorAttribute.DIV))
                 throw new LexicalError("Invalid MultOpr attribute", line);
@@ -59,8 +59,8 @@ public abstract class Operator extends AbstractToken {
     }
 
     public static class RelOpr extends Operator {
-        public RelOpr(int line, OperatorAttribute attribute) throws LexicalError {
-            super(line, Terminal.RELOPR, attribute);
+        public RelOpr(OperatorAttribute attribute, int line) throws LexicalError {
+            super(Terminal.RELOPR, attribute, line);
             if ((attribute != OperatorAttribute.NE) && (attribute != OperatorAttribute.EQ)
                     && (attribute != OperatorAttribute.LT) && (attribute != OperatorAttribute.GT)
                     && (attribute != OperatorAttribute.LE) && (attribute != OperatorAttribute.GE))

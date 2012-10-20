@@ -16,12 +16,12 @@ public class OperatorTest {
   @Test
   public void testToString() {
     try {
-      Operator.AddOpr addOprPlus = new Operator.AddOpr(1,
-          OperatorAttribute.PLUS);
+      Operator.AddOpr addOprPlus = new Operator.AddOpr(OperatorAttribute.PLUS,
+          1);
       assertEquals(addOprPlus.toString(), "(ADDOPR, PLUS)");
 
-      Operator.AddOpr addOprMinus = new Operator.AddOpr(1,
-          OperatorAttribute.MINUS);
+      Operator.AddOpr addOprMinus = new Operator.AddOpr(OperatorAttribute.MINUS,
+          1);
       assertEquals(addOprMinus.toString(), "(ADDOPR, MINUS)");
 
     } catch (LexicalError e) {
@@ -33,8 +33,8 @@ public class OperatorTest {
   @Test
   public void testOperator() {
     try {
-      Operator.BoolOpr boolOprCand = new Operator.BoolOpr(1,
-          OperatorAttribute.CAND);
+      Operator.BoolOpr boolOprCand = new Operator.BoolOpr(OperatorAttribute.CAND,
+          1);
       assertEquals(boolOprCand.getAttribute(), OperatorAttribute.CAND);
 
     } catch (LexicalError e) {
@@ -45,6 +45,6 @@ public class OperatorTest {
   @Test(expected = LexicalError.class)
   public void testInvalidOperatorAttribute() throws LexicalError {
     @SuppressWarnings("unused")
-    Operator.RelOpr invrelOpr = new Operator.RelOpr(1, OperatorAttribute.COR);
+    Operator.RelOpr invrelOpr = new Operator.RelOpr(OperatorAttribute.COR, 1);
   }
 }

@@ -45,7 +45,7 @@ public class LetterState implements IScannerState {
                         context.addToken(new Keyword.Call(line));
                         break;
                     case CAND:
-                        context.addToken(new Operator.BoolOpr(line, OperatorAttribute.CAND));
+                        context.addToken(new Operator.BoolOpr(OperatorAttribute.CAND, line));
                         break;
                     case CONST:
                         context.addToken(new Mode.ChangeMode(ModeAttribute.CONST, line));
@@ -54,10 +54,10 @@ public class LetterState implements IScannerState {
                         context.addToken(new Mode.MechMode(ModeAttribute.COPY, line));
                         break;
                     case COR:
-                        context.addToken(new Operator.RelOpr(line, OperatorAttribute.COR));
+                        context.addToken(new Operator.RelOpr(OperatorAttribute.COR, line));
                         break;
                     case DIV:
-                        context.addToken(new Operator.MultOpr(line, OperatorAttribute.DIV));
+                        context.addToken(new Operator.MultOpr(OperatorAttribute.DIV, line));
                         break;
                     case ELSE:
                         context.addToken(new Keyword.Else(line));
@@ -93,7 +93,7 @@ public class LetterState implements IScannerState {
                         context.addToken(new Keyword.Global(line));
                         break;
                     case MOD:
-                        context.addToken(new Operator.MultOpr(line, OperatorAttribute.MOD));
+                        context.addToken(new Operator.MultOpr(OperatorAttribute.MOD, line));
                         break;
                     case NOT:
                         context.addToken(new Keyword.Not(line));
