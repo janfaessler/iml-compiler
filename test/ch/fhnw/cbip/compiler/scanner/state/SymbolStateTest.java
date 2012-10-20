@@ -11,7 +11,6 @@ import org.junit.Test;
 import ch.fhnw.cbip.compiler.error.LexicalError;
 import ch.fhnw.cbip.compiler.scanner.Scanner;
 import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
-import ch.fhnw.cbip.compiler.scanner.token.Literal;
 import ch.fhnw.cbip.compiler.scanner.token.Operator;
 import ch.fhnw.cbip.compiler.scanner.token.Symbol;
 
