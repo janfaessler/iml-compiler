@@ -36,5 +36,14 @@ public class LiteralState implements IScannerState {
     }
     return c;
   }
+  
+  @Override
+  public boolean equals(Object o){
+    if(o.getClass() == this.getClass()){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 }
