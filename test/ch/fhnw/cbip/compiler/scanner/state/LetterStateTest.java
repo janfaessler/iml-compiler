@@ -24,14 +24,14 @@ public class LetterStateTest {
         mockScanner = mock(Scanner.class);
         state = new LetterState();
     }
-    
+
     @Test(expected = LexicalError.class)
     public void testHandleCharFail() throws LexicalError {
         when(mockScanner.getLineNumber()).thenReturn(1);
         char[] failChar = { 'a', 192 };
         state.handleChar(failChar, mockScanner);
     }
-    
+
     @Test
     public void testHandleCharContinue() throws LexicalError {
         char[] goodChar = { 'a', '0' };
@@ -39,7 +39,7 @@ public class LetterStateTest {
         assertEquals(goodChar, returnChar);
         verify(mockScanner).setState(state); // has to stay in the same state
     }
-    
+
     @Test
     public void testHandleIdentEnd() throws LexicalError {
         char[] identChar = { 'a', 'b', ' ' };
@@ -55,7 +55,7 @@ public class LetterStateTest {
         verify(mockScanner).addToken(expectedToken);
         verify(mockScanner).setState(expectedState);
     }
-    
+
     @Test
     public void testHandleKeywordEnd() throws LexicalError {
         char[] boolChar = { 'b', 'o', 'o', 'l', ' ' };
