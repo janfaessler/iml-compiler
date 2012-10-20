@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import ch.fhnw.cbip.compiler.scanner.enums.BoolVal;
 
-public class TestLiteralTest {
+public class LiteralTest {
 
   private final int testVal = 123;
   private Literal integerLiteral;

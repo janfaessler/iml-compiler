@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import ch.fhnw.cbip.compiler.error.LexicalError;
 import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
-public class TestOperatorTest {
+public class OperatorTest {
 
   @Before
   public void setUp() throws Exception {
