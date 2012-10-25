@@ -3,6 +3,7 @@ package ch.fhnw.cbip.compiler.scanner.state;
 import ch.fhnw.cbip.compiler.error.LexicalError;
 import ch.fhnw.cbip.compiler.scanner.IScannerContext;
 import ch.fhnw.cbip.compiler.scanner.IScannerState;
+import ch.fhnw.cbip.compiler.scanner.IToken;
 import ch.fhnw.cbip.compiler.scanner.enums.ScannerSymbol;
 import ch.fhnw.cbip.compiler.scanner.token.Keyword;
 
@@ -36,7 +37,9 @@ public class InitialState implements IScannerState {
       c = new char[0];
     } if ('\u0003' == c[0]){
       // end of text
-      context.addToken(new Keyword.Sentinel(context.getLineNumber()));
+    	IToken t = new Keyword.Sentinel();
+    	t.setLine(context.getLineNumber());
+    	context.addToken(t);
     } else {
       // is something else
       throw new LexicalError("Illegal character found", context.getLineNumber());

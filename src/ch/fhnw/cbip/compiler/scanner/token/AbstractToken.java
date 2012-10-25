@@ -12,7 +12,7 @@ public abstract class AbstractToken implements IToken {
     /**
      * Source code line
      */
-    private final int line;
+    private int line;
 
     /**
      * Creates a token
@@ -20,9 +20,8 @@ public abstract class AbstractToken implements IToken {
      * @param terminal terminal of the token
      * @param line source code line of the token
      */
-    public AbstractToken(Terminal terminal, int line) {
+    public AbstractToken(Terminal terminal) {
         this.terminal = terminal;
-        this.line = line;
     }
 
     /**
@@ -34,6 +33,10 @@ public abstract class AbstractToken implements IToken {
 
     public int getLine() {
         return line;
+    }
+    
+    public void setLine(int number) {
+    	this.line = number;
     }
 
     @Override

@@ -47,7 +47,8 @@ public class LiteralStateTest {
     public void testHandleCharEnd() throws LexicalError {
         char[] spaceChar = { '1', '2', ' ' };
         int lineNumber = 1;
-        Literal expectedToken = new Literal(12, lineNumber);
+        Literal expectedToken = new Literal(12);
+        expectedToken.setLine(lineNumber);
         InitialState expectedState = new InitialState();
 
         when(mockScanner.getLineNumber()).thenReturn(lineNumber);
@@ -63,7 +64,8 @@ public class LiteralStateTest {
     public void testHandleCharEndTab() throws LexicalError {
         char[] tabChar = { '3', '4', '5', '6', '\t' };
         int lineNumber = 1;
-        Literal expectedToken = new Literal(3456, lineNumber);
+        Literal expectedToken = new Literal(3456);
+        expectedToken.setLine(lineNumber);
         InitialState expectedState = new InitialState();
 
         when(mockScanner.getLineNumber()).thenReturn(lineNumber);
@@ -79,7 +81,8 @@ public class LiteralStateTest {
     public void testHandleCharEndSymbol() throws LexicalError {
         char[] symbolChar = { '8', '9', ScannerSymbol.SEMICOLON.getCharValue() };
         int lineNumber = 1;
-        Literal expectedToken = new Literal(89, lineNumber);
+        Literal expectedToken = new Literal(89);
+        expectedToken.setLine(lineNumber);
         InitialState expectedState = new InitialState();
 
         when(mockScanner.getLineNumber()).thenReturn(lineNumber);

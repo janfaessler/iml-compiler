@@ -16,9 +16,12 @@ public class LiteralTest {
 
   @Before
   public void setUp() throws Exception {
-    integerLiteral = new Literal(testVal, 1);
-    boolTrue = new Literal(BoolVal.TRUE, 1);
-    boolFalse = new Literal(BoolVal.FALSE, 1);
+    integerLiteral = new Literal(testVal);
+    integerLiteral.setLine(1);
+    boolTrue = new Literal(BoolVal.TRUE);
+    boolTrue.setLine(1);
+    boolFalse = new Literal(BoolVal.FALSE);
+    boolFalse.setLine(1);
   }
 
   @Test

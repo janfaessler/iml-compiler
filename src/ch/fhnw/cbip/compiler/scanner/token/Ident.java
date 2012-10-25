@@ -5,8 +5,8 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 public class Ident extends AbstractToken {
     private final String name;
 
-    public Ident(String name, int line) {
-        super(Terminal.IDENT, line);
+    public Ident(String name) {
+        super(Terminal.IDENT);
         this.name = name;
     }
 

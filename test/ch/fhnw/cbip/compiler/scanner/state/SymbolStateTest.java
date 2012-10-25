@@ -63,7 +63,8 @@ public class SymbolStateTest {
     public void testHandleRParenEnd() throws LexicalError {
         char[] rparenChar = { ')', ' ' };
         int lineNumber = 1;
-        Symbol expectedToken = new Symbol.RParen(lineNumber);
+        Symbol expectedToken = new Symbol.RParen();
+        expectedToken.setLine(lineNumber);
         InitialState expectedState = new InitialState();
 
         when(mockScanner.getLineNumber()).thenReturn(lineNumber);
@@ -79,7 +80,8 @@ public class SymbolStateTest {
     public void testHandleGEEnd() throws LexicalError {
         char[] geChar = { '>', '=', '1' };
         int lineNumber = 1;
-        Operator expectedToken = new Operator.RelOpr(OperatorAttribute.GE, lineNumber);
+        Operator expectedToken = new Operator.RelOpr(OperatorAttribute.GE);
+        expectedToken.setLine(lineNumber);
         InitialState expectedState = new InitialState();
 
         when(mockScanner.getLineNumber()).thenReturn(lineNumber);

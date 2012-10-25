@@ -6,8 +6,8 @@ import ch.fhnw.cbip.compiler.scanner.enums.TypeAttribute;
 public class Type extends AbstractToken {
     private final TypeAttribute attribute;
 
-    public Type(TypeAttribute attribute, int line) {
-        super(Terminal.TYPE, line);
+    public Type(TypeAttribute attribute) {
+        super(Terminal.TYPE);
         this.attribute = attribute;
     }
 

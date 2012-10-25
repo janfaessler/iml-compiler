@@ -25,7 +25,8 @@ public class LiteralState implements IScannerState {
           || (' ' == c[lastChar])
           || ('\t' == c[lastChar])) {
         String literal = new String(Arrays.copyOfRange(c, 0, c.length - 1));
-        Literal token = new Literal(Integer.parseInt(literal), context.getLineNumber());
+        Literal token = new Literal(Integer.parseInt(literal));
+        token.setLine(context.getLineNumber());
         context.addToken((IToken)token);
         c = Arrays.copyOfRange(c, lastChar, lastChar+1);
         context.setState(new InitialState(), true);

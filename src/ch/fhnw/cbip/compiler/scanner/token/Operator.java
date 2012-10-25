@@ -1,14 +1,13 @@
 package ch.fhnw.cbip.compiler.scanner.token;
 
-import ch.fhnw.cbip.compiler.error.LexicalError;
 import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public abstract class Operator extends AbstractToken {
     private final OperatorAttribute attribute;
 
-    public Operator(Terminal terminal, OperatorAttribute attribute, int line) {
-        super(terminal, line);
+    public Operator(Terminal terminal, OperatorAttribute attribute) {
+        super(terminal);
         this.attribute = attribute;
     }
 
@@ -34,37 +33,31 @@ public abstract class Operator extends AbstractToken {
     }
 
     public static class AddOpr extends Operator {
-        public AddOpr(OperatorAttribute attribute, int line) throws LexicalError {
-            super(Terminal.ADDOPR, attribute, line);
-            if ((attribute != OperatorAttribute.PLUS) && (attribute != OperatorAttribute.MINUS))
-                throw new LexicalError("Invalid AddOpr attribute", line);
+        public AddOpr(OperatorAttribute attribute) {
+            super(Terminal.ADDOPR, attribute);
+            assert (attribute == OperatorAttribute.PLUS || attribute == OperatorAttribute.MINUS);
         }
     }
 
     public static class BoolOpr extends Operator {
-        public BoolOpr(OperatorAttribute attribute, int line) throws LexicalError {
-            super(Terminal.BOOLOPR, attribute, line);
-            if ((attribute != OperatorAttribute.CAND) && (attribute != OperatorAttribute.COR))
-                throw new LexicalError("Invalid BoolOpr attribute", line);
+        public BoolOpr(OperatorAttribute attribute) {
+            super(Terminal.BOOLOPR, attribute);
+            assert (attribute == OperatorAttribute.CAND || attribute == OperatorAttribute.COR);
         }
     }
 
     public static class MultOpr extends Operator {
-        public MultOpr(OperatorAttribute attribute, int line) throws LexicalError {
-            super(Terminal.MULTOPR, attribute, line);
-            if ((attribute != OperatorAttribute.MOD) && (attribute != OperatorAttribute.TIMES)
-                    && (attribute != OperatorAttribute.DIV))
-                throw new LexicalError("Invalid MultOpr attribute", line);
+        public MultOpr(OperatorAttribute attribute) {
+            super(Terminal.MULTOPR, attribute);
+            assert (attribute == OperatorAttribute.TIMES || attribute == OperatorAttribute.MOD || attribute == OperatorAttribute.DIV);
         }
     }
 
     public static class RelOpr extends Operator {
-        public RelOpr(OperatorAttribute attribute, int line) throws LexicalError {
-            super(Terminal.RELOPR, attribute, line);
-            if ((attribute != OperatorAttribute.NE) && (attribute != OperatorAttribute.EQ)
-                    && (attribute != OperatorAttribute.LT) && (attribute != OperatorAttribute.GT)
-                    && (attribute != OperatorAttribute.LE) && (attribute != OperatorAttribute.GE))
-                throw new LexicalError("Invalid RelOpr attribute", line);
+        public RelOpr(OperatorAttribute attribute) {
+            super(Terminal.RELOPR, attribute);
+            assert (attribute == OperatorAttribute.EQ || attribute == OperatorAttribute.NE || attribute == OperatorAttribute.LT
+            		|| attribute == OperatorAttribute.GT || attribute == OperatorAttribute.LE || attribute == OperatorAttribute.GE);
         }
     }
 

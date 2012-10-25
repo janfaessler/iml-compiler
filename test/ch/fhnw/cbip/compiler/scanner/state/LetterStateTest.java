@@ -44,7 +44,8 @@ public class LetterStateTest {
     public void testHandleIdentEnd() throws LexicalError {
         char[] identChar = { 'a', 'b', ' ' };
         int lineNumber = 1;
-        Ident expectedToken = new Ident("ab", lineNumber);
+        Ident expectedToken = new Ident("ab");
+        expectedToken.setLine(lineNumber);
         InitialState expectedState = new InitialState();
 
         when(mockScanner.getLineNumber()).thenReturn(lineNumber);
@@ -60,7 +61,8 @@ public class LetterStateTest {
     public void testHandleKeywordEnd() throws LexicalError {
         char[] boolChar = { 'b', 'o', 'o', 'l', ' ' };
         int lineNumber = 1;
-        Type expectedToken = new Type(TypeAttribute.BOOL, lineNumber);
+        Type expectedToken = new Type(TypeAttribute.BOOL);
+        expectedToken.setLine(lineNumber);
         InitialState expectedState = new InitialState();
 
         when(mockScanner.getLineNumber()).thenReturn(lineNumber);

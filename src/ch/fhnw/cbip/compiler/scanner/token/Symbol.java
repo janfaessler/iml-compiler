@@ -4,8 +4,8 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public abstract class Symbol extends AbstractToken {
 
-    public Symbol(Terminal terminal, int line) {
-        super(terminal, line);
+    public Symbol(Terminal terminal) {
+        super(terminal);
     }
 
     @Override
@@ -24,62 +24,62 @@ public abstract class Symbol extends AbstractToken {
     }
 
     public static class Colon extends Symbol {
-        public Colon(int line) {
-            super(Terminal.COLON, line);
+        public Colon() {
+            super(Terminal.COLON);
         }
     }
 
     public static class Comma extends Symbol {
-        public Comma(int line) {
-            super(Terminal.COMMA, line);
+        public Comma() {
+            super(Terminal.COMMA);
         }
     }
 
     public static class Semicolon extends Symbol {
-        public Semicolon(int line) {
-            super(Terminal.SEMICOLON, line);
+        public Semicolon() {
+            super(Terminal.SEMICOLON);
         }
     }
 
     public static class ExclaMark extends Symbol {
-        public ExclaMark(int line) {
-            super(Terminal.EXCLAMARK, line);
+        public ExclaMark() {
+            super(Terminal.EXCLAMARK);
         }
     }
 
     public static class QuestMark extends Symbol {
-        public QuestMark(int line) {
-            super(Terminal.QUESTMARK, line);
+        public QuestMark() {
+            super(Terminal.QUESTMARK);
         }
     }
 
     public static class Becomes extends Symbol {
-        public Becomes(int line) {
-            super(Terminal.BECOMES, line);
+        public Becomes() {
+            super(Terminal.BECOMES);
         }
     }
 
     public static class LBrace extends Symbol {
-        public LBrace(int line) {
-            super(Terminal.LBRACE, line);
+        public LBrace() {
+            super(Terminal.LBRACE);
         }
     }
 
     public static class RBrace extends Symbol {
-        public RBrace(int line) {
-            super(Terminal.RBRACE, line);
+        public RBrace() {
+            super(Terminal.RBRACE);
         }
     }
 
     public static class LParen extends Symbol {
-        public LParen(int line) {
-            super(Terminal.LPAREN, line);
+        public LParen() {
+            super(Terminal.LPAREN);
         }
     }
 
     public static class RParen extends Symbol {
-        public RParen(int line) {
-            super(Terminal.RPAREN, line);
+        public RParen() {
+            super(Terminal.RPAREN);
         }
     }
 
