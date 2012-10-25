@@ -40,11 +40,11 @@ public class InitialState implements IScannerState {
         if ('\u0003' == c[0]) {
             // end of text
             context.addToken(new Keyword.Sentinel(context.getLineNumber()));
+            return new char[0];
         } else {
             // is something else
             throw new LexicalError("Illegal character found", context.getLineNumber());
         }
-        return c;
     }
 
     @Override
