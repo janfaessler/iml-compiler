@@ -23,6 +23,7 @@ public class Scanner implements IScannerContext {
         if(currentState != null){
             currentState = state;
         }
+        this.keepCurrent = keepCurrent;
     }
 
     public IScannerState getState() {
