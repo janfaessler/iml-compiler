@@ -3,7 +3,9 @@ package ch.fhnw.cbip.compiler.scanner.token;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public class Ident extends AbstractToken {
-    private final String name;
+
+	private static final long serialVersionUID = 6131360454112441672L;
+	private final String name;
 
     public Ident(String name) {
         super(Terminal.IDENT);
@@ -30,4 +32,5 @@ public class Ident extends AbstractToken {
         }
         return false;
     }
+
 }

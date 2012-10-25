@@ -62,7 +62,7 @@ public enum KeywordList {
 	}
 	
 	public IToken getToken() {
-		return token;
+		return token.copy();
 	}
 
 }

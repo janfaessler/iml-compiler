@@ -4,7 +4,9 @@ import ch.fhnw.cbip.compiler.scanner.enums.BoolVal;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public class Literal extends AbstractToken {
-    private final int value;
+
+	private static final long serialVersionUID = 7555556718921057885L;
+	private final int value;
     private BoolVal bool;
 
     public Literal(int value) {

@@ -7,7 +7,12 @@ public interface IToken {
   public int getLine();
   
   /**
-   * @param number
+   * @param the line number
    */
   public void setLine(int number);
+  
+  /**
+   * @return A clone of the token
+   */
+  public IToken copy();
 }

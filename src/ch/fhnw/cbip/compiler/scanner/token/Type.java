@@ -4,7 +4,9 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 import ch.fhnw.cbip.compiler.scanner.enums.TypeAttribute;
 
 public class Type extends AbstractToken {
-    private final TypeAttribute attribute;
+
+	private static final long serialVersionUID = -3946080348463945075L;
+	private final TypeAttribute attribute;
 
     public Type(TypeAttribute attribute) {
         super(Terminal.TYPE);

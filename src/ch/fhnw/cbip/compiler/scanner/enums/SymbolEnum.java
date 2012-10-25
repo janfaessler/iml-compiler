@@ -47,6 +47,6 @@ public enum SymbolEnum {
 	}
 	
 	public IToken getToken() {
-		return token;
+		return token.copy();
 	}
 }
