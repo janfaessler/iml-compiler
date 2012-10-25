@@ -4,6 +4,7 @@ import ch.fhnw.cbip.compiler.error.LexicalError;
 import ch.fhnw.cbip.compiler.scanner.IScannerContext;
 import ch.fhnw.cbip.compiler.scanner.IScannerState;
 import ch.fhnw.cbip.compiler.scanner.enums.ScannerSymbol;
+import ch.fhnw.cbip.compiler.scanner.token.Keyword;
 
 /**
  * 
@@ -33,6 +34,9 @@ public class InitialState implements IScannerState {
       // is white space
       context.setState(new InitialState(), false);
       c = new char[0];
+    } if ('\u0003' == c[0]){
+      // end of text
+      context.addToken(new Keyword.Sentinel(context.getLineNumber()));
     } else {
       // is something else
       throw new LexicalError("Illegal character found", context.getLineNumber());

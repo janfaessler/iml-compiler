@@ -44,6 +44,12 @@ public class Scanner implements IScannerContext {
                 currentChar = currentState.handleChar(ArrayUtils.expandCharArray(currentChar, c), this);
             }
         }
+        if(currentState.equals(new InitialState())){
+            char[] end_of_text = {'\u0003'};
+            currentState.handleChar(end_of_text, this);
+        } else {
+            throw new LexicalError("Unexpected file end", lineNumber);
+        }
         return tokenList;
     }
 
