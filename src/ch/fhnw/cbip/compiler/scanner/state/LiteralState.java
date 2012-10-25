@@ -18,7 +18,7 @@ public class LiteralState implements IScannerState {
     int lastChar = c.length - 1;
     if (('0' <= c[lastChar] && c[lastChar] <= '9')) {
       // literal continues
-      context.setState(this);
+      context.setState(this, false);
     } else {
       // literal ends
       if (ScannerSymbol.contains(c[lastChar]) 
@@ -28,7 +28,7 @@ public class LiteralState implements IScannerState {
         Literal token = new Literal(Integer.parseInt(literal), context.getLineNumber());
         context.addToken((IToken)token);
         c = Arrays.copyOfRange(c, lastChar, lastChar+1);
-        context.setState(new InitialState());
+        context.setState(new InitialState(), true);
       } else {
         throw new LexicalError("Illegal character after literal",
             context.getLineNumber());

@@ -11,6 +11,7 @@ public class Scanner implements IScannerContext {
     private ITokenList tokenList = null;
     private IScannerState currentState = null;
     private int lineNumber = 0;
+    private boolean keepCurrent = false;
 
     public void addToken(IToken token) {
         if(tokenList != null){
@@ -18,7 +19,7 @@ public class Scanner implements IScannerContext {
         }
     }
 
-    public void setState(IScannerState state) {
+    public void setState(IScannerState state, boolean keepCurrent) {
         if(currentState != null){
             currentState = state;
         }
@@ -37,6 +38,9 @@ public class Scanner implements IScannerContext {
         while ((currentLine = input.readLine()) != null) {
             lineNumber++;
             for (char c : currentLine.toCharArray()) {
+                if(keepCurrent){
+                    currentChar = currentState.handleChar(currentChar, this);
+                }
                 currentChar = currentState.handleChar(ArrayUtils.expandCharArray(currentChar, c), this);
             }
         }

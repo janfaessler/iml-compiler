@@ -42,7 +42,7 @@ public class SymbolStateTest {
         char[] goodChar = { '<', '=' };
         char[] returnChar = state.handleChar(goodChar, mockScanner);
         assertEquals(goodChar, returnChar);
-        verify(mockScanner).setState(state); // has to stay in the same state
+        verify(mockScanner).setState(state, false); // has to stay in the same state
     }
 
     @Test
@@ -72,7 +72,7 @@ public class SymbolStateTest {
         assertEquals(1, returnChar.length);
         assertEquals(' ', returnChar[0]);
         verify(mockScanner).addToken(expectedToken);
-        verify(mockScanner).setState(expectedState);
+        verify(mockScanner).setState(expectedState, true);
     }
     
     @Test
@@ -88,7 +88,7 @@ public class SymbolStateTest {
         assertEquals(1, returnChar.length);
         assertEquals('1', returnChar[0]);
         verify(mockScanner).addToken(expectedToken);
-        verify(mockScanner).setState(expectedState);
+        verify(mockScanner).setState(expectedState, true);
     }
 
 }

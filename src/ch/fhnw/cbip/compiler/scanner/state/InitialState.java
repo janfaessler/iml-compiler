@@ -19,19 +19,19 @@ public class InitialState implements IScannerState {
 
     if ('0' <= c[0] && c[0] <= '9') { 
      // is a number
-      context.setState(new LiteralState());
+      context.setState(new LiteralState(), false);
     }
     if (('A' <= c[0] && c[0] <= 'Z') || ('a' <= c[0] && c[0] <= 'z')) {
       // is a letter
-      context.setState(new LetterState());
+      context.setState(new LetterState(), false);
     }
     if (ScannerSymbol.contains((int) c[0])) {
       // is a symbol
-      context.setState(new SymbolState());
+      context.setState(new SymbolState(), false);
     }
     if ((' ' == c[0]) || ('\t' == c[0])) {
       // is white space
-      context.setState(new InitialState());
+      context.setState(new InitialState(), false);
       c = new char[0];
     } else {
       // is something else

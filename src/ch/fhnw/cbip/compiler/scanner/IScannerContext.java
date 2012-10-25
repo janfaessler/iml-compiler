@@ -5,7 +5,7 @@ public interface IScannerContext {
    * Sets next state
    * @param state next scanner state
    */
-  public void setState(IScannerState state);
+  public void setState(IScannerState state, boolean keepCurrent);
   
   /**
    * Returns current scanner state

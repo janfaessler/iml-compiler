@@ -19,7 +19,7 @@ public class SymbolState implements IScannerState {
         int lastChar = c.length - 1;
         if (c[lastChar] == '=') { // = is only possible follow-up
             // symbol continues
-            context.setState(this);
+            context.setState(this, false);
         } else {
             if (('A' <= c[lastChar] && c[lastChar] <= 'Z') 
                     || ('a' <= c[lastChar] && c[lastChar] <= 'z')
@@ -94,7 +94,7 @@ public class SymbolState implements IScannerState {
                         throw new LexicalError("No matching symbol", line);
                     }
                     c = Arrays.copyOfRange(c, lastChar, lastChar + 1);
-                    context.setState(new InitialState());
+                    context.setState(new InitialState(), true);
                 } else {
                     throw new LexicalError("Illegal symbol '" + letters + "'", context.getLineNumber());
                 }

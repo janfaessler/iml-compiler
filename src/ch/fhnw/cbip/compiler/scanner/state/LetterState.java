@@ -24,7 +24,7 @@ public class LetterState implements IScannerState {
         if (('A' <= c[lastChar] && c[lastChar] <= 'Z') || ('a' <= c[lastChar] && c[lastChar] <= 'z')
                 || ('0' <= c[lastChar] && c[lastChar] <= '9')) {
             // keyword or identifier continues
-            context.setState(this);
+            context.setState(this, false);
         } else {
             // keyword or identifier ends
             if (ScannerSymbol.contains(c[lastChar]) || (' ' == c[lastChar]) || ('\t' == c[lastChar])) {
@@ -34,7 +34,7 @@ public class LetterState implements IScannerState {
                     // is an identifier
                     context.addToken(new Ident(letters, line));
                     c = Arrays.copyOfRange(c, lastChar, lastChar + 1);
-                    context.setState(new InitialState());
+                    context.setState(new InitialState(), true);
                 } else {
                     // is a keyword
                     switch (k) {
@@ -127,7 +127,7 @@ public class LetterState implements IScannerState {
                         break;
                     }
                     c = Arrays.copyOfRange(c, lastChar, lastChar + 1);
-                    context.setState(new InitialState());
+                    context.setState(new InitialState(), true);
                 }
 
             } else {

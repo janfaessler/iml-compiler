@@ -37,7 +37,7 @@ public class LetterStateTest {
         char[] goodChar = { 'a', '0' };
         char[] returnChar = state.handleChar(goodChar, mockScanner);
         assertEquals(goodChar, returnChar);
-        verify(mockScanner).setState(state); // has to stay in the same state
+        verify(mockScanner).setState(state, false); // has to stay in the same state
     }
 
     @Test
@@ -53,7 +53,7 @@ public class LetterStateTest {
         assertEquals(1, returnChar.length);
         assertEquals(' ', returnChar[0]);
         verify(mockScanner).addToken(expectedToken);
-        verify(mockScanner).setState(expectedState);
+        verify(mockScanner).setState(expectedState, true);
     }
 
     @Test
@@ -69,6 +69,6 @@ public class LetterStateTest {
         assertEquals(1, returnChar.length);
         assertEquals(' ', returnChar[0]);
         verify(mockScanner).addToken(expectedToken);
-        verify(mockScanner).setState(expectedState);
+        verify(mockScanner).setState(expectedState, true);
     }
 }
