@@ -33,7 +33,7 @@ public class InitialState implements IScannerState {
             context.setState(new SymbolState(), false);
             return c;
         }
-        if ((' ' == c[0]) || ('\t' == c[0])) {
+        if ((' ' == c[0]) || ('\t' == c[0]) || ('\n' == c[0])) {
             // is white space
             context.setState(new InitialState(), false);
             return new char[0];
