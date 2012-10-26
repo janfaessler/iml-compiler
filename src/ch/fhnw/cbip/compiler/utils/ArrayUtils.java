@@ -11,7 +11,7 @@ public class ArrayUtils {
     public static char[] expandCharArray(char[] A, char B) {
         char[] C = new char[A.length + 1];
         System.arraycopy(A, 0, C, 0, A.length);
-        C[A.length - 1] = B;
+        C[C.length - 1] = B;
         return C;
     }
 }
