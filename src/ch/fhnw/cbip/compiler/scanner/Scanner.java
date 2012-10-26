@@ -20,7 +20,7 @@ public class Scanner implements IScannerContext {
     }
 
     public void setState(IScannerState state, boolean keepCurrent) {
-        if(currentState != null) {
+        if(state != null) {
             currentState = state;
         }
         this.keepCurrent = keepCurrent;
