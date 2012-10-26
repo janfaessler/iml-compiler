@@ -24,10 +24,12 @@ public abstract class Mode extends AbstractToken {
 
     @Override
     public boolean equals(Object o) {
-        if (o.getClass() == this.getClass()) {
-            if (super.equals((AbstractToken) o)) {
-                if (attribute == ((Mode) o).attribute) {
-                    return true;
+        if(o != null) {
+            if (o.getClass() == this.getClass()) {
+                if (super.equals((AbstractToken) o)) {
+                    if (attribute == ((Mode) o).attribute) {
+                        return true;
+                    }
                 }
             }
         }

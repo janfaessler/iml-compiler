@@ -24,11 +24,13 @@ public class Type extends AbstractToken {
 
     @Override
     public boolean equals(Object o) {
-        if (this.getClass() == o.getClass()) {
-            Type cmp = (Type) o;
-            if (this.attribute == cmp.attribute) {
-                if (this.getLine() == cmp.getLine()) {
-                    return true;
+        if (o != null) {
+            if (this.getClass() == o.getClass()) {
+                Type cmp = (Type) o;
+                if (this.attribute == cmp.attribute) {
+                    if (this.getLine() == cmp.getLine()) {
+                        return true;
+                    }
                 }
             }
         }

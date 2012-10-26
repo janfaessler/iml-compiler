@@ -23,10 +23,12 @@ public class Ident extends AbstractToken {
 
     @Override
     public boolean equals(Object o) {
-        if (o.getClass() == this.getClass()) {
-            if (super.equals((AbstractToken) o)) {
-                if (name.equals(((Ident) o).name)) {
-                    return true;
+        if(o != null) {
+            if (o.getClass() == this.getClass()) {
+                if (super.equals((AbstractToken) o)) {
+                    if (name.equals(((Ident) o).name)) {
+                        return true;
+                    }
                 }
             }
         }

@@ -47,10 +47,12 @@ public class Literal extends AbstractToken {
 
     @Override
     public boolean equals(Object o) {
-        if (o.getClass() == this.getClass()) {
-            if (super.equals((AbstractToken) o)) {
-                if (this.value == ((Literal) o).value) {
-                    return true;
+        if(o != null) {
+            if (o.getClass() == this.getClass()) {
+                if (super.equals((AbstractToken) o)) {
+                    if (this.value == ((Literal) o).value) {
+                        return true;
+                    }
                 }
             }
         }

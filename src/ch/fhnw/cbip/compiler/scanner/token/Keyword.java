@@ -17,9 +17,11 @@ public abstract class Keyword extends AbstractToken {
 
     @Override
     public boolean equals(Object o) {
-        if (o.getClass() == this.getClass()) {
-            if (super.equals((AbstractToken) o)) {
-                return true;
+        if(o != null) {
+            if (o.getClass() == this.getClass()) {
+                if (super.equals((AbstractToken) o)) {
+                    return true;
+                }
             }
         }
         return false;
