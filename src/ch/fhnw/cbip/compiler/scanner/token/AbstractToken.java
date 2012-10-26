@@ -12,11 +12,11 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public abstract class AbstractToken implements IToken, Serializable {
     /**
-	 * Serial number of the class
-	 */
-	private static final long serialVersionUID = -4283948226021729377L;
+     * Serial number of the class
+     */
+    private static final long serialVersionUID = -4283948226021729377L;
 
-	/**
+    /**
      * Terminal of this token
      */
     private final Terminal terminal;
@@ -46,9 +46,9 @@ public abstract class AbstractToken implements IToken, Serializable {
     public int getLine() {
         return line;
     }
-    
+
     public void setLine(int number) {
-    	this.line = number;
+        this.line = number;
     }
 
     @Override
@@ -70,9 +70,9 @@ public abstract class AbstractToken implements IToken, Serializable {
         }
         return false;
     }
-    
+
     public IToken copy() {
-    	IToken obj = null;
+        IToken obj = null;
         try {
             // Write the object out to a byte array
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -84,11 +84,9 @@ public abstract class AbstractToken implements IToken, Serializable {
             // Make an input stream from the byte array and read a copy of the object back in.
             ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
             obj = (IToken) in.readObject();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch(ClassNotFoundException cnfe) {
+        } catch (ClassNotFoundException cnfe) {
             cnfe.printStackTrace();
         }
         return obj;

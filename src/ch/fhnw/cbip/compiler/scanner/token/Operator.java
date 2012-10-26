@@ -5,8 +5,8 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public abstract class Operator extends AbstractToken {
 
-	private static final long serialVersionUID = -6086653757673370032L;
-	private final OperatorAttribute attribute;
+    private static final long serialVersionUID = -6086653757673370032L;
+    private final OperatorAttribute attribute;
 
     public Operator(Terminal terminal, OperatorAttribute attribute) {
         super(terminal);
@@ -24,7 +24,7 @@ public abstract class Operator extends AbstractToken {
 
     @Override
     public boolean equals(Object o) {
-        if(o != null) {
+        if (o != null) {
             if (o.getClass() == this.getClass()) {
                 if (super.equals((AbstractToken) o)) {
                     if (attribute == ((Operator) o).attribute) {
@@ -38,9 +38,9 @@ public abstract class Operator extends AbstractToken {
 
     public static class AddOpr extends Operator {
 
-		private static final long serialVersionUID = 4599140378783118938L;
+        private static final long serialVersionUID = 4599140378783118938L;
 
-		public AddOpr(OperatorAttribute attribute) {
+        public AddOpr(OperatorAttribute attribute) {
             super(Terminal.ADDOPR, attribute);
             assert (attribute == OperatorAttribute.PLUS || attribute == OperatorAttribute.MINUS);
         }
@@ -48,9 +48,9 @@ public abstract class Operator extends AbstractToken {
 
     public static class BoolOpr extends Operator {
 
-		private static final long serialVersionUID = 9000095108807672446L;
+        private static final long serialVersionUID = 9000095108807672446L;
 
-		public BoolOpr(OperatorAttribute attribute) {
+        public BoolOpr(OperatorAttribute attribute) {
             super(Terminal.BOOLOPR, attribute);
             assert (attribute == OperatorAttribute.CAND || attribute == OperatorAttribute.COR);
         }
@@ -58,9 +58,9 @@ public abstract class Operator extends AbstractToken {
 
     public static class MultOpr extends Operator {
 
-		private static final long serialVersionUID = 7908092160119701296L;
+        private static final long serialVersionUID = 7908092160119701296L;
 
-		public MultOpr(OperatorAttribute attribute) {
+        public MultOpr(OperatorAttribute attribute) {
             super(Terminal.MULTOPR, attribute);
             assert (attribute == OperatorAttribute.TIMES || attribute == OperatorAttribute.MOD || attribute == OperatorAttribute.DIV);
         }
@@ -68,12 +68,13 @@ public abstract class Operator extends AbstractToken {
 
     public static class RelOpr extends Operator {
 
-		private static final long serialVersionUID = -5780932918206995185L;
+        private static final long serialVersionUID = -5780932918206995185L;
 
-		public RelOpr(OperatorAttribute attribute) {
+        public RelOpr(OperatorAttribute attribute) {
             super(Terminal.RELOPR, attribute);
-            assert (attribute == OperatorAttribute.EQ || attribute == OperatorAttribute.NE || attribute == OperatorAttribute.LT
-            		|| attribute == OperatorAttribute.GT || attribute == OperatorAttribute.LE || attribute == OperatorAttribute.GE);
+            assert (attribute == OperatorAttribute.EQ || attribute == OperatorAttribute.NE
+                    || attribute == OperatorAttribute.LT || attribute == OperatorAttribute.GT
+                    || attribute == OperatorAttribute.LE || attribute == OperatorAttribute.GE);
         }
     }
 

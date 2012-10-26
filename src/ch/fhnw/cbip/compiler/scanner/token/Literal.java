@@ -5,8 +5,8 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public class Literal extends AbstractToken {
 
-	private static final long serialVersionUID = 7555556718921057885L;
-	private final int value;
+    private static final long serialVersionUID = 7555556718921057885L;
+    private final int value;
     private BoolVal bool;
 
     public Literal(int value) {
@@ -47,7 +47,7 @@ public class Literal extends AbstractToken {
 
     @Override
     public boolean equals(Object o) {
-        if(o != null) {
+        if (o != null) {
             if (o.getClass() == this.getClass()) {
                 if (super.equals((AbstractToken) o)) {
                     if (this.value == ((Literal) o).value) {

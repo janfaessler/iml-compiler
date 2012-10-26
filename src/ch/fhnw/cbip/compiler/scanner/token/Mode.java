@@ -5,8 +5,8 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public abstract class Mode extends AbstractToken {
 
-	private static final long serialVersionUID = -4598107261849280663L;
-	private final ModeAttribute attribute;
+    private static final long serialVersionUID = -4598107261849280663L;
+    private final ModeAttribute attribute;
 
     public Mode(Terminal terminal, ModeAttribute attribute) {
         super(terminal);
@@ -24,7 +24,7 @@ public abstract class Mode extends AbstractToken {
 
     @Override
     public boolean equals(Object o) {
-        if(o != null) {
+        if (o != null) {
             if (o.getClass() == this.getClass()) {
                 if (super.equals((AbstractToken) o)) {
                     if (attribute == ((Mode) o).attribute) {
@@ -38,9 +38,9 @@ public abstract class Mode extends AbstractToken {
 
     public static class ChangeMode extends Mode {
 
-		private static final long serialVersionUID = -7329795145778696425L;
+        private static final long serialVersionUID = -7329795145778696425L;
 
-		public ChangeMode(ModeAttribute attribute) {
+        public ChangeMode(ModeAttribute attribute) {
             super(Terminal.CHANGEMODE, attribute);
             assert (attribute == ModeAttribute.CONST || attribute == ModeAttribute.VAR);
         }
@@ -49,9 +49,9 @@ public abstract class Mode extends AbstractToken {
 
     public static class FlowMode extends Mode {
 
-		private static final long serialVersionUID = -578137168175777227L;
+        private static final long serialVersionUID = -578137168175777227L;
 
-		public FlowMode(ModeAttribute attribute) {
+        public FlowMode(ModeAttribute attribute) {
             super(Terminal.FLOWMODE, attribute);
             assert (attribute == ModeAttribute.IN || attribute == ModeAttribute.INOUT || attribute == ModeAttribute.OUT);
         }
@@ -59,9 +59,9 @@ public abstract class Mode extends AbstractToken {
 
     public static class MechMode extends Mode {
 
-		private static final long serialVersionUID = 5477900678682157567L;
+        private static final long serialVersionUID = 5477900678682157567L;
 
-		public MechMode(ModeAttribute attribute) {
+        public MechMode(ModeAttribute attribute) {
             super(Terminal.MECHMODE, attribute);
             assert (attribute == ModeAttribute.COPY || attribute == ModeAttribute.REF);
         }

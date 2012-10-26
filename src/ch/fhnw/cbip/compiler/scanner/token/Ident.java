@@ -4,8 +4,8 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public class Ident extends AbstractToken {
 
-	private static final long serialVersionUID = 6131360454112441672L;
-	private final String name;
+    private static final long serialVersionUID = 6131360454112441672L;
+    private final String name;
 
     public Ident(String name) {
         super(Terminal.IDENT);
@@ -23,7 +23,7 @@ public class Ident extends AbstractToken {
 
     @Override
     public boolean equals(Object o) {
-        if(o != null) {
+        if (o != null) {
             if (o.getClass() == this.getClass()) {
                 if (super.equals((AbstractToken) o)) {
                     if (name.equals(((Ident) o).name)) {
