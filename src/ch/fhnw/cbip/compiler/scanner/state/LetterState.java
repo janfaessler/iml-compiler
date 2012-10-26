@@ -55,8 +55,8 @@ public class LetterState implements IScannerState {
       if(o.getClass() == this.getClass()){
         return true;
       } else {
-        return false;
-      }
+            return false;
+        }
     }
 
 }

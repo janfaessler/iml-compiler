@@ -22,8 +22,8 @@ public class SymbolState implements IScannerState {
                     || ('a' <= c[lastChar] && c[lastChar] <= 'z')
                     || ('0' <= c[lastChar] && c[lastChar] <= '9') 
                     || (' ' == c[lastChar]) 
-                    || ('\t' == c[lastChar]) 
-                    || ('\n' == c[lastChar])
+                    || ('\t' == c[lastChar])
+                    || ('\n' == c[lastChar]) 
                     || (ScannerSymbol.contains(c[lastChar]))) {
                 // keyword
                 String letters = new String(Arrays.copyOfRange(c, 0, c.length - 1));
@@ -42,13 +42,13 @@ public class SymbolState implements IScannerState {
         }
         return c;
     }
-    
+
     @Override
-    public boolean equals(Object o){
-      if(o.getClass() == this.getClass()){
-        return true;
-      } else {
-        return false;
-      }
+    public boolean equals(Object o) {
+        if (o.getClass() == this.getClass()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
