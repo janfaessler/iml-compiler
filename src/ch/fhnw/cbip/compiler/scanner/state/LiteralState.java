@@ -23,7 +23,8 @@ public class LiteralState implements IScannerState {
       // literal ends
       if (ScannerSymbol.contains(c[lastChar]) 
           || (' ' == c[lastChar])
-          || ('\t' == c[lastChar])) {
+          || ('\t' == c[lastChar])
+          || ('\n' == c[lastChar])) {
         String literal = new String(Arrays.copyOfRange(c, 0, c.length - 1));
         Literal token = new Literal(Integer.parseInt(literal));
         token.setLine(context.getLineNumber());

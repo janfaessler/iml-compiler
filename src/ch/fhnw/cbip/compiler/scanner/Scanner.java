@@ -44,6 +44,7 @@ public class Scanner implements IScannerContext {
                 }
                 currentChar = currentState.handleChar(ArrayUtils.expandCharArray(currentChar, c), this);
             }
+            currentChar = currentState.handleChar(ArrayUtils.expandCharArray(currentChar, '\n'), this);
         }
         if(currentState.equals(new InitialState())){
             char[] end_of_text = {'\u0003'};

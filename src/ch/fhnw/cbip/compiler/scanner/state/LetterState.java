@@ -24,7 +24,7 @@ public class LetterState implements IScannerState {
             context.setState(this, false);
         } else {
             // keyword or identifier ends
-            if (ScannerSymbol.contains(c[lastChar]) || (' ' == c[lastChar]) || ('\t' == c[lastChar])) {
+            if (ScannerSymbol.contains(c[lastChar]) || (' ' == c[lastChar]) || ('\t' == c[lastChar])|| ('\n' == c[lastChar])) {
                 String letters = new String(Arrays.copyOfRange(c, 0, c.length - 1));
                 KeywordList k = KeywordList.match(letters);
                 if (k == null) {
