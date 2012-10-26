@@ -2,7 +2,6 @@ package ch.fhnw.cbip.compiler.utils;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class ArrayUtilsTest {
