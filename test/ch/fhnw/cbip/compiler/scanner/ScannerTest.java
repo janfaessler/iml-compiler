@@ -239,6 +239,9 @@ public class ScannerTest {
         sc11.setLine(11);
         expectedList.add(sc11);
         
+        Mode.ChangeMode var13 = new Mode.ChangeMode(ModeAttribute.VAR);
+        var13.setLine(13);
+        expectedList.add(var13);
         Ident mIdent13 = new Ident("m");
         mIdent13.setLine(13);
         expectedList.add(mIdent13);
@@ -252,6 +255,9 @@ public class ScannerTest {
         sc13.setLine(13);
         expectedList.add(sc13);
 
+        Mode.ChangeMode var14 = new Mode.ChangeMode(ModeAttribute.VAR);
+        var14.setLine(14);
+        expectedList.add(var14);
         Ident nIdent14 = new Ident("n");
         nIdent14.setLine(14);
         expectedList.add(nIdent14);
@@ -265,6 +271,9 @@ public class ScannerTest {
         sc14.setLine(14);
         expectedList.add(sc14);
 
+        Mode.ChangeMode var15 = new Mode.ChangeMode(ModeAttribute.VAR);
+        var15.setLine(15);
+        expectedList.add(var15);
         Ident qIdent15 = new Ident("q");
         qIdent15.setLine(15);
         expectedList.add(qIdent15);
@@ -278,6 +287,9 @@ public class ScannerTest {
         sc15.setLine(15);
         expectedList.add(sc15);
 
+        Mode.ChangeMode var16 = new Mode.ChangeMode(ModeAttribute.VAR);
+        var16.setLine(16);
+        expectedList.add(var16);
         Ident rIdent16 = new Ident("r");
         rIdent16.setLine(16);
         expectedList.add(rIdent16);
@@ -334,15 +346,15 @@ public class ScannerTest {
         mIdent20.setLine(20);
         expectedList.add(mIdent20);
 
-        Symbol.Colon col20 = new Symbol.Colon();
-        col20.setLine(20);
-        expectedList.add(col20);
+        Symbol.Comma comma20 = new Symbol.Comma();
+        comma20.setLine(20);
+        expectedList.add(comma20);
 
         Ident nIdent20 = new Ident("n");
         nIdent20.setLine(20);
         expectedList.add(nIdent20);
 
-        expectedList.add(col20);
+        expectedList.add(comma20);
 
         Ident qIdent20 = new Ident("q");
         qIdent20.setLine(20);
@@ -352,7 +364,7 @@ public class ScannerTest {
         init20.setLine(20);
         expectedList.add(init20);
 
-        expectedList.add(col20);
+        expectedList.add(comma20);
 
         Ident rIdent20 = new Ident("r");
         rIdent20.setLine(20);
