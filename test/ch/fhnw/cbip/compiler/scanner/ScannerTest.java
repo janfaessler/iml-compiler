@@ -401,7 +401,7 @@ public class ScannerTest {
         expectedList.add(rbr23);
 
         Keyword.Sentinel sentinel = new Keyword.Sentinel();
-        sentinel.setLine(24);
+        sentinel.setLine(23);
         expectedList.add(sentinel);
 
         assertEquals(expectedList, list);
