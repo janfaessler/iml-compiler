@@ -10,6 +10,11 @@ import ch.fhnw.cbip.compiler.scanner.enums.KeywordList;
 import ch.fhnw.cbip.compiler.scanner.enums.ScannerSymbol;
 import ch.fhnw.cbip.compiler.scanner.token.Ident;
 
+/**
+ * Letter State of the scanner. Processes all keywords and idents.
+ * 
+ * @author Michael Kuenzli, <michael@kuenzli.eu>
+ */
 public class LetterState implements IScannerState {
 
     @Override
@@ -24,20 +29,21 @@ public class LetterState implements IScannerState {
             context.setState(this, false);
         } else {
             // keyword or identifier ends
-            if (ScannerSymbol.contains(c[lastChar]) || (' ' == c[lastChar]) || ('\t' == c[lastChar])|| ('\n' == c[lastChar])) {
+            if (ScannerSymbol.contains(c[lastChar]) || (' ' == c[lastChar]) || ('\t' == c[lastChar])
+                    || ('\n' == c[lastChar])) {
                 String letters = new String(Arrays.copyOfRange(c, 0, c.length - 1));
                 KeywordList k = KeywordList.match(letters);
                 if (k == null) {
                     // is an identifier
-                	IToken t = new Ident(letters);
-                	t.setLine(line);
+                    IToken t = new Ident(letters);
+                    t.setLine(line);
                     context.addToken(t);
                     c = Arrays.copyOfRange(c, lastChar, lastChar + 1);
                     context.setState(new InitialState(), true);
                 } else {
                     // is a keyword
-                	k.setLine(line);
-                	context.addToken(k.getToken());
+                    k.setLine(line);
+                    context.addToken(k.getToken());
                     c = Arrays.copyOfRange(c, lastChar, lastChar + 1);
                     context.setState(new InitialState(), true);
                 }
@@ -49,12 +55,12 @@ public class LetterState implements IScannerState {
         }
         return c;
     }
-    
+
     @Override
-    public boolean equals(Object o){
-      if(o.getClass() == this.getClass()){
-        return true;
-      } else {
+    public boolean equals(Object o) {
+        if (o.getClass() == this.getClass()) {
+            return true;
+        } else {
             return false;
         }
     }

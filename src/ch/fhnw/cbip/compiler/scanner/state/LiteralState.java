@@ -9,6 +9,11 @@ import ch.fhnw.cbip.compiler.scanner.IToken;
 import ch.fhnw.cbip.compiler.scanner.enums.ScannerSymbol;
 import ch.fhnw.cbip.compiler.scanner.token.Literal;
 
+/**
+ * Literal State of the scanner. Processes all literals (integers and booleans).
+ * 
+ * @author Michael Kuenzli, <michael@kuenzli.eu>
+ */
 public class LiteralState implements IScannerState {
 
     @Override

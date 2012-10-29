@@ -8,6 +8,13 @@ import ch.fhnw.cbip.compiler.scanner.IScannerState;
 import ch.fhnw.cbip.compiler.scanner.enums.ScannerSymbol;
 import ch.fhnw.cbip.compiler.scanner.enums.SymbolEnum;
 
+/**
+ * Symbol State of the scanner. 
+ * 
+ * Processes all symbols (operators).
+ * 
+ * @author Michael Kuenzli, <michael@kuenzli.eu>
+ */
 public class SymbolState implements IScannerState {
 
     @Override

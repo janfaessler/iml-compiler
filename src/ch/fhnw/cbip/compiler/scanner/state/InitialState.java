@@ -10,6 +10,8 @@ import ch.fhnw.cbip.compiler.scanner.token.Keyword;
 /**
  * Initial State of the scanner.
  * 
+ * After each token is added, the the state machine returns to this state.
+ * 
  * @author Michael Kuenzli, <michael@kuenzli.eu>
  */
 public class InitialState implements IScannerState {
