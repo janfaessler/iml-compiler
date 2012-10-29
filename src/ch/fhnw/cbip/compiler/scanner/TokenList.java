@@ -3,10 +3,25 @@ package ch.fhnw.cbip.compiler.scanner;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ * Implementation of ITokenlist.
+ * 
+ * @author Michael Kuenzli <michael@kuenzli.eu>
+ */
 public class TokenList implements ITokenList {
+    /**
+     * Internal token list.
+     */
     private LinkedList<IToken> tokenList;
+
+    /**
+     * Internal iterator.
+     */
     private Iterator<IToken> listIterator;
 
+    /**
+     * Constructor for TokenList. Initializes a new token list.
+     */
     public TokenList() {
         tokenList = new LinkedList<IToken>();
     }
