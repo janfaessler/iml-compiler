@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -231,6 +232,19 @@ public class ScannerTest {
         assertEquals(expectedList, list);
     }
 
+    @Test(expected = LexicalError.class)
+    public void testWeirdChar() throws LexicalError {
+        ITokenList list = null;
+        try {
+            list = scanner.scan(bufferFromString("\u2602"));
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+        if (list == null) {
+            fail("list is null");
+        }
+    }
+    
     private void addToken(IToken token, int line) {
         token.setLine(line);
         expectedList.add(token);
@@ -240,6 +254,10 @@ public class ScannerTest {
         InputStream stream = this.getClass().getResourceAsStream(name);
         InputStreamReader isr = new InputStreamReader(stream);
         return new BufferedReader(isr);
+    }
+    
+    private BufferedReader bufferFromString(String input){
+        return new BufferedReader(new StringReader(input));
     }
 
 }
