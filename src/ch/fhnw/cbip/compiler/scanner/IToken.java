@@ -5,7 +5,7 @@ package ch.fhnw.cbip.compiler.scanner;
  * 
  * @author Michael Kuenzli <michael@kuenzli.eu>
  */
-public interface IToken {
+public interface IToken extends Cloneable{
     /**
      * Returns line of where the token locates within the source code.
      * @return source code line number of the token
@@ -17,10 +17,10 @@ public interface IToken {
      * @param the line number
      */
     public void setLine(int number);
-
+    
     /**
-     * Returns a deep copy of the token.
-     * @return deep copy of the token
+     * Clone implementation for Cloneable interface.
+     * @return clone of IToken object
      */
-    public IToken copy();
+    public IToken clone();
 }

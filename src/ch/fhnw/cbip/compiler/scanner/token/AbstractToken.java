@@ -1,10 +1,5 @@
 package ch.fhnw.cbip.compiler.scanner.token;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import ch.fhnw.cbip.compiler.scanner.IToken;
@@ -88,26 +83,13 @@ public abstract class AbstractToken implements IToken, Serializable {
         }
         return false;
     }
-
+    
     @Override
-    public IToken copy() {
-        IToken obj = null;
+    public AbstractToken clone(){
         try {
-            // Write the object out to a byte array
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(bos);
-            out.writeObject(this);
-            out.flush();
-            out.close();
-
-            // Make an input stream from the byte array and read a copy of the object back in.
-            ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
-            obj = (IToken) in.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
+            return (AbstractToken) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError();
         }
-        return obj;
     }
 }
