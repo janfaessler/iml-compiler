@@ -2,6 +2,8 @@ package ch.fhnw.cbip.compiler.scanner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import ch.fhnw.cbip.compiler.error.LexicalError;
 import ch.fhnw.cbip.compiler.scanner.state.InitialState;
@@ -69,17 +71,12 @@ public class Scanner implements IScannerContext {
         lineNumber = 0;
         while ((currentLine = input.readLine()) != null) {
             lineNumber++;
-            for (char c : currentLine.toCharArray()) {
-                if (keepCurrent) {
-                    currentChar = currentState.handleChar(currentChar, this);
-                }
-                currentChar = currentState.handleChar(ArrayUtils.expandCharArray(currentChar, c), this);
-            }
-            // whitespace to finish up some tokens
-            currentChar = currentState.handleChar(ArrayUtils.expandCharArray(currentChar, '\n'), this);
+            currentLine = currentLine + "\n"; // readLine removes end-of-line character
+            Iterator<Character> chars = stringIterator(currentLine);
 
-            // finish up end of line
-            for (int i = currentChar.length; i > 0 && currentChar.length > 0; i--) {
+            while (chars.hasNext() || currentChar.length > 0) {
+                if (!keepCurrent)
+                    currentChar = ArrayUtils.expandCharArray(currentChar, (char) chars.next());
                 currentChar = currentState.handleChar(currentChar, this);
             }
         }
@@ -96,6 +93,29 @@ public class Scanner implements IScannerContext {
     @Override
     public int getLineNumber() {
         return lineNumber;
+    }
+
+    private static Iterator<Character> stringIterator(final String string) {
+        if (string == null)
+            throw new NullPointerException();
+
+        return new Iterator<Character>() {
+            private int index = 0;
+
+            public boolean hasNext() {
+                return index < string.length();
+            }
+
+            public Character next() {
+                if (!hasNext())
+                    throw new NoSuchElementException();
+                return string.charAt(index++);
+            }
+
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 
 }
