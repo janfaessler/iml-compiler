@@ -7,6 +7,12 @@ import ch.fhnw.cbip.compiler.scanner.token.Mode;
 import ch.fhnw.cbip.compiler.scanner.token.Operator;
 import ch.fhnw.cbip.compiler.scanner.token.Type;
 
+/**
+ * A list of all the keywords.
+ * 
+ * @author Michael Kuenzli
+ *
+ */
 public enum KeywordList {
 	
 	BOOL("bool", new Type(TypeAttribute.BOOL)), 
@@ -39,6 +45,12 @@ public enum KeywordList {
 	VAR("var", new Mode.ChangeMode(ModeAttribute.VAR)), 
 	WHILE("while", new Keyword.While());
 	
+	/**
+	 * Creates a Keyword list
+	 * 
+	 * @param s 
+	 * @param t
+	 */
 	KeywordList(String s, IToken t){
 		this.pattern = s;
 		this.token = t;
