@@ -74,6 +74,7 @@ public class Scanner implements IScannerContext {
             currentLine = currentLine + "\n"; // readLine removes end-of-line character
             Iterator<Character> chars = stringIterator(currentLine);
 
+            // call states as long there are characters of the line to process
             while (chars.hasNext() || currentChar.length > 0) {
                 if (!keepCurrent)
                     currentChar = ArrayUtils.expandCharArray(currentChar, (char) chars.next());
@@ -95,6 +96,12 @@ public class Scanner implements IScannerContext {
         return lineNumber;
     }
 
+    /**
+     * Creates a Character-Iterator of a given string. <br />
+     * Since the String cannot be modified, there is no remove() implemented.
+     * @param string String to be treaded as collection which has an iterator
+     * @return Character-Iterator of the given String
+     */
     private static Iterator<Character> stringIterator(final String string) {
         if (string == null)
             throw new NullPointerException();
