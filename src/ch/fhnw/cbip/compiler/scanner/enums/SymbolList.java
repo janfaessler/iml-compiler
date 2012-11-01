@@ -4,7 +4,7 @@ import ch.fhnw.cbip.compiler.scanner.IToken;
 import ch.fhnw.cbip.compiler.scanner.token.Operator;
 import ch.fhnw.cbip.compiler.scanner.token.Symbol;
 
-public enum SymbolEnum {
+public enum SymbolList {
 
   LPAREN("(", new Symbol.LParen()), 
   RPAREN(")", new Symbol.RParen()), 
@@ -29,13 +29,13 @@ public enum SymbolEnum {
   private String pattern;
   private IToken token;
   
-  SymbolEnum(String pattern, IToken t) {
+  SymbolList(String pattern, IToken t) {
     this.pattern = pattern;   
     this.token = t;
   }
   
-  public static SymbolEnum match(String toMatch) {
-    for (SymbolEnum s : values()) {
+  public static SymbolList match(String toMatch) {
+    for (SymbolList s : values()) {
       if (s.pattern.equals(toMatch)) {
         return s;
       }

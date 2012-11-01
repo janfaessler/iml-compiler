@@ -6,7 +6,7 @@ import ch.fhnw.cbip.compiler.error.LexicalError;
 import ch.fhnw.cbip.compiler.scanner.IScannerContext;
 import ch.fhnw.cbip.compiler.scanner.IScannerState;
 import ch.fhnw.cbip.compiler.scanner.enums.ScannerSymbol;
-import ch.fhnw.cbip.compiler.scanner.enums.SymbolEnum;
+import ch.fhnw.cbip.compiler.scanner.enums.SymbolList;
 
 /**
  * Symbol State of the scanner. 
@@ -34,7 +34,7 @@ public class SymbolState implements IScannerState {
                     || (ScannerSymbol.contains(c[lastChar]))) {
                 // keyword
                 String letters = new String(Arrays.copyOfRange(c, 0, c.length - 1));
-                SymbolEnum s = SymbolEnum.match(letters);
+                SymbolList s = SymbolList.match(letters);
                 if (s != null) {
                     s.setLine(context.getLineNumber());
                     context.addToken(s.getToken());
