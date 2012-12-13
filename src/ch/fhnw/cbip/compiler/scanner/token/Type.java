@@ -42,6 +42,15 @@ public class Type extends AbstractToken {
     public String toString() {
         return "(TYPE, " + attribute.toString() + ")";
     }
+    
+	public String toString(final String indent) {
+		return indent
+				+ "<Type type=\""
+				+ attribute.toString()
+				+ "\" line=\""
+				+ super.getLine()
+				+ "\"/>\n";
+	}
 
     @Override
     public boolean equals(Object o) {

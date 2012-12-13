@@ -16,11 +16,13 @@ interface ConcSyn {
 			this.blockCmd = blockCmd;
 			this.auxGlobCpsDecl = auxGlobCpsDecl;
 		}
+		
+		public String toString() { return toString(""); }
 
-		public String toString(final String indent) {
+		public String toString(String indent) {
 			return indent
 					+ "<Program>\n"
-					+ ident.toString()
+					+ ident.toString(indent + '\t') 
 					+ auxGlobCpsDecl.toString(indent + '\t')
 					+ blockCmd.toString(indent + '\t')
 					+ indent
@@ -123,8 +125,8 @@ interface ConcSyn {
 			return indent
 					+ "<StoreDecl>\n"
 					+ auxChangeMode.toString(indent + '\t')
-					+ ident.toString()
-					+ type.toString()
+					+ ident.toString(indent + '\t')
+					+ type.toString(indent + '\t')
 					+ indent
 					+ "</StoreDecl>\n";
 		}
@@ -149,7 +151,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<FunDecl>\n"
-					+ ident.toString()
+					+ ident.toString(indent + '\t')
 					+ paramList.toString(indent + '\t')
 					+ storeDecl.toString(indent + '\t')
 					+ auxGlobImpList.toString(indent + '\t')
@@ -178,7 +180,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<ProcDecl>\n"
-					+ ident.toString()
+					+ ident.toString(indent + '\t') 
 					+ paramList.toString(indent + '\t')
 					+ auxGlobImpList.toString(indent + '\t')
 					+ auxLocCpsDecl.toString(indent + '\t')
@@ -293,7 +295,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<RepIdent>\n"
-					+ ident.toString()
+					+ ident.toString(indent + '\t')
 					+ repIdent.toString(indent + '\t')
 					+ indent
 					+ "</RepIdent>\n";
@@ -332,7 +334,7 @@ interface ConcSyn {
 		}
 		
 		public String toString(String indent) {
-			return indent + "<AuxGlobImpListEps/>";
+			return indent + "<AuxGlobImpListEps/>\n";
 		}
 	}
 	
@@ -371,7 +373,7 @@ interface ConcSyn {
 					+ "<GlobImp>\n"
 					+ auxFlowMode.toString(indent + '\t')
 					+ auxChangeMode.toString(indent + '\t')
-					+ ident.toString()
+					+ ident.toString(indent + '\t')
 					+ indent
 					+ "</GlobImp>\n";
 		}
@@ -415,7 +417,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<AuxChangeMode>\n"
-					+ changeMode.toString()
+					+ changeMode.toString(indent + '\t')
 					+ indent
 					+ "</AuxChangeMode>\n";
 		}
@@ -465,7 +467,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<AuxFlowMode>\n"
-					+ flowMode.toString()
+					+ flowMode.toString(indent + '\t') 
 					+ indent
 					+ "</AuxFlowMode>\n";
 		}
@@ -492,7 +494,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<AuxMechMode>\n"
-					+ mechMode.toString()
+					+ mechMode.toString(indent + '\t') 
 					+ indent
 					+ "</AuxMechMode>\n";
 		}
@@ -601,11 +603,30 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<CmdCall>\n"
-					+ ident.toString()
+					+ ident.toString(indent + '\t')
 					+ exprList.toString(indent + '\t')
 					+ auxGlobInitList.toString(indent + '\t')
 					+ indent
 					+ "</CmdCall>\n";
+		}
+	}
+	
+	public class CmdWhile extends Cmd {
+		private final Expr expr;
+		private final BlockCmd blockCmd;
+
+		public CmdWhile(Expr expr, BlockCmd blockCmd) {
+			this.expr = expr;
+			this.blockCmd = blockCmd;
+		}
+
+		public String toString(final String indent) {
+			return indent
+					+ "<CmdWhile>\n"
+					+ expr.toString(indent + '\t')
+					+ blockCmd.toString(indent + '\t')
+					+ indent
+					+ "</CmdWhile>\n";
 		}
 	}
 	
@@ -702,7 +723,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<GlobInitList>\n"
-					+ ident.toString()
+					+ ident.toString(indent + '\t')
 					+ repIdent.toString(indent + '\t')
 					+ indent
 					+ "</GlobInitList>\n";
@@ -859,7 +880,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<RepTerm1>\n"
-					+ boolOpr.toString()
+					+ boolOpr.toString(indent + '\t')
 					+ term1.toString(indent + '\t')
 					+ repTerm1.toString(indent + '\t')
 					+ indent
@@ -909,7 +930,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<RepTerm2>\n"
-					+ relOpr.toString()
+					+ relOpr.toString(indent + '\t')
 					+ term2.toString(indent + '\t')
 					+ repTerm2.toString(indent + '\t')
 					+ indent
@@ -959,7 +980,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<RepTerm3>\n"
-					+ addOpr.toString()
+					+ addOpr.toString(indent + '\t')
 					+ term3.toString(indent + '\t')
 					+ repTerm3.toString(indent + '\t')
 					+ indent
@@ -994,7 +1015,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<RepFactor>\n"
-					+ multOpr.toString()
+					+ multOpr.toString(indent + '\t')
 					+ factor.toString(indent + '\t')
 					+ repFactor.toString(indent + '\t')
 					+ indent
@@ -1021,7 +1042,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<FactorLiteral>\n"
-					+ literal.toString()
+					+ literal.toString(indent + '\t')
 					+ indent
 					+ "</FactorLiteral>\n";
 		}
@@ -1039,7 +1060,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<FactorIdent>\n"
-					+ ident.toString()
+					+ ident.toString(indent + '\t')
 					+ auxIdent.toString(indent + '\t')
 					+ indent
 					+ "</FactorIdent>\n";
@@ -1128,7 +1149,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<MonadicOpr>\n"
-					+ operator.toString()
+					+ operator.toString(indent + '\t')
 					+ indent
 					+ "</MonadicOpr>\n";
 		}

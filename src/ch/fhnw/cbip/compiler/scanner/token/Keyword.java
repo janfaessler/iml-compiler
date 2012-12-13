@@ -27,6 +27,7 @@ public abstract class Keyword extends AbstractToken {
     public String toString() {
         return getTerminal().toString();
     }
+  
 
     @Override
     public boolean equals(Object o) {

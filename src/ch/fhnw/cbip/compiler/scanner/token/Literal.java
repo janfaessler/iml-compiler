@@ -54,6 +54,18 @@ public class Literal extends AbstractToken {
             return "(LITERAL, IntVal " + value + ")";
         }
     }
+    
+	public String toString(final String indent) {
+
+		return indent
+				+ "<Literal mode=\""
+				+ getTerminal().toString()
+				+ "\" value=\""
+				+ (bool != null?bool.toString():value)
+				+ "\" line=\""
+				+ super.getLine()
+				+ "\"/>\n";
+	}
 
     /**
      * Return boolean value of literal.

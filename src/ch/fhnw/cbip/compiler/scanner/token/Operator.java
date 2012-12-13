@@ -44,6 +44,17 @@ public abstract class Operator extends AbstractToken {
     public String toString() {
         return "(" + getTerminal().toString() + ", " + attribute.toString() + ")";
     }
+    
+	public String toString(final String indent) {
+		return indent
+				+ "<Operator name=\""
+				+ getTerminal().toString()
+				+ "\" attribute=\""
+				+ attribute.toString()
+				+ "\" line=\""
+				+ super.getLine()
+				+ "\"/>\n";
+	}
 
     @Override
     public boolean equals(Object o) {

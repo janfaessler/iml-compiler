@@ -42,6 +42,15 @@ public class Ident extends AbstractToken {
     public String toString() {
         return "(IDENT, \"" + name + "\")";
     }
+    
+	public String toString(final String indent) {
+		return indent
+				+ "<Ident name=\""
+				+ name
+				+ "\" line=\""
+				+ super.getLine()
+				+ "\"/>\n";
+	}
 
     @Override
     public boolean equals(Object o) {
