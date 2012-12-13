@@ -1,5 +1,7 @@
 package ch.fhnw.cbip.compiler.scanner;
 
+import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
+
 /**
  * Token interface.
  * 
@@ -23,4 +25,14 @@ public interface IToken extends Cloneable{
      * @return clone of IToken object
      */
     public IToken clone();
+    
+    /**
+     * Returns the token's terminal symbol.
+     * 
+     * @return the token's terminal symbol
+     */
+    public Terminal getTerminal();
+    
+    
+    public String toString();
 }

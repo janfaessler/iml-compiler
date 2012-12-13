@@ -42,7 +42,7 @@ public abstract class AbstractToken implements IToken, Serializable {
      * 
      * @return the token's terminal symbol
      */
-    protected Terminal getTerminal() {
+    public Terminal getTerminal() {
         return terminal;
     }
 

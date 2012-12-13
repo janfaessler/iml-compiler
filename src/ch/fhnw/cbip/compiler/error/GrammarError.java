@@ -35,7 +35,7 @@ public class GrammarError extends Exception {
 
     @Override
     public String getMessage() {
-        return "LexicalError: " + message + " at line " + lineNumber + ".";
+        return "GrammarError: " + message + " at line " + lineNumber + ".";
     }
 
 }
