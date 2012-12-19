@@ -155,7 +155,7 @@ interface ConcTree {
 		}
 		
 		public AbsTree.DeclStore toAbstract(RepDecl repDecl) {
-			return new AbsTree.DeclStore(auxChangeMode.toAbstract(), ident, type, repDecl.toAbstract());
+			return new AbsTree.DeclStore(auxChangeMode.toAbstract(), ident, type, (repDecl!=null?repDecl.toAbstract():null));
 		}
 	}
 	

@@ -16,7 +16,7 @@ public interface AbsTree {
 			this.cmd = cmd;
 		}
 		
-		public String toString(final String indent) {
+		public String toString(String indent) {
 			return indent
 					+ "<Program>\n"
 					+ ident.toString(indent + '\t')
@@ -24,6 +24,10 @@ public interface AbsTree {
 					+ cmd.toString(indent + '\t')
 					+ indent
 					+ "</Program>\n";
+		}
+		
+		public String toString() {
+			return toString("");
 		}
 	}
 	
@@ -34,11 +38,10 @@ public interface AbsTree {
 			this.nextDecl = next;
 		}
 		
-		public String toString(final String indent) {
+		public String toString(String indent) {
 			return indent
 					+ "<Decl>\n"
-					+ indent
-					+ (nextDecl != null?nextDecl.toString(indent + '\t'):"<noNextElement/>\n")
+					+ (nextDecl != null?nextDecl.toString(indent + '\t'):indent+"<noNextElement/>\n")
 					+ indent
 					+ "</Decl>\n";
 		}
@@ -98,8 +101,8 @@ public interface AbsTree {
 					+ "<DeclProc>\n"
 					+ ident.toString(indent + '\t')
 					+ param.toString(indent + '\t')
-					+ globImp.toString(indent + '\t')
-					+ decl.toString(indent + '\t')
+					+ (globImp!=null?globImp.toString(indent + '\t'):"")
+					+ (decl!=null?decl.toString(indent + '\t'):"")
 					+ cmd.toString(indent + '\t')
 					+ super.toString(indent + '\t')
 					+ indent
@@ -150,7 +153,7 @@ public interface AbsTree {
 					+ flowMode.toString(indent + '\t')
 					+ mechMode.toString(indent + '\t')
 					+ storeDecl.toString(indent + '\t')
-					+ nextParam.toString(indent + '\t')
+					+ (nextParam!=null?nextParam.toString(indent + '\t'):"")
 					+ indent
 					+ "</Param>\n";
 		}
@@ -190,8 +193,7 @@ public interface AbsTree {
 	    public String toString(final String indent) {
 			return indent
 					+ "<Cmd>\n"
-					+ indent
-					+ (nextCmd != null?nextCmd.toString(indent + '\t'):"<noNextElement/>\n")
+					+ (nextCmd != null?nextCmd.toString(indent + '\t'):indent+"\t<noNextElement/>\n")
 					+ indent
 					+ "</Cmd>\n";
 		}
@@ -293,7 +295,7 @@ public interface AbsTree {
 			return indent
 					+ "<ExprCall>\n"
 					+ routineCall.toString(indent + '\t')
-					+ globInit.toString(indent + '\t')
+					+ (globInit!=null?globInit.toString(indent + '\t'):"")
 					+ super.toString(indent + '\t')
 					+ indent
 					+ "</ExprCall>\n";
@@ -370,7 +372,7 @@ public interface AbsTree {
 					+ "<ExprStore>\n"
 					+ ident.toString(indent + '\t')
 					+ indent
-					+ "<IsInit>" + isInit + "</IsInit>\n"
+					+ "\t<IsInit>" + isInit + "</IsInit>\n"
 					+ indent
 					+ "</ExprStore>\n";
 		}
@@ -467,7 +469,7 @@ public interface AbsTree {
 			return indent
 					+ "<ExprList>\n"
 					+ expr.toString(indent + '\t')
-					+ exprList.toString(indent + '\t')
+					+ (exprList!=null?exprList.toString(indent + '\t'):"")
 					+ indent
 					+ "</ExprList>\n";
 		}

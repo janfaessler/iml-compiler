@@ -1,12 +1,9 @@
 package ch.fhnw.cbip.compiler.parser;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import ch.fhnw.cbip.compiler.error.GrammarError;
-import ch.fhnw.cbip.compiler.parser.ConcTree.Program;
 import ch.fhnw.cbip.compiler.scanner.IToken;
 import ch.fhnw.cbip.compiler.scanner.ITokenList;
 import ch.fhnw.cbip.compiler.scanner.TokenList;
@@ -188,13 +185,15 @@ public class ParserTest {
         addToken(new Keyword.Sentinel(), 23);
     }
 
-
+    
     @Test
     public void testScanDivide() throws GrammarError {
 
         Parser parser = new Parser(devideTokenList);
-        Program prog = parser.parse();
-        //System.out.println(prog.toString());
+        ConcTree.Program prog = parser.parse();
+        System.out.println(prog.toString());
+        AbsTree.Program absTree = prog.toAbstract();
+        System.out.println(absTree.toString());
     }
     
     private void addToken(IToken token, int line) {
