@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.fhnw.cbip.compiler.error.GrammarError;
-import ch.fhnw.cbip.compiler.parser.ConcSyn.Program;
+import ch.fhnw.cbip.compiler.parser.ConcTree.Program;
 import ch.fhnw.cbip.compiler.scanner.IToken;
 import ch.fhnw.cbip.compiler.scanner.ITokenList;
 import ch.fhnw.cbip.compiler.scanner.TokenList;

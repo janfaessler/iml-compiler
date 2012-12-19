@@ -37,7 +37,8 @@ public interface AbsTree {
 		public String toString(final String indent) {
 			return indent
 					+ "<Decl>\n"
-					+ nextDecl.toString(indent + '\t')
+					+ indent
+					+ (nextDecl != null?nextDecl.toString(indent + '\t'):"<noNextElement/>\n")
 					+ indent
 					+ "</Decl>\n";
 		}
@@ -189,7 +190,8 @@ public interface AbsTree {
 	    public String toString(final String indent) {
 			return indent
 					+ "<Cmd>\n"
-					+ nextCmd.toString(indent + '\t')
+					+ indent
+					+ (nextCmd != null?nextCmd.toString(indent + '\t'):"<noNextElement/>\n")
 					+ indent
 					+ "</Cmd>\n";
 		}
@@ -277,11 +279,25 @@ public interface AbsTree {
 	}
 	
 	public class CmdProcCall extends Cmd {
+		
+		private final RoutineCall routineCall;
+		private final GlobInit globInit;
 
-		public CmdProcCall(Cmd nextCmd) {
+		public CmdProcCall(RoutineCall routineCall, GlobInit globInit, Cmd nextCmd) {
 			super(nextCmd);
+			this.routineCall = routineCall;
+			this.globInit = globInit;
 		}
-		// TODO: CmdProcCall
+
+		public String toString(final String indent) {
+			return indent
+					+ "<ExprCall>\n"
+					+ routineCall.toString(indent + '\t')
+					+ globInit.toString(indent + '\t')
+					+ super.toString(indent + '\t')
+					+ indent
+					+ "</ExprCall>\n";
+		}
 	}
 	
 	public class CmdInput extends Cmd {
@@ -322,7 +338,159 @@ public interface AbsTree {
 	
 	public class Expr {
 		public String toString(String indent) { return ""; }
-		// TODO: Expressions
+	}
+	
+	public class ExprLiteral extends Expr {
+		private final Literal literal;
+
+		public ExprLiteral(Literal literal) {
+			this.literal = literal;
+		}
+
+		public String toString(String indent) {
+			return indent
+					+ "<ExprLiteral>\n"
+					+ literal.toString(indent + '\t')
+					+ indent
+					+ "</ExprLiteral>\n";
+		}
+	}
+	
+	public class ExprStore extends Expr {
+		private final Ident ident;
+		private final boolean isInit;
+
+		public ExprStore(Ident ident, boolean isInit) {
+			this.ident = ident;
+			this.isInit = isInit;
+		}
+
+		public String toString(String indent) {
+			return indent
+					+ "<ExprStore>\n"
+					+ ident.toString(indent + '\t')
+					+ indent
+					+ "<IsInit>" + isInit + "</IsInit>\n"
+					+ indent
+					+ "</ExprStore>\n";
+		}
+	}
+	
+	public class ExprFunCall extends Expr {
+		private final RoutineCall routineCall;
+
+		public ExprFunCall(RoutineCall routineCall) {
+			this.routineCall = routineCall;
+		}
+
+		public String toString(String indent) {
+			return indent
+					+ "<ExprCall>\n"
+					+ routineCall.toString(indent + '\t')
+					+ super.toString(indent + '\t')
+					+ indent
+					+ "</ExprCall>\n";
+		}
+	}
+	
+	public class ExprMonadic extends Expr {
+		private final Operator operator;
+		private final Expr expr;
+
+		public ExprMonadic(Operator operator,Expr expr) {
+			this.operator = operator;
+			this.expr = expr;
+		}
+
+		public String toString(String indent) {
+			return indent
+					+ "<ExprMonadic>\n"
+					+ operator.toString(indent + '\t')
+					+ expr.toString(indent + '\t')
+					+ indent
+					+ "</ExprMonadic>\n";
+		}
+	}
+	
+	public final class ExprDyadic extends Expr {
+		private final Operator operator;
+		private final Expr expr1;
+		private final Expr expr2;
+
+		public ExprDyadic(Operator operator, Expr expr1, Expr expr2) {
+			this.operator = operator;
+			this.expr1 = expr1;
+			this.expr2 = expr2;
+		}
+
+		public String toString(String indent) {
+			return indent
+					+ "<ExprDyadic>\n"
+					+ operator.toString(indent + '\t')
+					+ expr1.toString(indent + '\t')
+					+ expr2.toString(indent + '\t')
+					+ indent
+					+ "</ExprDyadic>\n";
+		}
+	}
+	
+	public class RoutineCall {
+		private final Ident ident;
+		private final ExprList exprList;
+		
+		public RoutineCall(Ident ident, ExprList exprList) {
+			this.ident = ident;
+			this.exprList = exprList;
+		}
+		
+		public String toString(String indent) {
+			return indent
+					+ "<RoutineCall>\n"
+					+ ident.toString(indent + '\t')
+					+ exprList.toString(indent + '\t')
+					+ indent
+					+ "</RoutineCall>\n";
+		}
+		
+	}
+	
+	public class ExprList {
+		private final Expr expr;
+		private final ExprList exprList;
+
+		public ExprList(Expr expr, ExprList exprList) {
+			this.expr = expr;
+			this.exprList = exprList;
+		}
+
+		public String toString(String indent) {
+			return indent
+					+ "<ExprList>\n"
+					+ expr.toString(indent + '\t')
+					+ exprList.toString(indent + '\t')
+					+ indent
+					+ "</ExprList>\n";
+		}
+	}
+	
+	public final class GlobInit {
+		private final Ident ident;
+		private final GlobInit globInit;
+
+		public GlobInit(Ident ident, GlobInit globInit) {
+			this.ident = ident;
+			this.globInit = globInit;
+		}
+
+		public String toString(String indent) {
+			return indent
+					+ "<GlobInit>\n"
+					+ ident.toString(indent + '\t')
+					+ indent
+					+ (globInit != null?globInit.toString(indent + '\t'):"<noNextElement/>\n")
+					+ indent
+					+ "</GlobInit>\n";
+		}
 	}
 
 }

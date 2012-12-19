@@ -1,10 +1,11 @@
 package ch.fhnw.cbip.compiler.parser;
 
+import ch.fhnw.cbip.compiler.scanner.enums.ModeAttribute;
 import ch.fhnw.cbip.compiler.scanner.token.*;
 import ch.fhnw.cbip.compiler.scanner.token.Mode.*;
 import ch.fhnw.cbip.compiler.scanner.token.Operator.*;
 
-interface ConcSyn {
+interface ConcTree {
 	
 	public class Program {
 		private final Ident ident;
@@ -28,6 +29,10 @@ interface ConcSyn {
 					+ indent
 					+ "</Program>\n";
 		}
+		
+		public AbsTree.Program toAbstract() {
+			return new AbsTree.Program(ident, auxGlobCpsDecl.toAbstract(), blockCmd.toAbstract());
+		}
 	}
 	
 	public class AuxGlobCpsDecl  {
@@ -44,6 +49,10 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxGlobCpsDecl>\n";
 		}
+		
+		public AbsTree.Decl toAbstract() {
+			return cpsDecl.toAbstract();
+		}
 	}
 
 	public class AuxGlobCpsDeclEps extends AuxGlobCpsDecl {
@@ -55,6 +64,8 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<AuxGlobCpsDeclEps/>\n";
 		}
+		
+		public AbsTree.Decl toAbstract() { return null; }
 	}
 	
 	public class CpsDecl {
@@ -74,10 +85,16 @@ interface ConcSyn {
 					+ indent
 					+ "</CpsDecl>\n";
 		}
+		
+		public AbsTree.Decl toAbstract() {
+			return decl.toAbstract(repDecl);
+		}
 	}
 	
 	public abstract class Decl {
 		public abstract String toString(String indent);
+
+		public AbsTree.Decl toAbstract(RepDecl repDecl) { return null; }
 	}
 	
 	public class RepDecl {
@@ -97,6 +114,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepDecl>\n";
 		}
+		
+		public AbsTree.Decl toAbstract() {
+			return decl.toAbstract(repDecl);
+		}
 	}
 	
 	public class RepDeclEps extends RepDecl {
@@ -108,6 +129,8 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<RepDeclEps/>\n";
 		}
+		
+		public AbsTree.Decl toAbstract() { return null; }
 	}
 	
 	public class StoreDecl extends Decl {
@@ -130,7 +153,12 @@ interface ConcSyn {
 					+ indent
 					+ "</StoreDecl>\n";
 		}
+		
+		public AbsTree.DeclStore toAbstract(RepDecl repDecl) {
+			return new AbsTree.DeclStore(auxChangeMode.toAbstract(), ident, type, repDecl.toAbstract());
+		}
 	}
+	
 	public class FunDecl extends Decl {
 		private final Ident ident;
 		private final ParamList paramList;
@@ -160,6 +188,10 @@ interface ConcSyn {
 					+ indent
 					+ "</FunDecl>\n";
 		}
+		
+		public AbsTree.DeclFun toAbstract(RepDecl repDecl) {
+			return new AbsTree.DeclFun(ident, paramList.toAbstract(), storeDecl.toAbstract(null), auxGlobImpList.toAbstract(), auxLocCpsDecl.toAbstract(), blockCmd.toAbstract(), repDecl.toAbstract());
+		}
 	}
 	
 	public class ProcDecl extends Decl {
@@ -188,6 +220,10 @@ interface ConcSyn {
 					+ indent
 					+ "</ProcDecl>\n";
 		}
+		
+		public AbsTree.DeclProc toAbstract(RepDecl repDecl) {
+			return new AbsTree.DeclProc(ident, paramList.toAbstract(), auxGlobImpList.toAbstract(), auxLocCpsDecl.toAbstract(), blockCmd.toAbstract(), repDecl.toAbstract());
+		}
 	}
 	
 	public class ParamList {
@@ -203,6 +239,10 @@ interface ConcSyn {
 					+ auxParamList.toString(indent + '\t')
 					+ indent
 					+ "</ParamList>\n";
+		}
+		
+		public AbsTree.Param toAbstract() {
+			return auxParamList.toAbstract();
 		}
 	}
 	public class AuxParamList {
@@ -222,6 +262,10 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxParamList>\n";
 		}
+		
+		public AbsTree.Param toAbstract() {
+			return param.toAbstract(repParam);
+		}
 	}
 	
 	public class  AuxParamListEps extends AuxParamList {
@@ -231,6 +275,8 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<AuxParamListEps/>\n";
 		}
+		
+		public AbsTree.Param toAbstract() { return null; }
 	}
 	
 	public class Param {
@@ -253,6 +299,10 @@ interface ConcSyn {
 					+ indent
 					+ "</Param>\n";
 		}
+		
+		public AbsTree.Param toAbstract(RepParam repParam) {
+			return new AbsTree.Param(auxFlowMode.toAbstract(), auxMechMode.toAbstract(), storeDecl.toAbstract(null), repParam.toAbstract());
+		}
 	}
 	
 	public class RepParam {
@@ -272,6 +322,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepParam>\n";
 		}
+		
+		public AbsTree.Param toAbstract() {
+			return param.toAbstract(repParam);
+		}
 	}
 	
 	public class RepParamEps extends RepParam {
@@ -281,6 +335,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<RepParamEps/>\n";
 		}
+		public AbsTree.Param toAbstract() { return null; }
 	}
 	
 	public class RepIdent {
@@ -300,6 +355,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepIdent>\n";
 		}
+		
+		public AbsTree.GlobInit toAbstract() {
+			return new AbsTree.GlobInit(ident, repIdent.toAbstract());
+		}
 	}
 	
 	public class RepIdentEps extends RepIdent {
@@ -309,6 +368,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<RepIdentEps/>\n";
 		}
+		public AbsTree.GlobInit toAbstract() { return null; }
 	}
 	
 	public class AuxGlobImpList {
@@ -325,6 +385,11 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxGlobImpList>\n";
 		}
+		
+		public AbsTree.GlobImp toAbstract() {
+			return globImpList.toAbstract();
+		}
+		
 	}
 	
 	public class AuxGlobImpListEps extends AuxGlobImpList {
@@ -335,6 +400,10 @@ interface ConcSyn {
 		
 		public String toString(String indent) {
 			return indent + "<AuxGlobImpListEps/>\n";
+		}
+		
+		public AbsTree.GlobImp toAbstract() {
+			return null;
 		}
 	}
 	
@@ -354,6 +423,10 @@ interface ConcSyn {
 					+ repGlobImp.toString(indent + '\t')
 					+ indent
 					+ "</GlobImpList>\n";
+		}
+		
+		public AbsTree.GlobImp toAbstract() {
+			return globImp.toAbstract(repGlobImp);
 		}
 	}
 	
@@ -377,6 +450,10 @@ interface ConcSyn {
 					+ indent
 					+ "</GlobImp>\n";
 		}
+		
+		public AbsTree.GlobImp toAbstract(RepGlobImp repGlobImp) {
+			return new AbsTree.GlobImp(auxFlowMode.toAbstract(), auxChangeMode.toAbstract(), ident, repGlobImp.toAbstract());
+		}
 	}
 	
 	public class RepGlobImp {
@@ -396,6 +473,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepGlobImp>\n";
 		}
+		
+		public AbsTree.GlobImp toAbstract() {
+			return globImp.toAbstract(repGlobImp);
+		}
 	}
 	
 	public class RepGlobImpEps extends RepGlobImp {
@@ -406,6 +487,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<RepGlobImpEps/>\n";
 		}
+		public AbsTree.GlobImp toAbstract() { return null; }
 	}
 	
 	public class AuxChangeMode {
@@ -421,6 +503,10 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxChangeMode>\n";
 		}
+		
+		public ChangeMode toAbstract() {
+			return changeMode;
+		}
 	}
 	
 	public class AuxChangeModeEps extends AuxChangeMode {
@@ -430,6 +516,10 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent
 					+ "<AuxChangeModeEps/>\n";
+		}
+		public ChangeMode toAbstract() {
+			// TODO: what is the standard ChangeMode?
+			return new ChangeMode(ModeAttribute.VAR);
 		}
 	}
 	
@@ -446,6 +536,10 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxLocCpsDecl>\n";
 		}
+		
+		public AbsTree.Decl toAbstract() {
+			return cpsDecl.toAbstract();
+		}
 	}
 	
 	public class AuxLocCpsDeclEps extends AuxLocCpsDecl {
@@ -455,6 +549,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<AuxLocCpsDeclEps/>\n";
 		}
+		public AbsTree.Decl toAbstract() { return null; }
 	}
 	
 	public class AuxFlowMode {
@@ -471,6 +566,8 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxFlowMode>\n";
 		}
+		
+		public FlowMode toAbstract() { return flowMode; }
 	}
 	
 	public class AuxFlowModeEps extends AuxFlowMode {
@@ -482,6 +579,8 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<AuxFlowModeEps/>\n";
 		}
+		
+		public FlowMode toAbstract() { return new FlowMode(ModeAttribute.IN); } // TODO: What is the default for FlowMode?
 	}
 	
 	public class AuxMechMode {
@@ -498,6 +597,8 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxMechMode>\n";
 		}
+		
+		public MechMode toAbstract() { return mechMode; }
 	}
 	
 	public class AuxMechModeEps extends AuxMechMode {
@@ -507,6 +608,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<AuxMechModeEps/>\n";
 		}
+		public MechMode toAbstract() { return new MechMode(ModeAttribute.REF); } // TODO: What is the default for MechMode?
 	}
 	
 	public class BlockCmd {
@@ -526,10 +628,15 @@ interface ConcSyn {
 					+ indent
 					+ "</BlockCmd>\n";
 		}
+		
+		public AbsTree.Cmd toAbstract() {
+			return cmd.toAbstract(repCmd);
+		}
 	}
 	
 	public abstract class Cmd {
 		public abstract String toString(String indent);
+		public abstract AbsTree.Cmd toAbstract(RepCmd repCmd);
 	}
 	
 	public class RepCmd {
@@ -549,6 +656,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepCmd>\n";
 		}
+		
+		public AbsTree.Cmd toAbstract() {
+			return cmd.toAbstract(repCmd);
+		}
 	}
 	
 	public class RepCmdEps extends RepCmd {
@@ -561,12 +672,17 @@ interface ConcSyn {
 			return indent + "<RepCmdEps/>\n";
 		}
 		
+		public AbsTree.Cmd toAbstract() { return null; }
 	}
 	
 	public class CmdSkip extends Cmd {
 
 		public String toString(String indent) {
 			return indent + "<CmdSkip/>\n";
+		}
+		
+		public AbsTree.CmdSkip toAbstract(RepCmd repCmd) {
+			return new AbsTree.CmdSkip(repCmd.toAbstract());
 		}
 	}
 	
@@ -586,6 +702,10 @@ interface ConcSyn {
 					+ auxExprCmd.toString(indent + '\t')
 					+ indent
 					+ "</CmdExpr>\n";
+		}
+		
+		public AbsTree.CmdAssi toAbstract(RepCmd repCmd) {
+			return new AbsTree.CmdAssi(expr.toAbstract(), auxExprCmd.toAbstract(), repCmd.toAbstract());
 		}
 	}
 	
@@ -609,6 +729,10 @@ interface ConcSyn {
 					+ indent
 					+ "</CmdCall>\n";
 		}
+		
+		public AbsTree.CmdProcCall toAbstract(RepCmd repCmd) {
+			return new AbsTree.CmdProcCall(new AbsTree.RoutineCall(ident, exprList.toAbstract()), auxGlobInitList.toAbstract(), repCmd.toAbstract());
+		}
 	}
 	
 	public class CmdWhile extends Cmd {
@@ -627,6 +751,10 @@ interface ConcSyn {
 					+ blockCmd.toString(indent + '\t')
 					+ indent
 					+ "</CmdWhile>\n";
+		}
+		
+		public AbsTree.CmdWhile toAbstract(RepCmd repCmd) {
+			return new AbsTree.CmdWhile(expr.toAbstract(), blockCmd.toAbstract(), repCmd.toAbstract());
 		}
 	}
 	
@@ -650,6 +778,10 @@ interface ConcSyn {
 					+ indent
 					+ "</CmdIf>\n";
 		}
+	    
+	    public AbsTree.CmdCond toAbstract(RepCmd repCmd) {
+	    	return new AbsTree.CmdCond(expr.toAbstract(), ifCmd.toAbstract(), elseCmd.toAbstract(), repCmd.toAbstract());
+	    }
 	}
 	
 	public class CmdQuest extends Cmd {
@@ -665,6 +797,10 @@ interface ConcSyn {
 					+ expr.toString(indent + '\t')
 					+ indent
 					+ "</CmdQuest>\n";
+		}
+		
+		public AbsTree.CmdInput toAbstract(RepCmd repCmd) {
+			return new AbsTree.CmdInput(expr.toAbstract(), repCmd.toAbstract());
 		}
 	}
 	
@@ -682,6 +818,10 @@ interface ConcSyn {
 					+ indent
 					+ "</CmdExcl>\n";
 		}
+		
+		public AbsTree.CmdOutput toAbstract(RepCmd repCmd) {
+			return new AbsTree.CmdOutput(expr.toAbstract(), repCmd.toAbstract());
+		}
 	}
 	
 	public class AuxGlobInitList {
@@ -698,6 +838,8 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxGlobInitList>\n";
 		}
+		
+		public AbsTree.GlobInit toAbstract() { return globInitList.toAbstract(); }
 	}
 	
 	public class AuxGlobInitListEps extends AuxGlobInitList {
@@ -709,6 +851,8 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<AuxGlobInitListEps/>\n";
 		}
+		
+		public AbsTree.GlobInit toAbstract() { return null; }
 	}
 	
 	public class GlobInitList {
@@ -728,6 +872,10 @@ interface ConcSyn {
 					+ indent
 					+ "</GlobInitList>\n";
 		}
+		
+		public AbsTree.GlobInit toAbstract() {
+			return new AbsTree.GlobInit(ident, repIdent.toAbstract());
+		}
 	}
 	
 	public class ExprList {
@@ -743,6 +891,10 @@ interface ConcSyn {
 					+ auxExprList.toString(indent + '\t')
 					+ indent
 					+ "</ExprList>\n";
+		}
+		
+		public AbsTree.ExprList toAbstract() {
+			return auxExprList.toAbstract();
 		}
 	}
 	
@@ -763,6 +915,10 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxExprList>\n";
 		}
+		
+		public AbsTree.ExprList toAbstract() {
+			return new AbsTree.ExprList(expr.toAbstract(), repExpr.toAbstract());
+		}
 	}
 	
 	public class AuxExprListEps extends AuxExprList {
@@ -772,10 +928,13 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<AuxExprListEps/>\n";
 		}
+		
+		public AbsTree.ExprList toAbstract() { return null; }
 	}
 	
 	public abstract  class AuxExprCmd {
 		public abstract String toString(String indent);
+		public abstract AbsTree.Expr toAbstract();
 	}
 	
 	public class AuxExprCmdBecomes extends AuxExprCmd {
@@ -792,12 +951,17 @@ interface ConcSyn {
 					+ indent
 					+ "</AuxExprCmdBecomes>\n";
 		}
+		
+		public AbsTree.Expr toAbstract() {
+			return expr.toAbstract();
+		}
 	}
 	
 	public class AuxExprCmdEps extends AuxExprCmd {
 		public String toString(String indent) {
 			return indent + "<AuxExprCmdEps/>\n";
 		}
+		public AbsTree.Expr toAbstract() { return null; }
 	}
 	
 	public class Expr {
@@ -816,6 +980,10 @@ interface ConcSyn {
 					+ repTerm1.toString(indent + '\t')
 					+ indent
 					+ "</Expr>\n";
+		}
+		
+		public AbsTree.Expr toAbstract() {
+			return repTerm1.toAbstract(term1.toAbstract());
 		}
 	}
 	
@@ -836,6 +1004,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepExpr>\n";
 		}
+		
+		public AbsTree.ExprList toAbstract() {
+			return new AbsTree.ExprList(expr.toAbstract(), repExpr.toAbstract());
+		}
 	}
 	
 	public class RepExprEps extends RepExpr {
@@ -845,6 +1017,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<RepExprEps/>\n";
 		}
+		public AbsTree.ExprList toAbstract() { return null; }
 	}
 	
 	public class Term1 {
@@ -863,6 +1036,10 @@ interface ConcSyn {
 					+ repTerm2.toString(indent + '\t')
 					+ indent
 					+ "</Term1>\n";
+		}
+		
+		public AbsTree.Expr toAbstract() {
+			return repTerm2.toAbstract(term2.toAbstract());
 		}
 	}
 	
@@ -886,6 +1063,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepTerm1>\n";
 		}
+		
+		public AbsTree.Expr toAbstract(AbsTree.Expr expr) {
+			return repTerm1.toAbstract(new AbsTree.ExprDyadic(boolOpr, expr, term1.toAbstract()));
+		}
 	}
 	
 	public class RepTerm1Eps extends RepTerm1 {
@@ -894,6 +1075,10 @@ interface ConcSyn {
 		}
 		public String toString(String indent) {
 			return indent + "<RepTerm1Eps/>\n";
+		}
+		
+		public AbsTree.Expr toAbstract(AbsTree.Expr expr) {
+			return expr;
 		}
 	}
 	
@@ -913,6 +1098,9 @@ interface ConcSyn {
 					+ repTerm3.toString(indent + '\t')
 					+ indent
 					+ "</Term2>\n";
+		}
+		public AbsTree.Expr toAbstract() {
+			return repTerm3.toAbstract(term3.toAbstract());
 		}
 	}
 	
@@ -936,6 +1124,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepTerm2>\n";
 		}
+		
+		public AbsTree.Expr toAbstract(AbsTree.Expr expr) {
+			return repTerm2.toAbstract(new AbsTree.ExprDyadic(relOpr, expr, term2.toAbstract()));
+		}
 	}
 	
 	public class RepTerm2Eps extends RepTerm2 {
@@ -944,6 +1136,9 @@ interface ConcSyn {
 		}
 		public String toString(String indent) {
 			return indent + "<RepTerm2Eps/>\n";
+		}
+		public AbsTree.Expr toAbstract(AbsTree.Expr expr) {
+			return expr;
 		}
 	}
 	
@@ -963,6 +1158,10 @@ interface ConcSyn {
 					+ repFactor.toString(indent + '\t')
 					+ indent
 					+ "</Term3>\n";
+		}
+		
+		public AbsTree.Expr toAbstract() {
+			return repFactor.toAbstract(factor.toAbstract());
 		}
 	}
 	
@@ -986,6 +1185,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepTerm3>\n";
 		}
+		
+		public AbsTree.Expr toAbstract(AbsTree.Expr expr) {
+			return repTerm3.toAbstract(new AbsTree.ExprDyadic(addOpr, expr, term3.toAbstract()));
+		}
 	}
 	
 	public class RepTerm3Eps extends RepTerm3 {
@@ -995,10 +1198,12 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<RepTerm3Eps/>\n";
 		}
+		public AbsTree.Expr toAbstract(AbsTree.Expr expr) { return expr; }
 	}
 	
 	public abstract class Factor {
 		public abstract String toString(String indent);
+		public abstract AbsTree.Expr toAbstract();
 	}
 	
 	public class RepFactor {
@@ -1021,6 +1226,10 @@ interface ConcSyn {
 					+ indent
 					+ "</RepFactor>\n";
 		}
+		
+		public AbsTree.Expr toAbstract(AbsTree.Expr expr) {
+			return repFactor.toAbstract(new AbsTree.ExprDyadic(multOpr, expr, factor.toAbstract()));
+		}
 	}
 	
 	public class RepFactorEps extends RepFactor {
@@ -1030,6 +1239,7 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<RepFactorEps/>\n";
 		}
+		public AbsTree.Expr toAbstract(AbsTree.Expr expr) { return expr; }
 	}
 	
 	public class FactorLiteral extends Factor {
@@ -1045,6 +1255,10 @@ interface ConcSyn {
 					+ literal.toString(indent + '\t')
 					+ indent
 					+ "</FactorLiteral>\n";
+		}
+		
+		public AbsTree.ExprLiteral toAbstract() {
+			return new AbsTree.ExprLiteral(literal);
 		}
 	}
 	
@@ -1065,6 +1279,10 @@ interface ConcSyn {
 					+ indent
 					+ "</FactorIdent>\n";
 		}
+		
+		public AbsTree.Expr toAbstract() {
+			return auxIdent.toAbstract(ident);
+		}
 	}
 	
 	public class FactorMonadicOpr extends Factor {
@@ -1084,6 +1302,10 @@ interface ConcSyn {
 					+ indent
 					+ "</FactorMonadicOpr>\n";
 		}
+		
+		public AbsTree.ExprMonadic toAbstract() {
+			return new AbsTree.ExprMonadic(monadicOpr.toAbstract(), factor.toAbstract());
+		}
 	}
 	
 	public class FactorExpr extends Factor {
@@ -1100,10 +1322,15 @@ interface ConcSyn {
 					+ indent
 					+ "</FactorExpr>\n";
 		}
+
+		public AbsTree.Expr toAbstract() {
+			return expr.toAbstract();
+		}
 	}
 	
 	public abstract class AuxIdent {
 		public abstract String toString(String indent);
+		public abstract AbsTree.Expr toAbstract(Ident ident);
 	}
 	
 	public class AuxIdentInit extends AuxIdent {
@@ -1111,24 +1338,29 @@ interface ConcSyn {
 		public String toString(String indent) {
 			return indent + "<AuxIdentInit/>\n";
 		}
+		
+		public AbsTree.ExprStore toAbstract(Ident ident) {
+			return new AbsTree.ExprStore(ident, true);
+		}
 	}
 	
 	public class AuxIdentExprList extends AuxIdent {
 		private final ExprList exprList;
-		private final AuxGlobInitList auxGlobInitList;
 
-		public AuxIdentExprList(ExprList exprList, AuxGlobInitList auxGlobInitList) {
+		public AuxIdentExprList(ExprList exprList) {
 			this.exprList = exprList;
-			this.auxGlobInitList = auxGlobInitList;
 		}
 
 		public String toString(String indent) {
 			return indent
 					+ "<AuxIdentExprList>\n"
 					+ exprList.toString(indent + '\t')
-					+ auxGlobInitList.toString(indent + '\t')
 					+ indent
 					+ "</AuxIdentExprList>\n";
+		}
+		
+		public AbsTree.ExprFunCall toAbstract(Ident ident) {
+			return new AbsTree.ExprFunCall(new AbsTree.RoutineCall(ident, exprList.toAbstract()));
 		}
 	}
 	
@@ -1136,6 +1368,10 @@ interface ConcSyn {
 
 		public String toString(String indent) {
 			return indent + "<AuxIdentEps/>\n";
+		}
+		
+		public AbsTree.ExprStore toAbstract(Ident ident) {
+			return new AbsTree.ExprStore(ident, false);
 		}
 	}
 	
@@ -1152,6 +1388,10 @@ interface ConcSyn {
 					+ operator.toString(indent + '\t')
 					+ indent
 					+ "</MonadicOpr>\n";
+		}
+		
+		public Operator toAbstract() {
+			return operator;
 		}
 	}
 }
