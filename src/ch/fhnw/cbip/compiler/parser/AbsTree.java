@@ -41,7 +41,7 @@ public interface AbsTree {
 		public String toString(String indent) {
 			return indent
 					+ "<Decl>\n"
-					+ (nextDecl != null?nextDecl.toString(indent + '\t'):indent+"<noNextElement/>\n")
+					+ (nextDecl != null?nextDecl.toString(indent + '\t'):indent+"\t<noNextElement/>\n")
 					+ indent
 					+ "</Decl>\n";
 		}
