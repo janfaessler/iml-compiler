@@ -29,6 +29,9 @@ public interface AbsTree {
 		public String toString() {
 			return toString("");
 		}
+		
+		public Decl getDeclerations()  { return decl; }
+		public Cmd getCommands() { return cmd; }
 	}
 	
 	public class Decl {
@@ -45,6 +48,8 @@ public interface AbsTree {
 					+ indent
 					+ "</Decl>\n";
 		}
+		
+		public Decl getNextDecl() { return nextDecl; }
 	}
 	
 	public class DeclFun extends Decl {
@@ -197,6 +202,8 @@ public interface AbsTree {
 					+ indent
 					+ "</Cmd>\n";
 		}
+	    
+	    public Cmd getNextCmd() { return nextCmd; }
 	}
 	
 	public class CmdSkip extends Cmd {
