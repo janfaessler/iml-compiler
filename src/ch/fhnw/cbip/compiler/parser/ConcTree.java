@@ -518,8 +518,7 @@ interface ConcTree {
 					+ "<AuxChangeModeEps/>\n";
 		}
 		public ChangeMode toAbstract() {
-			// TODO: what is the standard ChangeMode?
-			return new ChangeMode(ModeAttribute.VAR);
+			return new ChangeMode(ModeAttribute.CONST);
 		}
 	}
 	
@@ -580,7 +579,7 @@ interface ConcTree {
 			return indent + "<AuxFlowModeEps/>\n";
 		}
 		
-		public FlowMode toAbstract() { return new FlowMode(ModeAttribute.IN); } // TODO: What is the default for FlowMode?
+		public FlowMode toAbstract() { return new FlowMode(ModeAttribute.IN); }
 	}
 	
 	public class AuxMechMode {
@@ -608,7 +607,7 @@ interface ConcTree {
 		public String toString(String indent) {
 			return indent + "<AuxMechModeEps/>\n";
 		}
-		public MechMode toAbstract() { return new MechMode(ModeAttribute.REF); } // TODO: What is the default for MechMode?
+		public MechMode toAbstract() { return new MechMode(ModeAttribute.COPY); }
 	}
 	
 	public class BlockCmd {
