@@ -35,7 +35,6 @@ public class Machine {
 			} catch (ExecutionError e) {
 				e.printStackTrace();
 			}
-		
 	}
 	
 	public static void doLine(final String input) {
@@ -65,8 +64,6 @@ public class Machine {
 				case "FloatInv": vm.FloatInv(line); break;
 				case "LoadRel": vm.LoadRel(line, Integer.valueOf(cmd[1])); break;
 				case "Input": vm.IntInput(line, cmd[1]); break;
-				case "IntInput": vm.IntInput(line, cmd[1]); break;
-				case "IntOutput": vm.IntOutput(line, cmd[1]); break;
 				case "IntLoad": vm.IntLoad(line, Integer.valueOf(cmd[1])); break;
 				case "IntAdd": vm.IntAdd(line); break;
 				case "IntSub": vm.IntSub(line); break;
@@ -82,8 +79,8 @@ public class Machine {
 				case "IntInv": vm.IntInv(line); break;
 				case "Output": vm.IntOutput(line, cmd[1]); break;
 				case "Return": vm.Return(line, Integer.valueOf(cmd[1])); break;
-				case "Store": vm.Stop(line); break;
-				case "Stop": vm.Stop(line); break;
+				case "Store": vm.Store(line); break;
+				case "Stop":  vm.Stop(line); break;
 				case "UncondJump": vm.UncondJump(line, Integer.valueOf(cmd[1])); break;
 			}
 		} catch (IVirtualMachine.CodeTooSmallError e) {
