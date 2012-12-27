@@ -9,12 +9,12 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 public class CodeGenerator {
 	
-	Program tree;
-	Integer lineCounter = 0;
-	StringBuilder code = new StringBuilder();
-	HashMap<String,Integer> variables = new HashMap<String,Integer>();
-	ArrayList<Integer> cmdCounter = new ArrayList<Integer>();
-	boolean countingState = false;
+	private final Program tree;
+	private Integer lineCounter = 0;
+	private StringBuilder code = new StringBuilder();
+	private HashMap<String,Integer> variables = new HashMap<String,Integer>();
+	private ArrayList<Integer> cmdCounter = new ArrayList<Integer>();
+	private boolean countingState = false;
 	
 	public CodeGenerator(Program tree) {
 		this.tree = tree;
@@ -69,7 +69,7 @@ public class CodeGenerator {
 	}
 	
 	private void buildCommands(Cmd cmd) throws CodeGenerationError {
-		if (cmd instanceof CmdAssi) {}
+		if (cmd instanceof CmdAssi) buildCmdAssi((CmdAssi) cmd);
 		else if (cmd instanceof CmdCond) buildCmdCond((CmdCond) cmd);
 		else if (cmd instanceof CmdInput) buildCmdInput((CmdInput) cmd);
 		else if (cmd instanceof CmdOutput) buildCmdOutput((CmdOutput) cmd);
@@ -77,6 +77,20 @@ public class CodeGenerator {
 		else if (cmd instanceof CmdSkip) buildCmdSkip((CmdSkip) cmd);
 		else if (cmd instanceof CmdWhile) buildCmdWhile((CmdWhile) cmd);
 		else throw new CodeGenerationError("unknown Command");
+	}
+	
+	private void buildCmdAssi(CmdAssi cmd) throws CodeGenerationError {
+		if (cmd.getTargetExpr() instanceof ExprStore) {
+			// resolve the source expression
+			resolveExpression(cmd.getSourceExpr());
+			
+			// get the address for the target variable
+			String variableName = ((ExprStore) cmd.getTargetExpr()).getIdent().getName();
+			addLine("IntLoad", variables.get(variableName));
+			
+			// store the source in the target variable
+			addLine("Store");
+		} else throw new CodeGenerationError("wrong target expression for Cmd Assi");
 	}
 	
 	private void buildCmdCond(CmdCond cmd) throws CodeGenerationError {
@@ -224,6 +238,7 @@ public class CodeGenerator {
 		else if (expr instanceof ExprStore) {
 			ExprStore e = (ExprStore) expr;			
 			addLine("IntLoad", variables.get(e.getIdent().getName()));
+			addLine("Deref");
 		}
 		else throw new CodeGenerationError("unknown expression");
 	}
@@ -266,10 +281,10 @@ public class CodeGenerator {
 	}
 	
 	private Integer stopCountingState() {
-		countingState = false;
 		Integer result = cmdCounter.get(cmdCounter.size() - 1);
 		cmdCounter.remove(cmdCounter.size() - 1);
 		if (cmdCounter.size() > 0) cmdCounter.set(cmdCounter.size() - 1, cmdCounter.get(cmdCounter.size() - 1) + result);
+		else countingState = false;
 		return result;
 	}
 	
