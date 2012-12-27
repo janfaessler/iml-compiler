@@ -281,70 +281,110 @@ public class CodeGenerator {
 	 * @throws GenerationError
 	 */
 	private void resolveExpression(Expr expr) throws GenerationError {
-		if (expr instanceof ExprDyadic) {
-			ExprDyadic e = (ExprDyadic) expr;
-			if (e.getOperator().getTerminal() == Terminal.BOOLOPR) {
-				
-				// resolve expression 1
-				resolveExpression(e.getExpr1());
-				
-				// count the commands for expression 2
-				startCountingState();
-				resolveExpression(e.getExpr2());
-				Integer cmdCount = stopCountingState();
-				
-				// jump if expression 1 is false
-				addLine("CondJump", lineCounter + cmdCount + 1);
-				
-				// resolve expression 2
-				resolveExpression(e.getExpr2());
-				
-			} else if (e.getOperator().getTerminal() == Terminal.ADDOPR || 
-					   e.getOperator().getTerminal() == Terminal.MULTOPR ||
-					   e.getOperator().getTerminal() == Terminal.RELOPR) {
-				
-				resolveExpression(e.getExpr1());
-				resolveExpression(e.getExpr2());
-				
-				switch (String.valueOf(e.getOperator().getAttribute())) {
-					case "PLUS": addLine("IntPlus"); break;
-					case "MINUS": addLine("IntMinus"); break;
-					case "TIMES": addLine("IntMult"); break;
-					case "DIV": addLine("IntDiv"); break;
-					case "MOD": addLine("IntMod"); break;
-					default: addLine("Int" + e.getOperator().getAttribute()); break;
-				}
-			} 
-			else throw new GenerationError("unknown terminal for a Dyadic Expression");
-		}
-		else if (expr instanceof ExprFunCall) {
-			ExprFunCall e = (ExprFunCall) expr;
-			addLine("Alloc", 1);
-			ExprList currentList = e.getRoutineCall().getExprList();
-			while (currentList != null) {
-				resolveExpression(currentList.getExpr());
-				currentList = currentList.getExprList();
+		
+		// handles bool operations, relative operations and maths
+		if (expr instanceof ExprDyadic) resolveExprDyadic((ExprDyadic) expr);
+		
+		// calls a function
+		else if (expr instanceof ExprFunCall) resolveExprFunCall((ExprFunCall) expr);
+		
+		// loads a literal
+		else if (expr instanceof ExprLiteral) resolveExprLiteral((ExprLiteral) expr); 
+		
+		// inverts the value of a expression
+		else if (expr instanceof ExprMonadic) resolveExprMonadic((ExprMonadic) expr);
+		
+		// loads a variable from the store
+		else if (expr instanceof ExprStore) resolveExprStore((ExprStore) expr);
+		
+		else throw new GenerationError("unknown expression");
+	}
+	
+	/**
+	 * This handles bool operations, relative operations and maths
+	 * @param ExprDyadic from the AbstractTree
+	 * @throws GenerationError
+	 */
+	private void resolveExprDyadic(ExprDyadic e) throws GenerationError {
+		if (e.getOperator().getTerminal() == Terminal.BOOLOPR) {
+			
+			// resolve expression 1
+			resolveExpression(e.getExpr1());
+			
+			// count the commands for expression 2
+			startCountingState();
+			resolveExpression(e.getExpr2());
+			Integer cmdCount = stopCountingState();
+			
+			// jump if expression 1 is false
+			addLine("CondJump", lineCounter + cmdCount + 1);
+			
+			// resolve expression 2
+			resolveExpression(e.getExpr2());
+			
+		} else if (e.getOperator().getTerminal() == Terminal.ADDOPR || 
+				   e.getOperator().getTerminal() == Terminal.MULTOPR ||
+				   e.getOperator().getTerminal() == Terminal.RELOPR) {
+			
+			resolveExpression(e.getExpr1());
+			resolveExpression(e.getExpr2());
+			
+			switch (String.valueOf(e.getOperator().getAttribute())) {
+				case "PLUS": addLine("IntPlus"); break;
+				case "MINUS": addLine("IntMinus"); break;
+				case "TIMES": addLine("IntMult"); break;
+				case "DIV": addLine("IntDiv"); break;
+				case "MOD": addLine("IntMod"); break;
+				default: addLine("Int" + e.getOperator().getAttribute()); break;
 			}
-			addLine("Call", getCallReplacement(e.getRoutineCall().getIdent().getName()));
 		} 
-		else if (expr instanceof ExprLiteral) {
-			ExprLiteral e = (ExprLiteral) expr;
-			addLine("IntLoad", e.getLiteral().getIntVal());
-		} 
-		else if (expr instanceof ExprMonadic) {
-			ExprMonadic e = (ExprMonadic) expr;
-			if (e.getOperator().getTerminal() == Terminal.NOT ||
-			    (e.getOperator().getTerminal() == Terminal.ADDOPR && e.getOperator().getAttribute() == OperatorAttribute.MINUS)) {
+		else throw new GenerationError("unknown terminal for a Dyadic Expression");
+	}
+	
+	/**
+	 * this calls a function
+	 * @param ExprFunCall from the AbstractTree
+	 * @throws GenerationError
+	 */
+	private void resolveExprFunCall(ExprFunCall e) throws GenerationError {
+		addLine("Alloc", 1);
+		ExprList currentList = e.getRoutineCall().getExprList();
+		while (currentList != null) {
+			resolveExpression(currentList.getExpr());
+			currentList = currentList.getExprList();
+		}
+		addLine("Call", getCallReplacement(e.getRoutineCall().getIdent().getName()));
+	}
+	
+	/**
+	 * This loads a literal
+	 * @param ExprLiteral from the AbstractTree
+	 */
+	private void resolveExprLiteral(ExprLiteral e) {
+		addLine("IntLoad", e.getLiteral().getIntVal());
+	}
+	
+	/**
+	 * This inverts the value of a expression
+	 * @param ExprMonadic from the AbstractTree
+	 * @throws GenerationError
+	 */
+	private void resolveExprMonadic(ExprMonadic e) throws GenerationError {
+		if (e.getOperator().getTerminal() == Terminal.NOT ||
+		    (e.getOperator().getTerminal() == Terminal.ADDOPR && 
+		    e.getOperator().getAttribute() == OperatorAttribute.MINUS)) {
 				resolveExpression(e.getExpr());
 				addLine("IntInv");
-			} else throw new GenerationError("unknown prefix for a monadic expression");
-		} 
-		else if (expr instanceof ExprStore) {
-			ExprStore e = (ExprStore) expr;			
-			addLine("IntLoad", variables.get(e.getIdent().getName()));
-			addLine("Deref");
-		}
-		else throw new GenerationError("unknown expression");
+		} else throw new GenerationError("unknown prefix for a monadic expression");
+	}
+	
+	/**
+	 * This loads a variable from the store
+	 * @param ExprStore from the AbstractTree
+	 */
+	private void resolveExprStore(ExprStore e) {
+		addLine("IntLoad", variables.get(e.getIdent().getName()));
+		addLine("Deref");
 	}
 
 	private void buildDeclFun(Decl dcl) {
