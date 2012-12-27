@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ch.fhnw.cbip.compiler.error.CodeGenerationError;
-import ch.fhnw.cbip.compiler.parser.AbsTree.ExprDyadic;
-import ch.fhnw.cbip.compiler.parser.AbsTree.ExprStore;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
@@ -70,13 +68,45 @@ public class CodeGenerator {
 	
 	private void buildCommands(Cmd cmd) throws CodeGenerationError {
 		if (cmd instanceof CmdAssi) {}
-		else if (cmd instanceof CmdCond) {} // TODO: CmdCond
+		else if (cmd instanceof CmdCond) buildCmdCond((CmdCond) cmd);
 		else if (cmd instanceof CmdInput) buildCmdInput((CmdInput) cmd);
 		else if (cmd instanceof CmdOutput) buildCmdOutput((CmdOutput) cmd);
 		else if (cmd instanceof CmdProcCall) {} // TODO: CmdProcCall
 		else if (cmd instanceof CmdSkip) {} // TODO: CmdSkip
 		else if (cmd instanceof CmdWhile) buildCmdWhile((CmdWhile) cmd);
 		else throw new CodeGenerationError("unknown Command");
+	}
+	
+	private void buildCmdCond(CmdCond cmd) throws CodeGenerationError {
+		
+		// count the commands from the if part
+		startCountingState();
+		Cmd currentCmd = cmd.getIfCmd();
+		while (currentCmd != null) {
+			buildCommands(currentCmd);
+			currentCmd = currentCmd.getNextCmd();
+		}
+		Integer cmdIfCount = stopCountingState();
+		
+		// count the commands from the else part
+		startCountingState();
+		currentCmd = cmd.getElseCmd();
+		while (currentCmd != null) {
+			buildCommands(currentCmd);
+			currentCmd = currentCmd.getNextCmd();
+		}
+		Integer cmdElseCount = stopCountingState();
+		
+		// jump to the else part when the expression is false
+		resolveExpression(cmd.getExpr());
+		addLine("CondJump", lineCounter + cmdIfCount + 2);
+		
+		// build if commands
+		buildCommands(cmd.getIfCmd());
+		addLine("UncondJump", lineCounter + cmdElseCount + 1);
+		
+		// build else commands
+		buildCommands(cmd.getElseCmd());
 	}
 	
 	private void buildCmdInput(CmdInput cmd) {
@@ -111,7 +141,7 @@ public class CodeGenerator {
 		
 		// jump out of the wile when the expression is false
 		resolveExpression(cmd.getExpr());
-		addLine("CondJump", cmdCount);
+		addLine("CondJump", lineCounter + cmdCount + 1);
 		
 		// build the commands
 		currentCmd = cmd.getCmd();
@@ -135,7 +165,7 @@ public class CodeGenerator {
 				Integer cmdCount = stopCountingState();
 				
 				// jump if expression 1 is false
-				addLine("CondJump", cmdCount);
+				addLine("CondJump", lineCounter + cmdCount + 1);
 				
 				// resolve expression 2
 				resolveExpression(e.getExpr2());
