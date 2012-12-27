@@ -1,5 +1,6 @@
 package ch.fhnw.cbip.compiler.generator;
 
+import ch.fhnw.cbip.compiler.error.CodeGenerationError;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
 
 public class CodeGenerator {
@@ -12,19 +13,23 @@ public class CodeGenerator {
 		this.tree = tree;
 	}
 	
-	public String generate() {
-		
-		addLine("Alloc", "1");
-		
+	public String generate() throws CodeGenerationError {
+
 		Decl decleration = tree.getDeclerations();
 		Cmd commands = tree.getCommands();
 
 		// do store declerations
+		int storeCount = 0;
 		Decl currentDecl = decleration;
 		while (currentDecl != null) {
-			if (decleration instanceof DeclStore) code.append(buildDeclStore(decleration));
+			if (decleration instanceof DeclStore) {
+				((DeclStore) decleration)
+				storeCount++;
+			}
 			currentDecl = currentDecl.getNextDecl();
 		}
+		
+		addLine("Alloc", String.valueOf(storeCount));
 		
 		// do commands
 		Cmd currentCmd = commands;
@@ -38,40 +43,48 @@ public class CodeGenerator {
 		// do fun declerations
 		currentDecl = decleration;
 		while (currentDecl != null) {
-			if (decleration instanceof DeclFun) code.append(buildDeclFun(decleration));
+			if (decleration instanceof DeclFun) buildDeclFun(decleration);
 			currentDecl = currentDecl.getNextDecl();
 		}
 		
 		// do proc declerations
 		currentDecl = decleration;
 		while (currentDecl != null) {
-			if (decleration instanceof DeclProc) code.append(buildDeclProc(decleration));
+			if (decleration instanceof DeclProc) buildDeclProc(decleration);
 			currentDecl = currentDecl.getNextDecl();
 		}
 		
 		return code.toString();
 	}
 	
-	private String buildDeclStore(Decl dcl) {
+	private void buildCommands(Cmd cmd) throws CodeGenerationError {
+		if (cmd instanceof CmdAssi) {}
+		else if (cmd instanceof CmdCond) {}
+		else if (cmd instanceof CmdInput) {}
+		else if (cmd instanceof CmdOutput) {}
+		else if (cmd instanceof CmdProcCall) {}
+		else if (cmd instanceof CmdSkip) {}
+		else if (cmd instanceof CmdWhile) {}
+		else throw new CodeGenerationError("unknown Command");
+	}
+	
+	private void buildCmdInput() {
+		
+	}
+	
+	
+	private void buildDeclStore(Decl dcl) {
 		// TODO: store decleration
-		return null;
 	}
 	
-	private String buildDeclFun(Decl dcl) {
+	private void buildDeclFun(Decl dcl) {
 		// TODO: fun decleration
-		return null;
 	}
 	
-	private String buildDeclProc(Decl dcl) {
+	private void buildDeclProc(Decl dcl) {
 		// TODO: proc decleration
-		return null;
 	}
-	
-	private String buildCommands(Cmd cmd) {
-		// TODO: commands
-		return null;
-	}
-	
+
 	private void addLine(String cmd) {
 		addLine(cmd, "");
 	}
