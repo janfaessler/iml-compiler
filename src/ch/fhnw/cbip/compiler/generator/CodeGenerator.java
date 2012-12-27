@@ -63,6 +63,8 @@ public class CodeGenerator {
 			currentDecl = currentDecl.getNextDecl();
 		}
 		
+		// TODO: replace routine call addresses
+		
 		return code.toString();
 	}
 	
@@ -71,8 +73,8 @@ public class CodeGenerator {
 		else if (cmd instanceof CmdCond) buildCmdCond((CmdCond) cmd);
 		else if (cmd instanceof CmdInput) buildCmdInput((CmdInput) cmd);
 		else if (cmd instanceof CmdOutput) buildCmdOutput((CmdOutput) cmd);
-		else if (cmd instanceof CmdProcCall) {} // TODO: CmdProcCall
-		else if (cmd instanceof CmdSkip) {} // TODO: CmdSkip
+		else if (cmd instanceof CmdProcCall) buildCmdProcCall((CmdProcCall) cmd);
+		else if (cmd instanceof CmdSkip) buildCmdSkip((CmdSkip) cmd);
 		else if (cmd instanceof CmdWhile) buildCmdWhile((CmdWhile) cmd);
 		else throw new CodeGenerationError("unknown Command");
 	}
@@ -126,6 +128,20 @@ public class CodeGenerator {
 		addLine("IntLoad", variables.get(variableName));
 		addLine("Deref");
 		addLine("IntOutput", variableName);
+	}
+	
+	private void buildCmdProcCall(CmdProcCall cmd) throws CodeGenerationError {
+		addLine("Alloc", 0);
+		ExprList currentList = cmd.getRoutineCall().getExprList();
+		while (currentList != null) {
+			resolveExpression(currentList.getExpr());
+			currentList = currentList.getExprList();
+		}
+		addLine("Call", getCallReplacement(cmd.getRoutineCall().getIdent().getName()));
+	}
+	
+	private void buildCmdSkip(CmdSkip cmd) {
+		addLine("UncondJump", lineCounter + 1);
 	}
 	
 	private void buildCmdWhile(CmdWhile cmd) throws CodeGenerationError {
@@ -211,12 +227,7 @@ public class CodeGenerator {
 		}
 		else throw new CodeGenerationError("unknown expression");
 	}
-	
-	
-	private void buildDeclStore(Decl dcl) {
-		// TODO: store decleration
-	}
-	
+
 	private void buildDeclFun(Decl dcl) {
 		// TODO: fun decleration
 	}
