@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import ch.fhnw.cbip.compiler.error.GenerationError;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
+import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 /**
@@ -331,7 +332,12 @@ public class CodeGenerator {
 			addLine("IntLoad", e.getLiteral().getIntVal());
 		} 
 		else if (expr instanceof ExprMonadic) {
-			// TODO: ExprMonadic
+			ExprMonadic e = (ExprMonadic) expr;
+			if (e.getOperator().getTerminal() == Terminal.NOT ||
+			    (e.getOperator().getTerminal() == Terminal.ADDOPR && e.getOperator().getAttribute() == OperatorAttribute.MINUS)) {
+				resolveExpression(e.getExpr());
+				addLine("IntInv");
+			} else throw new GenerationError("unknown prefix for a monadic expression");
 		} 
 		else if (expr instanceof ExprStore) {
 			ExprStore e = (ExprStore) expr;			
