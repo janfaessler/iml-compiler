@@ -25,10 +25,10 @@ public class CodeGeneratorTest {
     
     @Test
     public void countingStateTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
-        Method mStartCountingState = CodeGenerator.class.getDeclaredMethod("startCountingState", null);
+        Method mStartCountingState = CodeGenerator.class.getDeclaredMethod("startCountingState");
         mStartCountingState.setAccessible(true);
         
-        Method mStopCountingState = CodeGenerator.class.getDeclaredMethod("stopCountingState", null);
+        Method mStopCountingState = CodeGenerator.class.getDeclaredMethod("stopCountingState");
         mStopCountingState.setAccessible(true);
         
         Method mAddLine = CodeGenerator.class.getDeclaredMethod("addLine", String.class, String.class);
