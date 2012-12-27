@@ -32,6 +32,7 @@ public interface AbsTree {
 		
 		public Decl getDeclarations()  { return decl; }
 		public Cmd getCommands() { return cmd; }
+		public Ident getIdent() { return ident;}
 	}
 	
 	public class Decl {
@@ -83,6 +84,13 @@ public interface AbsTree {
 					+ indent
 					+ "</DeclFun>\n";
 		}
+		
+		public Cmd getCmd() { return cmd;}
+		public Ident getIdent() {return ident;}
+		public Decl getcpsDecl() { return cpsDecl;}
+		public Param getParam() { return param;}
+		public GlobImp getGlobImp() { return globImp;}
+		public DeclStore getReturnDecl() { return returnDecl;}
 	}
 	
 	public class DeclProc extends Decl {
@@ -113,6 +121,12 @@ public interface AbsTree {
 					+ indent
 					+ "</DeclProc>\n";
 		}
+		
+		public Ident getIdent() { return ident;}
+		public Param getParam() { return param;}
+		public GlobImp getGlobImp() { return globImp;}
+		public Decl getDecl() { return decl;}
+		public Cmd getCmd() { return cmd;}
 	}
 	
 	public class DeclStore extends Decl {
@@ -137,6 +151,19 @@ public interface AbsTree {
 					+ indent
 					+ "</DeclStore>\n";
 		}
+
+        public ChangeMode getChangeMode() {
+            return changeMode;
+        }
+
+        public Ident getIdent() {
+            return ident;
+        }
+
+        public Type getType() {
+            return type;
+        }
+		
 	}
 	
 	public class Param {
@@ -162,6 +189,22 @@ public interface AbsTree {
 					+ indent
 					+ "</Param>\n";
 		}
+
+        public FlowMode getFlowMode() {
+            return flowMode;
+        }
+
+        public MechMode getMechMode() {
+            return mechMode;
+        }
+
+        public DeclStore getStoreDecl() {
+            return storeDecl;
+        }
+
+        public Param getNextParam() {
+            return nextParam;
+        }
 	}
 	
 	public class GlobImp {
@@ -187,6 +230,22 @@ public interface AbsTree {
 					+ indent
 					+ "</GlobImp>\n";
 		}
+
+        public FlowMode getFlowMode() {
+            return flowMode;
+        }
+
+        public ChangeMode getChangeMode() {
+            return changeMode;
+        }
+
+        public Ident getIdent() {
+            return ident;
+        }
+
+        public GlobImp getNextGlobImp() {
+            return nextGlobImp;
+        }
 	}
 	
 	
@@ -240,6 +299,14 @@ public interface AbsTree {
 					+ indent
 					+ "</CmdAssi>\n";
 		}
+
+        public Expr getTargetExpr() {
+            return targetExpr;
+        }
+
+        public Expr getSourceExpr() {
+            return sourceExpr;
+        }
 	}
 	
 	public class CmdCond extends Cmd {
@@ -264,6 +331,18 @@ public interface AbsTree {
 					+ indent
 					+ "</CmdCond>\n";
 		}
+
+        public Expr getExpr() {
+            return expr;
+        }
+
+        public Cmd getIfCmd() {
+            return ifCmd;
+        }
+
+        public Cmd getElseCmd() {
+            return elseCmd;
+        }
 	}
 	
 	public class CmdWhile extends Cmd {
@@ -285,6 +364,14 @@ public interface AbsTree {
 					+ indent
 					+ "</CmdWhile>\n";
 		}
+
+        public Expr getExpr() {
+            return expr;
+        }
+
+        public Cmd getCmd() {
+            return cmd;
+        }
 	}
 	
 	public class CmdProcCall extends Cmd {
@@ -307,6 +394,14 @@ public interface AbsTree {
 					+ indent
 					+ "</ExprCall>\n";
 		}
+
+        public RoutineCall getRoutineCall() {
+            return routineCall;
+        }
+
+        public GlobInit getGlobInit() {
+            return globInit;
+        }
 	}
 	
 	public class CmdInput extends Cmd {
@@ -325,6 +420,10 @@ public interface AbsTree {
 					+ indent
 					+ "</CmdInput>\n";
 		}
+
+        public Expr getExpr() {
+            return expr;
+        }
 	}
 	
 	public class CmdOutput extends Cmd {
@@ -343,6 +442,10 @@ public interface AbsTree {
 					+ indent
 					+ "</CmdOutput>\n";
 		}
+
+        public Expr getExpr() {
+            return expr;
+        }
 	}
 	
 	public abstract class Expr {
@@ -363,6 +466,10 @@ public interface AbsTree {
 					+ indent
 					+ "</ExprLiteral>\n";
 		}
+
+        public Literal getLiteral() {
+            return literal;
+        }
 	}
 	
 	public class ExprStore extends Expr {
@@ -383,6 +490,14 @@ public interface AbsTree {
 					+ indent
 					+ "</ExprStore>\n";
 		}
+
+        public Ident getIdent() {
+            return ident;
+        }
+
+        public boolean isInit() {
+            return isInit;
+        }
 	}
 	
 	public class ExprFunCall extends Expr {
@@ -400,6 +515,10 @@ public interface AbsTree {
 					+ indent
 					+ "</ExprCall>\n";
 		}
+
+        public RoutineCall getRoutineCall() {
+            return routineCall;
+        }
 	}
 	
 	public class ExprMonadic extends Expr {
@@ -419,6 +538,14 @@ public interface AbsTree {
 					+ indent
 					+ "</ExprMonadic>\n";
 		}
+
+        public Operator getOperator() {
+            return operator;
+        }
+
+        public Expr getExpr() {
+            return expr;
+        }
 	}
 	
 	public final class ExprDyadic extends Expr {
@@ -441,6 +568,18 @@ public interface AbsTree {
 					+ indent
 					+ "</ExprDyadic>\n";
 		}
+
+        public Operator getOperator() {
+            return operator;
+        }
+
+        public Expr getExpr1() {
+            return expr1;
+        }
+
+        public Expr getExpr2() {
+            return expr2;
+        }
 	}
 	
 	public class RoutineCall {
@@ -460,6 +599,14 @@ public interface AbsTree {
 					+ indent
 					+ "</RoutineCall>\n";
 		}
+
+        public Ident getIdent() {
+            return ident;
+        }
+
+        public ExprList getExprList() {
+            return exprList;
+        }
 		
 	}
 	
@@ -480,6 +627,14 @@ public interface AbsTree {
 					+ indent
 					+ "</ExprList>\n";
 		}
+
+        public Expr getExpr() {
+            return expr;
+        }
+
+        public ExprList getExprList() {
+            return exprList;
+        }
 	}
 	
 	public final class GlobInit {
@@ -500,6 +655,14 @@ public interface AbsTree {
 					+ indent
 					+ "</GlobInit>\n";
 		}
+
+        public Ident getIdent() {
+            return ident;
+        }
+
+        public GlobInit getGlobInit() {
+            return globInit;
+        }
 	}
 
 }
