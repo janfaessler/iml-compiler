@@ -39,7 +39,7 @@ public class CodeGenerator {
 			currentDecl = currentDecl.getNextDecl();
 		}
 		
-		addLine("Alloc", String.valueOf(storeCount));
+		addLine("Alloc", storeCount);
 		
 		// do commands
 		Cmd currentCmd = commands;
@@ -84,7 +84,7 @@ public class CodeGenerator {
 		ExprStore expr = (ExprStore) cmd.getExpr();
 		String variableName = expr.getIdent().getName();
 		
-		addLine("IntLoad", String.valueOf(variables.get(variableName)));
+		addLine("IntLoad", variables.get(variableName));
 		addLine("IntInput", variableName);
 	}
 	
@@ -93,7 +93,7 @@ public class CodeGenerator {
 		ExprStore expr = (ExprStore) cmd.getExpr();
 		String variableName = expr.getIdent().getName();
 		
-		addLine("IntLoad", String.valueOf(variables.get(variableName)));
+		addLine("IntLoad", variables.get(variableName));
 		addLine("Deref");
 		addLine("IntOutput", variableName);
 	}
@@ -110,8 +110,8 @@ public class CodeGenerator {
 		Integer cmdCount = stopCountingState();
 		
 		// jump out of the wile when the expression is false
-		resolveBoolExpression(cmd.getExpr());
-		addLine("CondJump", String.valueOf(cmdCount));
+		resolveExpression(cmd.getExpr());
+		addLine("CondJump", cmdCount);
 		
 		// build the commands
 		currentCmd = cmd.getCmd();
@@ -121,27 +121,64 @@ public class CodeGenerator {
 		}
 	}
 	
-	private void resolveBoolExpression(Expr expr) throws CodeGenerationError {
+	private void resolveExpression(Expr expr) throws CodeGenerationError {
 		if (expr instanceof ExprDyadic) {
 			ExprDyadic e = (ExprDyadic) expr;
 			if (e.getOperator().getTerminal() == Terminal.BOOLOPR) {
-				resolveBoolExpression(e.getExpr1());
 				
+				// resolve expression 1
+				resolveExpression(e.getExpr1());
 				
+				// count the commands for expression 2
 				startCountingState();
-				resolveBoolExpression(e.getExpr2());
+				resolveExpression(e.getExpr2());
 				Integer cmdCount = stopCountingState();
-				addLine("CondJump", String.valueOf(cmdCount));
 				
-				resolveBoolExpression(e.getExpr2());
-			} else if (e.getOperator().getTerminal() == Terminal.RELOPR) {
+				// jump if expression 1 is false
+				addLine("CondJump", cmdCount);
 				
-			} else throw new CodeGenerationError("unknown terminal for a Dyadic Expr");
+				// resolve expression 2
+				resolveExpression(e.getExpr2());
+				
+			} else if (e.getOperator().getTerminal() == Terminal.ADDOPR || 
+					   e.getOperator().getTerminal() == Terminal.MULTOPR ||
+					   e.getOperator().getTerminal() == Terminal.RELOPR) {
+				
+				resolveExpression(e.getExpr1());
+				resolveExpression(e.getExpr2());
+				
+				switch (String.valueOf(e.getOperator().getAttribute())) {
+					case "PLUS": addLine("IntPlus"); break;
+					case "MINUS": addLine("IntMinus"); break;
+					case "TIMES": addLine("IntMult"); break;
+					case "DIV": addLine("IntDiv"); break;
+					case "MOD": addLine("IntMod"); break;
+					default: addLine("Int" + e.getOperator().getAttribute()); break;
+				}
+			} 
+			else throw new CodeGenerationError("unknown terminal for a Dyadic Expression");
 		}
-		else if (expr instanceof ExprFunCall) {} // TODO: ExprFunCall
-		else if (expr instanceof ExprLiteral) {} // TODO: ExprLiteral
-		else if (expr instanceof ExprMonadic) {} // TODO: ExprMonadic
-		else if (expr instanceof ExprStore) {} // TODO: ExprStore
+		else if (expr instanceof ExprFunCall) {
+			ExprFunCall e = (ExprFunCall) expr;
+			addLine("Alloc", 1);
+			ExprList currentList = e.getRoutineCall().getExprList();
+			while (currentList != null) {
+				resolveExpression(currentList.getExpr());
+				currentList = currentList.getExprList();
+			}
+			addLine("Call", getCallReplacement(e.getRoutineCall().getIdent().getName()));
+		} 
+		else if (expr instanceof ExprLiteral) {
+			ExprLiteral e = (ExprLiteral) expr;
+			addLine("IntLoad", e.getLiteral().getIntVal());
+		} 
+		else if (expr instanceof ExprMonadic) {
+			// TODO: ExprMonadic
+		} 
+		else if (expr instanceof ExprStore) {
+			ExprStore e = (ExprStore) expr;			
+			addLine("IntLoad", variables.get(e.getIdent().getName()));
+		}
 		else throw new CodeGenerationError("unknown expression");
 	}
 	
@@ -160,6 +197,10 @@ public class CodeGenerator {
 
 	private void addLine(String cmd) {
 		addLine(cmd, "");
+	}
+	
+	private void addLine(String cmd, Integer param) {
+		addLine(cmd, String.valueOf(param));
 	}
 	
 	private void addLine(String cmd, String params) {
@@ -190,4 +231,6 @@ public class CodeGenerator {
 		if (cmdCounter.size() > 0) cmdCounter.set(cmdCounter.size() - 1, cmdCounter.get(cmdCounter.size() - 1) + result);
 		return result;
 	}
+	
+	private String getCallReplacement(String name) { return ">>" + name + "<<"; }
 }
