@@ -63,7 +63,8 @@ public class Machine {
 				case "Enter": vm.Enter(line, Integer.valueOf(cmd[1]), Integer.valueOf(cmd[2])); break;
 				case "FloatInv": vm.FloatInv(line); break;
 				case "LoadRel": vm.LoadRel(line, Integer.valueOf(cmd[1])); break;
-				case "Input": vm.IntInput(line, cmd[1]); break;
+				case "IntInput": vm.IntInput(line, cmd[1]); break;
+				case "IntOutput": vm.IntOutput(line, cmd[1]); break;
 				case "IntLoad": vm.IntLoad(line, Integer.valueOf(cmd[1])); break;
 				case "IntAdd": vm.IntAdd(line); break;
 				case "IntSub": vm.IntSub(line); break;
@@ -77,7 +78,6 @@ public class Machine {
 				case "IntGT": vm.IntGT(line); break;
 				case "IntGE": vm.IntGE(line); break;
 				case "IntInv": vm.IntInv(line); break;
-				case "Output": vm.IntOutput(line, cmd[1]); break;
 				case "Return": vm.Return(line, Integer.valueOf(cmd[1])); break;
 				case "Store": vm.Store(line); break;
 				case "Stop":  vm.Stop(line); break;
