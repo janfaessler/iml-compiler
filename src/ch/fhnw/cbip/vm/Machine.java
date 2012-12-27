@@ -54,20 +54,37 @@ public class Machine {
 		try {
 			switch (cmd[0]) {
 				case "Alloc": vm.Alloc(line, Integer.valueOf(cmd[1])); break;
-				case "IntLoad": vm.IntLoad(line, Integer.valueOf(cmd[1])); break;
-				case "Input": vm.IntInput(line, cmd[1]); break;
-				case "Deref": vm.Deref(line); break;
-				case "IntAdd": vm.IntAdd(line); break;
-				case "Store": vm.Stop(line); break;
+				case "BoolInput": vm.BoolInput(line, cmd[1]); break;
+				case "BoolOutput": vm.BoolOutput(line, cmd[1]); break;
 				case "Call": vm.Call(line, Integer.valueOf(cmd[1])); break;
-				case "Output": vm.IntOutput(line, cmd[1]); break;
-				case "Stop": vm.Stop(line); break;
-				case "Enter": vm.Enter(line, Integer.valueOf(cmd[1]), 0); break;
-				case "LoadRel": vm.LoadRel(line, Integer.valueOf(cmd[1])); break;
-				case "Return": vm.Return(line, Integer.valueOf(cmd[1])); break;
 				case "CondJump": vm.CondJump(line, Integer.valueOf(cmd[1])); break;
+				case "CopyIn": vm.CopyIn(line, Integer.valueOf(cmd[1]), Integer.valueOf(cmd[2])); break;
+				case "CopyOut": vm.CopyOut(line, Integer.valueOf(cmd[1]), Integer.valueOf(cmd[2])); break;
+				case "Deref": vm.Deref(line); break;
+				case "Enter": vm.Enter(line, Integer.valueOf(cmd[1]), Integer.valueOf(cmd[2])); break;
+				case "FloatInv": vm.FloatInv(line); break;
+				case "LoadRel": vm.LoadRel(line, Integer.valueOf(cmd[1])); break;
+				case "Input": vm.IntInput(line, cmd[1]); break;
+				case "IntInput": vm.IntInput(line, cmd[1]); break;
+				case "IntOutput": vm.IntOutput(line, cmd[1]); break;
+				case "IntLoad": vm.IntLoad(line, Integer.valueOf(cmd[1])); break;
+				case "IntAdd": vm.IntAdd(line); break;
+				case "IntSub": vm.IntSub(line); break;
+				case "IntMult": vm.IntMult(line); break;
+				case "IntDiv": vm.IntDiv(line); break;
+				case "IntMod": vm.IntMod(line); break;
+				case "IntEQ": vm.IntEQ(line); break;
+				case "IntNE": vm.IntNE(line); break;
+				case "IntLT": vm.IntLT(line); break;
+				case "IntLE": vm.IntLE(line); break;
+				case "IntGT": vm.IntGT(line); break;
+				case "IntGE": vm.IntGE(line); break;
+				case "IntInv": vm.IntInv(line); break;
+				case "Output": vm.IntOutput(line, cmd[1]); break;
+				case "Return": vm.Return(line, Integer.valueOf(cmd[1])); break;
+				case "Store": vm.Stop(line); break;
+				case "Stop": vm.Stop(line); break;
 				case "UncondJump": vm.UncondJump(line, Integer.valueOf(cmd[1])); break;
-				
 			}
 		} catch (IVirtualMachine.CodeTooSmallError e) {
             System.out.println(e.toString());
