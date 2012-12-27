@@ -7,19 +7,56 @@ import ch.fhnw.cbip.compiler.error.CodeGenerationError;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
+/**
+ * This class generates vm code from a abstract syntax tree
+ * 
+ * @author Jan Faessler <jan.faessler@students.fhnw.ch>
+ */
 public class CodeGenerator {
 	
+	/**
+	 * The starting point from tha abstract syntax tree
+	 */
 	private final Program tree;
+	
+	/**
+	 * The counter of the current line 
+	 */
 	private Integer lineCounter = 0;
+	
+	/**
+	 * The code in a string
+	 */
 	private StringBuilder code = new StringBuilder();
+	
+	/**
+	 * The storage for the addresses of the variables
+	 */
 	private HashMap<String,Integer> variables = new HashMap<String,Integer>();
+	
+	/**
+	 * A multi dimension counter of commands
+	 */
 	private ArrayList<Integer> cmdCounter = new ArrayList<Integer>();
+	
+	/**
+	 * The state of addLine if the line will added to the string or we just count the commands
+	 */
 	private boolean countingState = false;
 	
+	/**
+	 * Constructor of the code generator
+	 * @param Program The Abstract Tree that should be generated.
+	 */
 	public CodeGenerator(Program tree) {
 		this.tree = tree;
 	}
 	
+	/**
+	 * This function starts the generation process
+	 * @return String with the vm code
+	 * @throws CodeGenerationError
+	 */
 	public String generate() throws CodeGenerationError {
 
 		Decl declaration = tree.getDeclarations();
@@ -65,20 +102,49 @@ public class CodeGenerator {
 		
 		// TODO: replace routine call addresses
 		
+		// remove the last comma
+		code.delete(code.length() - 2, code.length() - 1);
+		
+		// return the code in a string
 		return code.toString();
 	}
 	
+	/**
+	 * This builds the code for all kind of commands
+	 * @param Cmd from the Abstract Tree
+	 * @throws CodeGenerationError
+	 */
 	private void buildCommands(Cmd cmd) throws CodeGenerationError {
+		
+		// assignment of a expression to a variable
 		if (cmd instanceof CmdAssi) buildCmdAssi((CmdAssi) cmd);
+		
+		// code for a if/else condition
 		else if (cmd instanceof CmdCond) buildCmdCond((CmdCond) cmd);
+		
+		// code for a user input
 		else if (cmd instanceof CmdInput) buildCmdInput((CmdInput) cmd);
+		
+		// code for a output to the console
 		else if (cmd instanceof CmdOutput) buildCmdOutput((CmdOutput) cmd);
+		
+		// code for a call of a procedure
 		else if (cmd instanceof CmdProcCall) buildCmdProcCall((CmdProcCall) cmd);
+		
+		// jump to the next command.
 		else if (cmd instanceof CmdSkip) buildCmdSkip((CmdSkip) cmd);
+		
+		// code for a while loop
 		else if (cmd instanceof CmdWhile) buildCmdWhile((CmdWhile) cmd);
+		
 		else throw new CodeGenerationError("unknown Command");
 	}
 	
+	/**
+	 * This build the code for a assignment of a expression to a variable
+	 * @param Cmd from the Abstract Tree
+	 * @throws CodeGenerationError
+	 */
 	private void buildCmdAssi(CmdAssi cmd) throws CodeGenerationError {
 		if (cmd.getTargetExpr() instanceof ExprStore) {
 			// resolve the source expression
@@ -93,6 +159,11 @@ public class CodeGenerator {
 		} else throw new CodeGenerationError("wrong target expression for Cmd Assi");
 	}
 	
+	/**
+	 * This build the code for a if/else condition
+	 * @param Cmd from the Abstract Tree
+	 * @throws CodeGenerationError
+	 */
 	private void buildCmdCond(CmdCond cmd) throws CodeGenerationError {
 		
 		// count the commands from the if part
@@ -125,6 +196,10 @@ public class CodeGenerator {
 		buildCommands(cmd.getElseCmd());
 	}
 	
+	/**
+	 * This builds the code for a user input
+	 * @param Cmd from the Abstract Tree
+	 */
 	private void buildCmdInput(CmdInput cmd) {
 		
 		ExprStore expr = (ExprStore) cmd.getExpr();
@@ -134,6 +209,10 @@ public class CodeGenerator {
 		addLine("IntInput", variableName);
 	}
 	
+	/**
+	 * This builds the code for a output to the console
+	 * @param Cmd from the Abstract Tree
+	 */
 	private void buildCmdOutput(CmdOutput cmd) {
 		
 		ExprStore expr = (ExprStore) cmd.getExpr();
@@ -144,6 +223,11 @@ public class CodeGenerator {
 		addLine("IntOutput", variableName);
 	}
 	
+	/**
+	 * This builds the code for a call of a procedure
+	 * @param Cmd from the Abstract Tree
+	 * @throws CodeGenerationError
+	 */
 	private void buildCmdProcCall(CmdProcCall cmd) throws CodeGenerationError {
 		addLine("Alloc", 0);
 		ExprList currentList = cmd.getRoutineCall().getExprList();
@@ -154,10 +238,19 @@ public class CodeGenerator {
 		addLine("Call", getCallReplacement(cmd.getRoutineCall().getIdent().getName()));
 	}
 	
+	/**
+	 * This builds a jump to the next command. Used for a Condition Command if the else command isn't needed.
+	 * @param Cmd from the Abstract Tree
+	 */
 	private void buildCmdSkip(CmdSkip cmd) {
 		addLine("UncondJump", lineCounter + 1);
 	}
 	
+	/**
+	 * This builds the code for a while loop
+	 * @param  Cmd from the Abstract Tree
+	 * @throws CodeGenerationError
+	 */
 	private void buildCmdWhile(CmdWhile cmd) throws CodeGenerationError {
 		
 		// count the commands in the while loop
@@ -181,6 +274,11 @@ public class CodeGenerator {
 		}
 	}
 	
+	/**
+	 * This builds the code for the expressions recursively
+	 * @param expr
+	 * @throws CodeGenerationError
+	 */
 	private void resolveExpression(Expr expr) throws CodeGenerationError {
 		if (expr instanceof ExprDyadic) {
 			ExprDyadic e = (ExprDyadic) expr;
@@ -251,14 +349,28 @@ public class CodeGenerator {
 		// TODO: proc decleration
 	}
 
+	/**
+	 * This adds a line of code with a command string
+	 * @param String of the command
+	 */
 	private void addLine(String cmd) {
 		addLine(cmd, "");
 	}
 	
+	/**
+	 * This adds a line of code with a command string and a int value for a param
+	 * @param String of the command
+	 * @param Integer value as param
+	 */
 	private void addLine(String cmd, Integer param) {
 		addLine(cmd, String.valueOf(param));
 	}
 	
+	/**
+	 * This adds a line of code and a string of params
+	 * @param String of the command
+	 * @param String of the params
+	 */
 	private void addLine(String cmd, String params) {
 		if (countingState) cmdCounter.set(cmdCounter.size() - 1, cmdCounter.get(cmdCounter.size() - 1) + 1);
 		else {
@@ -275,11 +387,18 @@ public class CodeGenerator {
 		}
 	}
 	
+	/**
+	 * Increase the level of command counting
+	 */
 	private void startCountingState() {
 		cmdCounter.add(0);
 		countingState = true;
 	}
 	
+	/**
+	 * Decrease the level of command counting
+	 * @return Integer of the amount of the commands from the top level
+	 */
 	private Integer stopCountingState() {
 		Integer result = cmdCounter.get(cmdCounter.size() - 1);
 		cmdCounter.remove(cmdCounter.size() - 1);
@@ -288,5 +407,10 @@ public class CodeGenerator {
 		return result;
 	}
 	
+	/**
+	 * Returna replacement string for a routine
+	 * @param String of the name of the routine
+	 * @return String of the replacement
+	 */
 	private String getCallReplacement(String name) { return ">>" + name + "<<"; }
 }
