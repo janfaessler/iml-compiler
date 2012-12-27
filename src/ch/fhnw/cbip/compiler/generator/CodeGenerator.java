@@ -3,7 +3,7 @@ package ch.fhnw.cbip.compiler.generator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ch.fhnw.cbip.compiler.error.CodeGenerationError;
+import ch.fhnw.cbip.compiler.error.GenerationError;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
@@ -55,9 +55,9 @@ public class CodeGenerator {
 	/**
 	 * This function starts the generation process
 	 * @return String with the vm code
-	 * @throws CodeGenerationError
+	 * @throws GenerationError
 	 */
-	public String generate() throws CodeGenerationError {
+	public String generate() throws GenerationError {
 
 		Decl declaration = tree.getDeclarations();
 		Cmd commands = tree.getCommands();
@@ -112,9 +112,9 @@ public class CodeGenerator {
 	/**
 	 * This builds the code for all kind of commands
 	 * @param Cmd from the Abstract Tree
-	 * @throws CodeGenerationError
+	 * @throws GenerationError
 	 */
-	private void buildCommands(Cmd cmd) throws CodeGenerationError {
+	private void buildCommands(Cmd cmd) throws GenerationError {
 		
 		// assignment of a expression to a variable
 		if (cmd instanceof CmdAssi) buildCmdAssi((CmdAssi) cmd);
@@ -137,15 +137,15 @@ public class CodeGenerator {
 		// code for a while loop
 		else if (cmd instanceof CmdWhile) buildCmdWhile((CmdWhile) cmd);
 		
-		else throw new CodeGenerationError("unknown Command");
+		else throw new GenerationError("unknown Command");
 	}
 	
 	/**
 	 * This build the code for a assignment of a expression to a variable
 	 * @param Cmd from the Abstract Tree
-	 * @throws CodeGenerationError
+	 * @throws GenerationError
 	 */
-	private void buildCmdAssi(CmdAssi cmd) throws CodeGenerationError {
+	private void buildCmdAssi(CmdAssi cmd) throws GenerationError {
 		if (cmd.getTargetExpr() instanceof ExprStore) {
 			// resolve the source expression
 			resolveExpression(cmd.getSourceExpr());
@@ -156,15 +156,15 @@ public class CodeGenerator {
 			
 			// store the source in the target variable
 			addLine("Store");
-		} else throw new CodeGenerationError("wrong target expression for Cmd Assi");
+		} else throw new GenerationError("wrong target expression for Cmd Assi");
 	}
 	
 	/**
 	 * This build the code for a if/else condition
 	 * @param Cmd from the Abstract Tree
-	 * @throws CodeGenerationError
+	 * @throws GenerationError
 	 */
-	private void buildCmdCond(CmdCond cmd) throws CodeGenerationError {
+	private void buildCmdCond(CmdCond cmd) throws GenerationError {
 		
 		// count the commands from the if part
 		startCountingState();
@@ -226,9 +226,9 @@ public class CodeGenerator {
 	/**
 	 * This builds the code for a call of a procedure
 	 * @param Cmd from the Abstract Tree
-	 * @throws CodeGenerationError
+	 * @throws GenerationError
 	 */
-	private void buildCmdProcCall(CmdProcCall cmd) throws CodeGenerationError {
+	private void buildCmdProcCall(CmdProcCall cmd) throws GenerationError {
 		addLine("Alloc", 0);
 		ExprList currentList = cmd.getRoutineCall().getExprList();
 		while (currentList != null) {
@@ -249,9 +249,9 @@ public class CodeGenerator {
 	/**
 	 * This builds the code for a while loop
 	 * @param  Cmd from the Abstract Tree
-	 * @throws CodeGenerationError
+	 * @throws GenerationError
 	 */
-	private void buildCmdWhile(CmdWhile cmd) throws CodeGenerationError {
+	private void buildCmdWhile(CmdWhile cmd) throws GenerationError {
 		
 		// count the commands in the while loop
 		startCountingState();
@@ -277,9 +277,9 @@ public class CodeGenerator {
 	/**
 	 * This builds the code for the expressions recursively
 	 * @param expr
-	 * @throws CodeGenerationError
+	 * @throws GenerationError
 	 */
-	private void resolveExpression(Expr expr) throws CodeGenerationError {
+	private void resolveExpression(Expr expr) throws GenerationError {
 		if (expr instanceof ExprDyadic) {
 			ExprDyadic e = (ExprDyadic) expr;
 			if (e.getOperator().getTerminal() == Terminal.BOOLOPR) {
@@ -314,7 +314,7 @@ public class CodeGenerator {
 					default: addLine("Int" + e.getOperator().getAttribute()); break;
 				}
 			} 
-			else throw new CodeGenerationError("unknown terminal for a Dyadic Expression");
+			else throw new GenerationError("unknown terminal for a Dyadic Expression");
 		}
 		else if (expr instanceof ExprFunCall) {
 			ExprFunCall e = (ExprFunCall) expr;
@@ -338,7 +338,7 @@ public class CodeGenerator {
 			addLine("IntLoad", variables.get(e.getIdent().getName()));
 			addLine("Deref");
 		}
-		else throw new CodeGenerationError("unknown expression");
+		else throw new GenerationError("unknown expression");
 	}
 
 	private void buildDeclFun(Decl dcl) {

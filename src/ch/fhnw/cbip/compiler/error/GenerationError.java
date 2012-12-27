@@ -4,7 +4,7 @@ package ch.fhnw.cbip.compiler.error;
  * 
  * @author Jan Faessler, <jan.faessler@students.fhnw.ch>
  */
-public class CodeGenerationError extends Exception {
+public class GenerationError extends Exception {
 
 	/**
 	 * Serial id for serialization (used for deep copy).
@@ -22,13 +22,13 @@ public class CodeGenerationError extends Exception {
      * @param message error message
      * @param lineNumber corresponding line number in source code
      */
-    public CodeGenerationError(String message) {
+    public GenerationError(String message) {
         super();
         this.message = message;
     }
 
     @Override
     public String getMessage() {
-        return "CodeGenerationError: " + message + ".";
+        return "GenerationError: " + message + ".";
     }
 }
