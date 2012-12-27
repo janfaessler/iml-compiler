@@ -30,7 +30,7 @@ public interface AbsTree {
 			return toString("");
 		}
 		
-		public Decl getDeclerations()  { return decl; }
+		public Decl getDeclarations()  { return decl; }
 		public Cmd getCommands() { return cmd; }
 	}
 	
@@ -345,7 +345,7 @@ public interface AbsTree {
 		}
 	}
 	
-	public class Expr {
+	public abstract class Expr {
 		public String toString(String indent) { return ""; }
 	}
 	

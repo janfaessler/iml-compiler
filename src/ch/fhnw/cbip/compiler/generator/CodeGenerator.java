@@ -16,13 +16,13 @@ public class CodeGenerator {
 		
 		addLine("Alloc", "1");
 		
-		Decl decleration = tree.getDeclerations();
+		Decl declaration = tree.getDeclarations();
 		Cmd commands = tree.getCommands();
 
-		// do store declerations
-		Decl currentDecl = decleration;
+		// do store declarations
+		Decl currentDecl = declaration;
 		while (currentDecl != null) {
-			if (decleration instanceof DeclStore) code.append(buildDeclStore(decleration));
+			if (declaration instanceof DeclStore) code.append(buildDeclStore(declaration));
 			currentDecl = currentDecl.getNextDecl();
 		}
 		
@@ -35,17 +35,17 @@ public class CodeGenerator {
 		
 		addLine("Stop");
 		
-		// do fun declerations
-		currentDecl = decleration;
+		// do fun declarations
+		currentDecl = declaration;
 		while (currentDecl != null) {
-			if (decleration instanceof DeclFun) code.append(buildDeclFun(decleration));
+			if (declaration instanceof DeclFun) code.append(buildDeclFun(declaration));
 			currentDecl = currentDecl.getNextDecl();
 		}
 		
-		// do proc declerations
-		currentDecl = decleration;
+		// do proc declarations
+		currentDecl = declaration;
 		while (currentDecl != null) {
-			if (decleration instanceof DeclProc) code.append(buildDeclProc(decleration));
+			if (declaration instanceof DeclProc) code.append(buildDeclProc(declaration));
 			currentDecl = currentDecl.getNextDecl();
 		}
 		
