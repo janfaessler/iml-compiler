@@ -20,42 +20,38 @@ public class Compiler {
 	public void compile(BufferedReader source) throws IOException, LexicalError, GrammarError, GenerationError, ExecutionError {
 		Scanner scanner = new Scanner();
 		System.out.print("Scanning:");
-        ITokenList tokenList = scanner.scan(source);
-        System.out.println(" Success!");
-        System.out.print("\nTokenList: ");
-        System.out.println(tokenList.toString());
-        System.out.println("\nParsing:");
-        Parser parser = new Parser(tokenList);
-        ConcTree.Program concreteTree = parser.parse();
-        System.out.println("Success!");
-        System.out.println("\nConcrete syntax tree:");
-        System.out.println(concreteTree.toString(""));
-        System.out.print("\nGenerating abstract syntax tree:");
-        AbsTree.Program abstractTree = concreteTree.toAbstract();
-        System.out.println("Success!");
-        System.out.println("Abstract syntax tree:");
-        System.out.println(abstractTree.toString(""));
-        System.out.println("\nGenerating code:");
-        CodeGenerator generator = new CodeGenerator(abstractTree);
-        String code = generator.generate();
-        System.out.println(code);
-        System.out.println("\n Running code:");
-        Machine machine = new Machine();
-        machine.run(new BufferedReader(new StringReader(code)));
-        
+		ITokenList tokenList = scanner.scan(source);
+		System.out.println(" Success!");
+		System.out.print("\nTokenList: ");
+		System.out.println(tokenList.toString());
+		System.out.println("\nParsing:");
+		Parser parser = new Parser(tokenList);
+		ConcTree.Program concreteTree = parser.parse();
+		System.out.println("Success!");
+		System.out.println("\nConcrete syntax tree:");
+		System.out.println(concreteTree.toString(""));
+		System.out.print("\nGenerating abstract syntax tree:");
+		AbsTree.Program abstractTree = concreteTree.toAbstract();
+		System.out.println("Success!");
+		System.out.println("Abstract syntax tree:");
+		System.out.println(abstractTree.toString(""));
+		System.out.println("\nGenerating code:");
+		CodeGenerator generator = new CodeGenerator(abstractTree);
+		String code = generator.generate();
+		System.out.println(code);
+		System.out.println("\n Running code:");
+		Machine machine = new Machine();
+		machine.run(new BufferedReader(new StringReader(code)));
 	}
 	
 	public static void main(String[] args) {
-        InputStreamReader isr = null;
 		try {
-			isr = new InputStreamReader(new FileInputStream("res/code.iml"));
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		Compiler compiler = new Compiler();
-		try {
+			
+			InputStreamReader isr = new InputStreamReader(new FileInputStream("res/code.iml"));
+			Compiler compiler = new Compiler();
 			compiler.compile(new BufferedReader(isr));
-		} catch (IOException | LexicalError | GrammarError | GenerationError | ExecutionError e) {
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
