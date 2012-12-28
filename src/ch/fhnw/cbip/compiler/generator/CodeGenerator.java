@@ -5,11 +5,9 @@ import java.util.HashMap;
 
 import ch.fhnw.cbip.compiler.error.GenerationError;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
-import ch.fhnw.cbip.compiler.scanner.enums.ModeAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
-import ch.fhnw.cbip.compiler.scanner.token.Mode;
-import ch.fhnw.cbip.compiler.scanner.token.Mode.FlowMode;
+
 
 /**
  * This class generates vm code from a abstract syntax tree
