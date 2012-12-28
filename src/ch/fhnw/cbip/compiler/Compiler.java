@@ -7,13 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
-import ch.fhnw.cbip.compiler.error.GenerationError;
-import ch.fhnw.cbip.compiler.error.GrammarError;
-import ch.fhnw.cbip.compiler.error.LexicalError;
+import ch.fhnw.cbip.compiler.error.*;
 import ch.fhnw.cbip.compiler.generator.CodeGenerator;
-import ch.fhnw.cbip.compiler.parser.AbsTree;
-import ch.fhnw.cbip.compiler.parser.ConcTree;
-import ch.fhnw.cbip.compiler.parser.Parser;
+import ch.fhnw.cbip.compiler.parser.*;
 import ch.fhnw.cbip.compiler.scanner.ITokenList;
 import ch.fhnw.cbip.compiler.scanner.Scanner;
 import ch.fhnw.cbip.vm.Machine;
@@ -54,7 +50,6 @@ public class Compiler {
 		try {
 			isr = new InputStreamReader(new FileInputStream("res/code.iml"));
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		Compiler compiler = new Compiler();
