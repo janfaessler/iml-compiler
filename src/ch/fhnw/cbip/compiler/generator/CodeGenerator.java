@@ -330,8 +330,8 @@ public class CodeGenerator {
 			resolveExpression(e.getExpr2());
 			
 			switch (String.valueOf(e.getOperator().getAttribute())) {
-				case "PLUS": addLine("IntPlus"); break;
-				case "MINUS": addLine("IntMinus"); break;
+				case "PLUS": addLine("IntAdd"); break;
+				case "MINUS": addLine("IntSub"); break;
 				case "TIMES": addLine("IntMult"); break;
 				case "DIV": addLine("IntDiv"); break;
 				case "MOD": addLine("IntMod"); break;

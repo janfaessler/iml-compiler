@@ -23,12 +23,12 @@ public class Machine {
 		System.out.println("Enter code:");
 		try {
 			machine.run(new BufferedReader(new InputStreamReader(System.in)));
-		} catch (IOException | ExecutionError e) {
+		} catch (IOException | ExecutionError | MachineError e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void run(BufferedReader input) throws IOException, ExecutionError {
+	public void run(BufferedReader input) throws IOException, ExecutionError, MachineError {
 		String s;
     	do {
     		s = input.readLine();
@@ -38,7 +38,7 @@ public class Machine {
     	vm.execute();
 	}
 	
-	public void doLine(final String input) {
+	public void doLine(final String input) throws MachineError {
 		String[] cmdRaw = input.split(",");
 		
 		Integer line = Integer.valueOf(cmdRaw[0].substring(1));
@@ -83,6 +83,7 @@ public class Machine {
 				case "Store": vm.Store(line); break;
 				case "Stop":  vm.Stop(line); break;
 				case "UncondJump": vm.UncondJump(line, Integer.valueOf(cmd[1])); break;
+				default: throw new MachineError("unknown command " + cmd[0] + " found.");
 			}
 		} catch (IVirtualMachine.CodeTooSmallError e) {
             System.out.println(e.toString());

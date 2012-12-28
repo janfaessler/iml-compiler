@@ -2,7 +2,6 @@ package ch.fhnw.cbip.compiler;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -13,11 +12,12 @@ import ch.fhnw.cbip.compiler.parser.*;
 import ch.fhnw.cbip.compiler.scanner.ITokenList;
 import ch.fhnw.cbip.compiler.scanner.Scanner;
 import ch.fhnw.cbip.vm.Machine;
+import ch.fhnw.cbip.vm.MachineError;
 import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.ExecutionError;
 
 public class Compiler {
 	
-	public void compile(BufferedReader source) throws IOException, LexicalError, GrammarError, GenerationError, ExecutionError {
+	public void compile(BufferedReader source) throws IOException, LexicalError, GrammarError, GenerationError, ExecutionError, MachineError {
 		Scanner scanner = new Scanner();
 		System.out.print("Scanning:");
 		ITokenList tokenList = scanner.scan(source);
