@@ -5,8 +5,11 @@ import java.util.HashMap;
 
 import ch.fhnw.cbip.compiler.error.GenerationError;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
+import ch.fhnw.cbip.compiler.scanner.enums.ModeAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
+import ch.fhnw.cbip.compiler.scanner.token.Mode;
+import ch.fhnw.cbip.compiler.scanner.token.Mode.FlowMode;
 
 /**
  * This class generates vm code from a abstract syntax tree
@@ -89,15 +92,14 @@ public class CodeGenerator {
 		// do fun declarations
 		currentDecl = declaration;
 		while (currentDecl != null) {
-			if (declaration instanceof DeclFun) buildDeclFun(declaration);
-
+			if (declaration instanceof DeclFun) buildRoutine(declaration, true);
 			currentDecl = currentDecl.getNextDecl();
 		}
 		
 		// do proc declarations
 		currentDecl = declaration;
 		while (currentDecl != null) {
-			if (declaration instanceof DeclProc) buildDeclProc(declaration);
+			if (declaration instanceof DeclProc) buildRoutine(declaration, false);
 			currentDecl = currentDecl.getNextDecl();
 		}
 		
@@ -387,12 +389,8 @@ public class CodeGenerator {
 		addLine("Deref");
 	}
 
-	private void buildDeclFun(Decl dcl) {
-		// TODO: fun decleration
-	}
-	
-	private void buildDeclProc(Decl dcl) {
-		// TODO: proc decleration
+	private void buildRoutine(Decl dcl, boolean isFun) {
+		// TODO: Routines
 	}
 
 	/**
@@ -454,7 +452,7 @@ public class CodeGenerator {
 	}
 	
 	/**
-	 * Returna replacement string for a routine
+	 * Return a replacement string for a routine
 	 * @param String of the name of the routine
 	 * @return String of the replacement
 	 */

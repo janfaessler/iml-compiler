@@ -58,16 +58,16 @@ public interface AbsTree {
 		private final Param param;
 		private final DeclStore returnDecl;
 		private final GlobImp globImp;
-		private final Decl cpsDecl;
+		private final Decl dcl;
 		private final Cmd cmd;
 		
-		public DeclFun(Ident ident, Param param, DeclStore returnDecl, GlobImp globImp, Decl cpsDecl, Cmd cmd, Decl nextDecl) {
+		public DeclFun(Ident ident, Param param, DeclStore returnDecl, GlobImp globImp, Decl dcl, Cmd cmd, Decl nextDecl) {
 			super(nextDecl);
 			this.ident = ident;
 			this.param = param;
 			this.returnDecl = returnDecl;
 			this.globImp = globImp;
-			this.cpsDecl = cpsDecl;
+			this.dcl = dcl;
 			this.cmd = cmd;
 		}
 		
@@ -78,7 +78,7 @@ public interface AbsTree {
 					+ param.toString(indent + '\t')
 					+ returnDecl.toString(indent + '\t')
 					+ globImp.toString(indent + '\t')
-					+ cpsDecl.toString(indent + '\t')
+					+ dcl.toString(indent + '\t')
 					+ cmd.toString(indent + '\t')
 					+ super.toString(indent + '\t')
 					+ indent
@@ -87,7 +87,7 @@ public interface AbsTree {
 		
 		public Cmd getCmd() { return cmd;}
 		public Ident getIdent() {return ident;}
-		public Decl getcpsDecl() { return cpsDecl;}
+		public Decl getDecl() { return dcl;}
 		public Param getParam() { return param;}
 		public GlobImp getGlobImp() { return globImp;}
 		public DeclStore getReturnDecl() { return returnDecl;}
@@ -100,12 +100,12 @@ public interface AbsTree {
 		private final Decl decl;
 		private final Cmd cmd;
 
-		public DeclProc(Ident ident, Param param, GlobImp globImp, Decl cpsDecl, Cmd cmd, Decl nextDecl) {
+		public DeclProc(Ident ident, Param param, GlobImp globImp, Decl decl, Cmd cmd, Decl nextDecl) {
 			super(nextDecl);
 			this.ident = ident;
 			this.param = param;
 			this.globImp = globImp;
-			this.decl = cpsDecl;
+			this.decl = decl;
 			this.cmd = cmd;
 		}
 
