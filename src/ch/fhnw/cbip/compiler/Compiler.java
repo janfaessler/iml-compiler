@@ -18,9 +18,18 @@ import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.ExecutionError;
 public class Compiler {
 	
 	public void compile(BufferedReader source) throws IOException, LexicalError, GrammarError, GenerationError, ExecutionError, MachineError {
+		
+		System.out.println("Compiling iml:");
+		String currentLine = "";
+		StringBuilder program = new StringBuilder();
+		while ((currentLine = source.readLine()) != null) {
+			System.out.println(currentLine);
+			program.append(currentLine+"\n");
+		}
+		
 		Scanner scanner = new Scanner();
-		System.out.print("Scanning:");
-		ITokenList tokenList = scanner.scan(source);
+		System.out.print("\nScanning:");
+		ITokenList tokenList = scanner.scan(new BufferedReader(new StringReader(program.toString())));
 		System.out.println(" Success!");
 		System.out.print("\nTokenList: ");
 		System.out.println(tokenList.toString());

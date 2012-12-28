@@ -1,6 +1,7 @@
 program refParams
-global
+global 
   var g:int32
+  
 {
   ? g init;
   g := g + 1;
