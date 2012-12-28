@@ -5,7 +5,7 @@ import ch.fhnw.cbip.compiler.scanner.token.*;
 import ch.fhnw.cbip.compiler.scanner.token.Mode.*;
 import ch.fhnw.cbip.compiler.scanner.token.Operator.*;
 
-interface ConcTree {
+public interface ConcTree {
 	
 	public class Program {
 		private final Ident ident;

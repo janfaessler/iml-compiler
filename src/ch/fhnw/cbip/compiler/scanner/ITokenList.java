@@ -26,4 +26,11 @@ public interface ITokenList {
      * @return next Token
      */
     public IToken nextToken();
+    
+    /**
+     * Returns a string with the Tokens.
+     * 
+     * @return String
+     */
+    public String toString();
 }

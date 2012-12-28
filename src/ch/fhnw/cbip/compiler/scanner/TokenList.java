@@ -64,4 +64,9 @@ public class TokenList implements ITokenList {
         return false;
     }
 
+    @Override
+    public String toString() {
+    	return tokenList.toString();
+    }
+    
 }

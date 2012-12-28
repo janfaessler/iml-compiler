@@ -19,25 +19,26 @@ public class Machine {
 	 */
 	public static void main(String[] args) {
 		
-		 BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-		    try {
-		    	String s;
-		    	do {
-		    		s = bufferRead.readLine();
-		    		doLine(s);
-		    	} while (s.substring(s.length() -1, s.length()).equals(","));
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		    try {
-				vm.execute();
-			} catch (ExecutionError e) {
-				e.printStackTrace();
-			}
+		Machine machine = new Machine();
+		System.out.println("Enter code:");
+		try {
+			machine.run(new BufferedReader(new InputStreamReader(System.in)));
+		} catch (IOException | ExecutionError e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public static void doLine(final String input) {
+	public void run(BufferedReader input) throws IOException, ExecutionError {
+		String s;
+    	do {
+    		s = input.readLine();
+    		doLine(s);
+    	} while (s.substring(s.length() -1, s.length()).equals(","));
+    	
+    	vm.execute();
+	}
+	
+	public void doLine(final String input) {
 		String[] cmdRaw = input.split(",");
 		
 		Integer line = Integer.valueOf(cmdRaw[0].substring(1));

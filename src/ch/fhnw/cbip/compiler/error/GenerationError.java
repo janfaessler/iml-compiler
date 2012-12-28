@@ -29,6 +29,6 @@ public class GenerationError extends Exception {
 
     @Override
     public String getMessage() {
-        return "GenerationError: " + message + ".";
+        return message + ".";
     }
 }

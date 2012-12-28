@@ -1,0 +1,10 @@
+program refParams
+global
+  var g:int32
+{
+  ? g init;
+  g := g + 1;
+  g := g + 1;
+  g := g + g;
+  ! g
+}

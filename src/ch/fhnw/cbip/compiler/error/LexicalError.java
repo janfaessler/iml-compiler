@@ -35,7 +35,7 @@ public class LexicalError extends Exception {
 
     @Override
     public String getMessage() {
-        return "LexicalError: " + message + " at line " + lineNumber + ".";
+        return message + " at line " + lineNumber + ".";
     }
 
 }
