@@ -39,7 +39,7 @@ public class Compiler {
 		System.out.println("Success!");
 		System.out.println("\nConcrete syntax tree:");
 		System.out.println(concreteTree.toString(""));
-		System.out.print("\nGenerating abstract syntax tree:");
+		System.out.print("\nGenerating abstract syntax tree: ");
 		AbsTree.Program abstractTree = concreteTree.toAbstract();
 		System.out.println("Success!");
 		System.out.println("Abstract syntax tree:");
