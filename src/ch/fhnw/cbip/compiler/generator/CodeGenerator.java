@@ -68,8 +68,8 @@ public class CodeGenerator {
 		int storeCount = 0;
 		Decl currentDecl = declaration;
 		while (currentDecl != null) {
-			if (declaration instanceof DeclStore) {
-				variables.put(((DeclStore) declaration).getIdent().getName(), storeCount);
+			if (currentDecl instanceof DeclStore) {
+				variables.put(((DeclStore) currentDecl).getIdent().getName(), storeCount);
 				storeCount++;
 			}
 
