@@ -7,6 +7,7 @@ import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
  * Operator token class.
  * 
  * @author Michael Kuenzli <michael@kuenzli.eu>
+ * @author Jan Faessler <jan.faessler@students.fhwn.ch>
  */
 public abstract class Operator extends AbstractToken {
 
@@ -139,5 +140,24 @@ public abstract class Operator extends AbstractToken {
                     || attribute == OperatorAttribute.LE || attribute == OperatorAttribute.GE);
         }
     }
+    
+    /**
+     * Class for CrementOpr
+     */
+    public static class CrementOpr extends Operator {
 
+		/**
+		 * Serial id for serialization (used for deep copy).
+		 */
+		private static final long serialVersionUID = -3977924905635323816L;
+    	
+		
+		/**
+         * Creates a new token for cremental Operators.
+         */
+        public CrementOpr(OperatorAttribute attribute) {
+            super(Terminal.CREMENT, attribute);
+            assert (attribute == OperatorAttribute.INCR || attribute == OperatorAttribute.DECR);
+        }
+    }
 }

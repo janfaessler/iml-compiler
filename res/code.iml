@@ -4,8 +4,6 @@ global
   
 {
   ? g init;
-  g := g + 1;
-  g := g + 1;
-  g := g + g;
+  --g;
   ! g
 }

@@ -23,7 +23,8 @@ public enum Terminal {
   
   WHILE("WHILE"), DO("DO"), ENDWHILE("ENDWHILE"),
   
-  SENTINEL("SENTINEL");
+  SENTINEL("SENTINEL"), CREMENT("CREMENT");
+
 
   Terminal(String toString) {
     this.toString = toString;

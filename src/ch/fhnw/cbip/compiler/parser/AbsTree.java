@@ -2,6 +2,7 @@ package ch.fhnw.cbip.compiler.parser;
 
 import ch.fhnw.cbip.compiler.scanner.token.*;
 import ch.fhnw.cbip.compiler.scanner.token.Mode.*;
+import ch.fhnw.cbip.compiler.scanner.token.Operator.CrementOpr;
 
 public interface AbsTree {
 	
@@ -446,6 +447,30 @@ public interface AbsTree {
         public Expr getExpr() {
             return expr;
         }
+	}
+	
+	public class CmdCrement extends Cmd {
+		private final CrementOpr opr;
+		private final Ident ident;
+		
+		public CmdCrement(CrementOpr opr, Ident ident, Cmd nextCmd) {
+			super(nextCmd);
+			this.opr = opr;
+			this.ident = ident;
+		}
+		
+		public String toString(String indent) {
+			return indent
+					+ "<CmdCrement>\n"
+					+ opr.toString(indent + '\t')
+					+ ident.toString(indent + '\t')
+					+ super.toString(indent + '\t')
+					+ indent
+					+ "</CmdCrement>\n";
+		}
+		
+		public CrementOpr getOpr() { return opr; }
+		public Ident getIdent() { return ident; }
 	}
 	
 	public abstract class Expr {

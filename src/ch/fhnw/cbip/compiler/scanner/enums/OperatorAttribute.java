@@ -12,6 +12,9 @@ public enum OperatorAttribute {
   
   // BoolOpr
   CAND("CAND"), COR("COR"), 
+  
+  //CrementOpr
+  INCR("INCR"), DECR("DECR"),
   ;  
   
   OperatorAttribute(String toString) {

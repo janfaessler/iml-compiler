@@ -823,6 +823,29 @@ public interface ConcTree {
 		}
 	}
 	
+	public class CmdCrement extends Cmd {
+		private final CrementOpr opr;
+		private final Ident ident;
+		
+		public CmdCrement(CrementOpr opr, Ident ident) {
+			this.opr = opr;
+			this.ident = ident;
+		}
+		
+		public String toString(String indent) {
+			return indent
+					+ "<CmdCrement>\n"
+					+ opr.toString(indent + '\t')
+					+ ident.toString(indent + '\t')
+					+ indent
+					+ "</CmdCrement>\n";
+		}
+		
+		public AbsTree.CmdCrement toAbstract(RepCmd repCmd) {
+			return new AbsTree.CmdCrement(opr, ident, repCmd.toAbstract());
+		}
+	}
+	
 	public class AuxGlobInitList {
 		private final GlobInitList globInitList;
 

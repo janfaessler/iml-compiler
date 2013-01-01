@@ -138,6 +138,9 @@ public class CodeGenerator {
 		// code for a while loop
 		else if (cmd instanceof CmdWhile) buildCmdWhile((CmdWhile) cmd);
 		
+		// code for increment and decrement
+		else if(cmd instanceof CmdCrement) buildCmdCrement((CmdCrement) cmd);
+		
 		else throw new GenerationError("unknown Command");
 	}
 	
@@ -249,7 +252,7 @@ public class CodeGenerator {
 	
 	/**
 	 * This builds the code for a while loop
-	 * @param  Cmd from the Abstract Tree
+	 * @param  CmdWhile from the Abstract Tree
 	 * @throws GenerationError
 	 */
 	private void buildCmdWhile(CmdWhile cmd) throws GenerationError {
@@ -273,6 +276,21 @@ public class CodeGenerator {
 			buildCommands(currentCmd);
 			currentCmd = currentCmd.getNextCmd();
 		}
+	}
+	
+	/**
+	 * This builds the code for increment and decrement
+	 * @param  CmdCrement from the Abstract Tree
+	 * @throws GenerationError
+	 */
+	private void buildCmdCrement(CmdCrement cmd) throws GenerationError {
+		addLine("IntLoad", variables.get(cmd.getIdent().getName()));
+		addLine("Deref");
+		addLine("IntLoad", 1);
+		if (cmd.getOpr().getAttribute() == OperatorAttribute.INCR)      addLine("IntAdd");
+		else if (cmd.getOpr().getAttribute() == OperatorAttribute.DECR) addLine("IntSub");
+		addLine("IntLoad", variables.get(cmd.getIdent().getName()));
+		addLine("Store");
 	}
 	
 	/**

@@ -21,7 +21,7 @@ public class SymbolState implements IScannerState {
     public char[] handleChar(char[] c, IScannerContext context) throws LexicalError {
         assert (c.length > 1);
         int lastChar = c.length - 1;
-        if (c[lastChar] == '=') { // = is only possible follow-up
+        if (c[lastChar] == '=' || c[lastChar] == '+' || c[lastChar] == '-') { // =+- are only possible follow-up
             // symbol continues
             context.setState(this, false);
         } else {

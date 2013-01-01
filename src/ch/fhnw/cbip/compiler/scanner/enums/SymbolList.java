@@ -24,7 +24,9 @@ public enum SymbolList {
   LT("<", new Operator.RelOpr(OperatorAttribute.LT)), 
   GT(">", new Operator.RelOpr(OperatorAttribute.GT)), 
   LE("<=", new Operator.RelOpr(OperatorAttribute.LE)), 
-  GE(">=", new Operator.RelOpr(OperatorAttribute.GE));
+  GE(">=", new Operator.RelOpr(OperatorAttribute.GE)),
+  INCREMENT("++", new Operator.CrementOpr(OperatorAttribute.INCR)),
+  DECREMENT("--", new Operator.CrementOpr(OperatorAttribute.DECR));
   
   private String pattern;
   private IToken token;

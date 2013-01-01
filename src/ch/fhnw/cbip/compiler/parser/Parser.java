@@ -278,6 +278,12 @@ public class Parser {
 				ConcTree.Expr exclExpr = expr();
 				ret = new ConcTree.CmdExcl(exclExpr);
 				break;
+			case CREMENT:
+				System.out.println("cmd ::= CREMENT expr");
+				Operator.CrementOpr crementOpr = (Operator.CrementOpr) consume(Terminal.CREMENT);
+				Ident crementIdent = (Ident) consume(Terminal.IDENT);
+				ret = new ConcTree.CmdCrement(crementOpr, crementIdent);
+				break;
 			default:
 				System.out.println("cmd ::= expr auxExprCmd");
 				ConcTree.Expr expr = expr();
