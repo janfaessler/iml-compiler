@@ -5,7 +5,7 @@ import ch.fhnw.cbip.compiler.scanner.token.Mode.*;
 import ch.fhnw.cbip.compiler.scanner.token.Operator.CrementOpr;
 
 public interface AbsTree {
-	
+	 
 	public class Program {
 		private final Ident ident;
 		private final Decl decl;
@@ -458,7 +458,7 @@ public interface AbsTree {
 			this.opr = opr;
 			this.ident = ident;
 		}
-		
+
 		public String toString(String indent) {
 			return indent
 					+ "<CmdCrement>\n"

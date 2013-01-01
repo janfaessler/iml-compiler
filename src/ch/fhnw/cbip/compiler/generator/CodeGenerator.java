@@ -7,6 +7,7 @@ import ch.fhnw.cbip.compiler.error.GenerationError;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
 import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
+import ch.fhnw.cbip.compiler.scanner.token.Operator.CrementOpr;
 
 
 /**
@@ -394,6 +395,13 @@ public class CodeGenerator {
 		    e.getOperator().getAttribute() == OperatorAttribute.MINUS)) {
 				resolveExpression(e.getExpr());
 				addLine("IntInv");
+		} else if (e.getOperator().getTerminal() == Terminal.CREMENT) {
+			if (!(e.getOperator() instanceof CrementOpr)) throw new GenerationError("unknow operation for a CREMENT in a monadic expression");
+			if (!(e.getExpr() instanceof ExprStore)) throw new GenerationError("unknow expression for a CREMENT in a monadic expression");
+			CrementOpr opr = (CrementOpr) e.getOperator();
+			ExprStore expr = (ExprStore) e.getExpr();
+			buildCmdCrement(new CmdCrement(opr, expr.getIdent(), (Cmd) null));
+			resolveExprStore(expr);
 		} else throw new GenerationError("unknown prefix for a monadic expression");
 	}
 	

@@ -522,8 +522,12 @@ public class Parser {
 				System.out.println("monadicOpr ::= ADDOPR");
 				ret = new ConcTree.MonadicOpr((Operator) consume(Terminal.ADDOPR));
 				break;
+			case CREMENT:
+				System.out.println("monadicOpr ::= CREMENT");
+				ret = new ConcTree.MonadicOpr((Operator) consume(Terminal.CREMENT));
+				break;
 			default:
-				throw new GrammarError("terminal expected: NOT | ADDOPR, terminal found: " + terminal, token.getLine());
+				throw new GrammarError("terminal expected: NOT | ADDOPR | CREMENT, terminal found: " + terminal, token.getLine());
 		}
 		return ret;
 	}

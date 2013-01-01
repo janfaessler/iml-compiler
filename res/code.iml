@@ -5,6 +5,6 @@ global
 {
   ? g init;
   ? a init;
-  g *:= a;
+  g *:= ++a + --a;
   ! g
 }
