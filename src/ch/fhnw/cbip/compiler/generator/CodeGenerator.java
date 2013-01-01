@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import ch.fhnw.cbip.compiler.error.GenerationError;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
+import ch.fhnw.cbip.compiler.scanner.enums.ModeAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
@@ -388,7 +389,56 @@ public class CodeGenerator {
 	}
 
 	private void buildRoutine(Decl dcl, boolean isFun) {
-		// TODO: Routines
+		Decl declaration;
+		Param param;
+		if (isFun) {
+			declaration = ((DeclFun) dcl).getDecl();
+			param = ((DeclFun) dcl).getParam();
+		}
+		else {
+			declaration = (DeclProc) dcl;
+			param = ((DeclProc) dcl).getParam();
+		}
+		
+		int offset = 0;
+		int paramIndex = 0;
+		
+		// count locals
+		Decl currentDecl = declaration;
+		while (currentDecl != null) {
+			if (currentDecl instanceof DeclStore) offset++;
+			currentDecl = currentDecl.getNextDecl();
+		}
+		
+		// count copy out and copy inout
+		Param currentParam = param;
+		while (currentParam != null) {
+			ModeAttribute flowMode = currentParam.getFlowMode().getAttribute();
+			ModeAttribute mechMode = currentParam.getMechMode().getAttribute();
+			if (flowMode != ModeAttribute.IN && mechMode == ModeAttribute.COPY) offset++;
+			paramIndex++;
+			currentParam = currentParam.getNextParam();
+		}
+
+		addLine("Enter", offset + " 0");
+		
+		// do copy in
+		currentParam = param;
+		int copyInCount = 0;
+		while (currentParam != null) {
+			ModeAttribute flowMode = currentParam.getFlowMode().getAttribute();
+			ModeAttribute mechMode = currentParam.getMechMode().getAttribute();
+			if (flowMode != ModeAttribute.OUT && mechMode == ModeAttribute.COPY) {
+				addLine("CopyIn", (-paramIndex) + " " + (offset + 3 + copyInCount));
+			}
+			paramIndex--;
+			copyInCount++;
+			currentParam = currentParam.getNextParam();
+		}
+		
+		// TODO: routine commands
+		
+		// do copy out
 	}
 
 	/**
