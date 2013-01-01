@@ -2,6 +2,7 @@ package ch.fhnw.cbip.compiler.parser;
 
 import ch.fhnw.cbip.compiler.scanner.enums.ModeAttribute;
 import ch.fhnw.cbip.compiler.scanner.token.*;
+import ch.fhnw.cbip.compiler.scanner.token.Symbol.Becomes;
 import ch.fhnw.cbip.compiler.scanner.token.Mode.*;
 import ch.fhnw.cbip.compiler.scanner.token.Operator.*;
 
@@ -960,22 +961,32 @@ public interface ConcTree {
 	}
 	
 	public class AuxExprCmdBecomes extends AuxExprCmd {
-		private final Expr expr;
+		
+		private final Becomes becomes;
+		private final Expr expr1;
+		private final Expr expr2;
 
-		public AuxExprCmdBecomes(Expr expr) {
-			this.expr = expr;
+		public AuxExprCmdBecomes(Becomes becomes, Expr expr1, Expr expr2) {
+			this.becomes = becomes;
+			this.expr1 = expr1; 
+			this.expr2 = expr2;
 		}
 
 		public String toString(String indent) {
 			return indent
 					+ "<AuxExprCmdBecomes>\n"
-					+ expr.toString(indent + '\t')
+					+ becomes.toString(indent + '\t')
+					+ expr1.toString(indent + '\t')
+					+ expr2.toString(indent + '\t')
 					+ indent
 					+ "</AuxExprCmdBecomes>\n";
 		}
 		
 		public AbsTree.Expr toAbstract() {
-			return expr.toAbstract();
+			if (becomes == null) return expr2.toAbstract();
+			else{
+				return new AbsTree.ExprDyadic(new Operator.BecomesOpr(becomes.getAttribute()), expr1.toAbstract(), expr2.toAbstract());
+			}
 		}
 	}
 	

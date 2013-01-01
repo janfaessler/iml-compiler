@@ -1,9 +1,10 @@
 program refParams
 global 
-  var g:int32
-  
+  var g:int32;
+  var a:int32
 {
   ? g init;
-  --g;
+  ? a init;
+  g *:= a;
   ! g
 }

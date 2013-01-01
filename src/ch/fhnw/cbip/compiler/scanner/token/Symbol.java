@@ -1,5 +1,6 @@
 package ch.fhnw.cbip.compiler.scanner.token;
 
+import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 
 /**
@@ -128,13 +129,39 @@ public abstract class Symbol extends AbstractToken {
          * Serial id for serialization (used for deep copy).
          */
         private static final long serialVersionUID = 4869909955231080470L;
+        
+        /**
+         * Type of operator.
+         */
+        private final OperatorAttribute attribute;
 
         /**
          * Creates a new Becomes token ':='.
          */
-        public Becomes() {
+        public Becomes(OperatorAttribute attribute) {
             super(Terminal.BECOMES);
+            this.attribute = attribute;
         }
+        
+        /**
+         * Returns the becomes operator token type.
+         * 
+         * @return token type
+         */
+        public OperatorAttribute getAttribute() {
+            return attribute;
+        }
+        
+        public String toString(final String indent) {
+    		return indent
+    				+ "<Symbol name=\""
+    				+ getTerminal().toString()
+    				+ "\" attribute=\""
+    				+ attribute.toString()
+    				+ "\" line=\""
+    				+ super.getLine()
+    				+ "\"/>\n";
+    	}
     }
 
     /**

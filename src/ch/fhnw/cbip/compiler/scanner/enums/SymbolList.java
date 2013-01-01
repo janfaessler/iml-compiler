@@ -15,7 +15,7 @@ public enum SymbolList {
   COLON(":", new Symbol.Colon()),
   QUESTMARK("?", new Symbol.QuestMark()), 
   EXCLAMARK("!", new Symbol.ExclaMark()), 
-  BECOMES(":=", new Symbol.Becomes()),
+  BECOMES(":=", new Symbol.Becomes(null)),
   MULTOPR("*", new Operator.MultOpr(OperatorAttribute.TIMES)), 
   PLUS("+", new Operator.AddOpr(OperatorAttribute.PLUS)), 
   MINUS("-", new Operator.AddOpr(OperatorAttribute.MINUS)), 
@@ -26,7 +26,12 @@ public enum SymbolList {
   LE("<=", new Operator.RelOpr(OperatorAttribute.LE)), 
   GE(">=", new Operator.RelOpr(OperatorAttribute.GE)),
   INCREMENT("++", new Operator.CrementOpr(OperatorAttribute.INCR)),
-  DECREMENT("--", new Operator.CrementOpr(OperatorAttribute.DECR));
+  DECREMENT("--", new Operator.CrementOpr(OperatorAttribute.DECR)),
+  BECOMES_ADD("+:=", new Symbol.Becomes(OperatorAttribute.PLUS)),
+  BECOMES_SUB("-:=", new Symbol.Becomes(OperatorAttribute.MINUS)),
+  BECOMES_MUL("*:=", new Symbol.Becomes(OperatorAttribute.TIMES)),
+  BECOMES_DIV("/:=", new Symbol.Becomes(OperatorAttribute.DIV)),
+  ;
   
   private String pattern;
   private IToken token;

@@ -6,6 +6,7 @@ import ch.fhnw.cbip.compiler.scanner.IToken;
 import ch.fhnw.cbip.compiler.scanner.ITokenList;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
 import ch.fhnw.cbip.compiler.scanner.token.*;
+import ch.fhnw.cbip.compiler.scanner.token.Symbol.Becomes;
 
 /**
  * 
@@ -287,7 +288,7 @@ public class Parser {
 			default:
 				System.out.println("cmd ::= expr auxExprCmd");
 				ConcTree.Expr expr = expr();
-				ConcTree.AuxExprCmd auxExprCmd = auxExprCmd();
+				ConcTree.AuxExprCmd auxExprCmd = auxExprCmd(expr);
 				ret = new ConcTree.CmdExpr(expr, auxExprCmd);
 		}
 		return ret;
@@ -563,12 +564,12 @@ public class Parser {
 		return ret;
 	}
 
-	private ConcTree.AuxExprCmd auxExprCmd() throws GrammarError {
+	private ConcTree.AuxExprCmd auxExprCmd(ConcTree.Expr expr) throws GrammarError {
 		ConcTree.AuxExprCmd ret = null;
 		if (terminal == Terminal.BECOMES) {
 			System.out.println("auxExprCmd ::= BECOMES expr");
-			consume(Terminal.BECOMES);
-			ret = new ConcTree.AuxExprCmdBecomes(expr());
+			Becomes becomes = (Becomes) consume(Terminal.BECOMES);
+			ret = new ConcTree.AuxExprCmdBecomes(becomes, expr, expr());
 		} else {
 			System.out.println("auxExprCmd ::= epsilon");
 			ret = new ConcTree.AuxExprCmdEps();

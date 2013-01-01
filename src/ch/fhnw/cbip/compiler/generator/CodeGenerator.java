@@ -68,8 +68,8 @@ public class CodeGenerator {
 		int storeCount = 0;
 		Decl currentDecl = declaration;
 		while (currentDecl != null) {
-			if (declaration instanceof DeclStore) {
-				variables.put(((DeclStore) declaration).getIdent().getName(), storeCount);
+			if (currentDecl instanceof DeclStore) {
+				variables.put(((DeclStore) currentDecl).getIdent().getName(), storeCount);
 				storeCount++;
 			}
 
@@ -342,7 +342,8 @@ public class CodeGenerator {
 			
 		} else if (e.getOperator().getTerminal() == Terminal.ADDOPR || 
 				   e.getOperator().getTerminal() == Terminal.MULTOPR ||
-				   e.getOperator().getTerminal() == Terminal.RELOPR) {
+				   e.getOperator().getTerminal() == Terminal.RELOPR ||
+				   e.getOperator().getTerminal() == Terminal.BECOMES) {
 			
 			resolveExpression(e.getExpr1());
 			resolveExpression(e.getExpr2());

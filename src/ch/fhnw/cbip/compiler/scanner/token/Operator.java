@@ -160,4 +160,25 @@ public abstract class Operator extends AbstractToken {
             assert (attribute == OperatorAttribute.INCR || attribute == OperatorAttribute.DECR);
         }
     }
+    
+    /**
+     * Class for CrementOpr
+     */
+    public static class BecomesOpr extends Operator {
+
+		/**
+		 * Serial id for serialization (used for deep copy).
+		 */
+		private static final long serialVersionUID = -3977924905635323816L;
+    	
+		
+		/**
+         * Creates a new token for becomes Operators.
+         */
+        public BecomesOpr(OperatorAttribute attribute) {
+            super(Terminal.BECOMES, attribute);
+            assert (attribute == OperatorAttribute.PLUS || attribute == OperatorAttribute.MINUS ||
+            		attribute == OperatorAttribute.TIMES || attribute == OperatorAttribute.DIV);
+        }
+    }
 }
