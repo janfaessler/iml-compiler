@@ -194,11 +194,19 @@ public class CodeGenerator {
 		addLine("CondJump", lineCounter + cmdIfCount + 2);
 		
 		// build if commands
-		buildCommands(cmd.getIfCmd());
+		currentCmd = cmd.getIfCmd();
+		while (currentCmd != null) {
+			buildCommands(currentCmd);
+			currentCmd = currentCmd.getNextCmd();
+		}
 		addLine("UncondJump", lineCounter + cmdElseCount + 1);
 		
 		// build else commands
-		buildCommands(cmd.getElseCmd());
+		currentCmd = cmd.getElseCmd();
+		while (currentCmd != null) {
+			buildCommands(currentCmd);
+			currentCmd = currentCmd.getNextCmd();
+		}
 	}
 	
 	/**
