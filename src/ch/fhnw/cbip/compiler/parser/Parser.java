@@ -28,6 +28,14 @@ public class Parser {
 
 	}
 	
+	public ConcTree.Program parse() throws GrammarError {
+		// parsing the start symbol ...
+		ConcTree.Program program = program();
+		// ... and then consuming the SENTINEL
+		consume(Terminal.SENTINEL);
+		return program;
+	}
+	
 	private IToken consume(Terminal expectedTerminal) throws GrammarError {
 		if (terminal == expectedTerminal) {
 			final IToken consumedToken = token;
@@ -41,15 +49,7 @@ public class Parser {
 			throw new GrammarError("terminal expected: " + expectedTerminal + ", terminal found: " + terminal, token.getLine());
 		}
 	}
-	
-	public ConcTree.Program parse() throws GrammarError {
-		// parsing the start symbol ...
-		ConcTree.Program program = program();
-		// ... and then consuming the SENTINEL
-		consume(Terminal.SENTINEL);
-		return program;
-	}
-	
+
 	private ConcTree.Program program() throws GrammarError {
 		System.out.println("program ::= PROGRAM IDENT auxGlobCpsDecl blockCmd");
 		consume(Terminal.PROGRAM);
@@ -280,7 +280,7 @@ public class Parser {
 				ret = new ConcTree.CmdExcl(exclExpr);
 				break;
 			case CREMENT:
-				System.out.println("cmd ::= CREMENT expr");
+				System.out.println("cmd ::= CREMENT IDENT");
 				Operator.CrementOpr crementOpr = (Operator.CrementOpr) consume(Terminal.CREMENT);
 				Ident crementIdent = (Ident) consume(Terminal.IDENT);
 				ret = new ConcTree.CmdCrement(crementOpr, crementIdent);

@@ -136,11 +136,20 @@ public abstract class Symbol extends AbstractToken {
         private final OperatorAttribute attribute;
 
         /**
-         * Creates a new Becomes token ':='.
+         * Creats a new Becomes for token like '+:='.
+         * @param attribute
          */
         public Becomes(OperatorAttribute attribute) {
             super(Terminal.BECOMES);
             this.attribute = attribute;
+        }
+        
+        /**
+         * Creates a new Becomes token ':='.
+         */
+        public Becomes() {
+        	super(Terminal.BECOMES);
+        	this.attribute = null;
         }
         
         /**
@@ -162,6 +171,11 @@ public abstract class Symbol extends AbstractToken {
     				+ super.getLine()
     				+ "\"/>\n";
     	}
+        
+        @Override
+        public String toString() {
+            return "(" + getTerminal().toString() + ", " + attribute.toString() + ")";
+        }
     }
 
     /**

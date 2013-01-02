@@ -1,4 +1,4 @@
-program refParams
+program combine
 global 
   var g:int32;
   var a:int32
