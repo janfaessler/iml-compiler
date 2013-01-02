@@ -51,7 +51,7 @@ public abstract class Operator extends AbstractToken {
 				+ "<Operator name=\""
 				+ getTerminal().toString()
 				+ "\" attribute=\""
-				+ attribute.toString()
+				+ (attribute!=null?attribute.toString():"")
 				+ "\" line=\""
 				+ super.getLine()
 				+ "\"/>\n";

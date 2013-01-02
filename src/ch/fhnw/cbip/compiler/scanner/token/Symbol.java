@@ -166,7 +166,7 @@ public abstract class Symbol extends AbstractToken {
     				+ "<Symbol name=\""
     				+ getTerminal().toString()
     				+ "\" attribute=\""
-    				+ attribute.toString()
+    				+ (attribute!=null?attribute.toString():"")
     				+ "\" line=\""
     				+ super.getLine()
     				+ "\"/>\n";
@@ -174,7 +174,7 @@ public abstract class Symbol extends AbstractToken {
         
         @Override
         public String toString() {
-            return "(" + getTerminal().toString() + ", " + attribute.toString() + ")";
+            return "(" + getTerminal().toString() + ", " + (attribute!=null?attribute.toString():"") + ")";
         }
     }
 

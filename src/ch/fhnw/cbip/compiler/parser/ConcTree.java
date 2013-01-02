@@ -983,7 +983,7 @@ public interface ConcTree {
 		}
 		
 		public AbsTree.Expr toAbstract() {
-			if (becomes == null) return expr2.toAbstract();
+			if (becomes.getAttribute() == null) return expr2.toAbstract();
 			else{
 				return new AbsTree.ExprDyadic(new Operator.BecomesOpr(becomes.getAttribute()), expr1.toAbstract(), expr2.toAbstract());
 			}

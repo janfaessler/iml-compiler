@@ -1,10 +1,18 @@
-program combine
-global 
-  var g:int32;
-  var a:int32
+program intDiv
+global
+	var x:int32;
+	var y:int32
 {
-  ? g init;
-  ? a init;
-  g *:= ++a + --a;
-  ! g
+	? x init;
+	? y init;
+	
+	if (x < y) {
+		x := x+2
+	}
+	else {
+		skip
+	};
+	
+	! x;
+	! y
 }
