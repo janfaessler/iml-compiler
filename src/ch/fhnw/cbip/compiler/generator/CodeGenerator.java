@@ -266,6 +266,11 @@ public class CodeGenerator {
 	 */
 	private void buildCmdWhile(CmdWhile cmd) throws GenerationError {
 		
+		// count the commands for the expression handling
+		startCountingState();
+		resolveExpression(cmd.getExpr());
+		Integer expCount = stopCountingState();
+		
 		// count the commands in the while loop
 		startCountingState();
 		Cmd currentCmd = cmd.getCmd();
@@ -274,10 +279,10 @@ public class CodeGenerator {
 			currentCmd = currentCmd.getNextCmd();
 		}
 		Integer cmdCount = stopCountingState();
-		
+
 		// jump out of the wile when the expression is false
 		resolveExpression(cmd.getExpr());
-		addLine("CondJump", lineCounter + cmdCount + 1); // jump when false
+		addLine("CondJump", lineCounter + cmdCount + 2); // jump when false
 		
 		// build the commands
 		currentCmd = cmd.getCmd();
@@ -285,6 +290,9 @@ public class CodeGenerator {
 			buildCommands(currentCmd);
 			currentCmd = currentCmd.getNextCmd();
 		}
+
+		// jump back at the start of expression handling
+		addLine("UncondJump", lineCounter - cmdCount - expCount - 1);
 	}
 	
 	/**
@@ -481,8 +489,7 @@ public class CodeGenerator {
 	private Integer stopCountingState() {
 		Integer result = cmdCounter.get(cmdCounter.size() - 1);
 		cmdCounter.remove(cmdCounter.size() - 1);
-		if (cmdCounter.size() > 0) cmdCounter.set(cmdCounter.size() - 1, cmdCounter.get(cmdCounter.size() - 1) + result);
-		else countingState = false;
+		if (cmdCounter.size() == 0) countingState = false;
 		return result;
 	}
 	

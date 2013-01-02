@@ -5,14 +5,14 @@ global
 {
 	? x init;
 	? y init;
-	
-	if (x < y) {
-		x := x+2
-	}
-	else {
-		skip
+	while (x < y) {
+		if (x mod 2) {
+			++x
+		} else {
+			x +:= 3
+		};
+		! x
 	};
-	
 	! x;
 	! y
 }
