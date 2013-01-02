@@ -325,6 +325,7 @@ public class CodeGenerator {
 			Integer cmdCount = stopCountingState();
 			
 			// jump if expression 1 is false
+			if (e.getOperator().getAttribute() == OperatorAttribute.COR) addLine("IntInv");
 			addLine("CondJump", lineCounter + cmdCount + 1);
 			
 			// resolve expression 2
