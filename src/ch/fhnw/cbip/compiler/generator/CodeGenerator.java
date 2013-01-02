@@ -278,7 +278,7 @@ public class CodeGenerator {
 		
 		// jump out of the wile when the expression is false
 		resolveExpression(cmd.getExpr());
-		addLine("CondJump", lineCounter + cmdCount + 1);
+		addLine("CondJump", lineCounter + cmdCount + 2);
 		
 		// build the commands
 		currentCmd = cmd.getCmd();
