@@ -191,7 +191,7 @@ public class CodeGenerator {
 		
 		// jump to the else part when the expression is false
 		resolveExpression(cmd.getExpr());
-		addLine("CondJump", lineCounter + cmdIfCount + 2);
+		addLine("CondJump", lineCounter + cmdIfCount + 2); // jump when false
 		
 		// build if commands
 		currentCmd = cmd.getIfCmd();
@@ -277,7 +277,7 @@ public class CodeGenerator {
 		
 		// jump out of the wile when the expression is false
 		resolveExpression(cmd.getExpr());
-		addLine("CondJump", lineCounter + cmdCount + 1);
+		addLine("CondJump", lineCounter + cmdCount + 1); // jump when false
 		
 		// build the commands
 		currentCmd = cmd.getCmd();
@@ -344,7 +344,9 @@ public class CodeGenerator {
 			Integer cmdCount = stopCountingState();
 			
 			// jump if expression 1 is false
-			addLine("CondJump", lineCounter + cmdCount + 1);
+			if (e.getOperator().getAttribute() == OperatorAttribute.COR) addLine("IntInv");
+			addLine("CondJump", lineCounter + cmdCount + 1); // jump when false
+			
 			
 			// resolve expression 2
 			resolveExpression(e.getExpr2());
