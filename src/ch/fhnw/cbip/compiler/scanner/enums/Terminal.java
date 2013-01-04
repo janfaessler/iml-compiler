@@ -23,6 +23,8 @@ public enum Terminal {
   
   WHILE("WHILE"), DO("DO"), ENDWHILE("ENDWHILE"),
   
+  FOR("FOR"), INVAR("INVAR"),
+  
   SENTINEL("SENTINEL");
 
   Terminal(String toString) {

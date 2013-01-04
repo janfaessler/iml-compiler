@@ -291,6 +291,41 @@ public abstract class Keyword extends AbstractToken {
             super(Terminal.ENDWHILE);
         }
     }
+    
+    /**
+     * Class for For token.
+     */
+    public static class For extends Keyword {
+        /**
+         * Serial id for serialization (used for deep copy).
+         */
+        private static final long serialVersionUID = 7850415819492604439L;
+
+        /**
+         * Creates a new For token
+         */
+        public For(){
+            super(Terminal.FOR);
+        }
+    }
+
+    
+    /**
+     * Class for Invar token.
+     */
+    public static class Invar extends Keyword {
+        /**
+         * Serial id for serialization (used for deep copy).
+         */
+        private static final long serialVersionUID = 6446949866388398617L;
+
+        /**
+         * Creates a new Invar token
+         */
+        public Invar(){
+            super(Terminal.INVAR);
+        }
+    }
 
     /**
      * Class for Sentinel token.
