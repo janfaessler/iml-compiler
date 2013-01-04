@@ -302,8 +302,6 @@ public class Parser {
             ConcTree.AuxExprList invarList = auxExprList();
             consume(Terminal.RPAREN);
             ConcTree.BlockCmd forCmd = blockCmd();
-            
-            // TODO: fix tree to include the ident!!!!
             ret = new ConcTree.CmdInvarFor(loopCounter, initExpr, conditionExpr, stepExpr, invarList, forCmd);
             break;
         case QUESTMARK:

@@ -701,7 +701,7 @@ public interface ConcTree {
     }
 
     public class CmdInvarFor extends Cmd {
-        private final Ident loopCounter; // TODO: add getter; shouldnt be this conctreeident?!
+        private final Ident loopCounter;
         private final Expr loopCounterInit;
         private final Expr condition;
         private final Expr step;
@@ -725,7 +725,8 @@ public interface ConcTree {
         }
 
         public AbsTree.CmdInvarFor toAbstract(RepCmd repCmd){
-            return new AbsTree.CmdInvarFor(loopCounterInit.toAbstract(), 
+            return new AbsTree.CmdInvarFor(loopCounter,
+                                           loopCounterInit.toAbstract(), 
                                            condition.toAbstract(), 
                                            step.toAbstract(), 
                                            invariant.toAbstract(), 
