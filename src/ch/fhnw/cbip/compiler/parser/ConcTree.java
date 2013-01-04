@@ -701,13 +701,15 @@ public interface ConcTree {
     }
 
     public class CmdInvarFor extends Cmd {
+        private final Ident loopCounter; // TODO: add getter; shouldnt be this conctreeident?!
         private final Expr loopCounterInit;
         private final Expr condition;
         private final Expr step;
-        private final Expr invariant;
+        private final AuxExprList invariant;
         private final BlockCmd blockCmd;
 
-        public CmdInvarFor(Expr loopCounterInit, Expr condition, Expr step, Expr invariant, BlockCmd blockCmd) {
+        public CmdInvarFor(Ident loopCounter, Expr loopCounterInit, Expr condition, Expr step, AuxExprList invariant, BlockCmd blockCmd) {
+            this.loopCounter = loopCounter;
             this.loopCounterInit = loopCounterInit;
             this.condition = condition;
             this.step = step;

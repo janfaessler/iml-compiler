@@ -379,10 +379,10 @@ public interface AbsTree {
         private final Expr loopCounterInit;
         private final Expr condition;
         private final Expr step;
-        private final Expr invariant;
+        private final ExprList invariant; 
         private final Cmd cmd;
 
-        public CmdInvarFor(Expr loopCounterInit, Expr condition, Expr step, Expr invariant, Cmd cmd, Cmd nextCmd) {
+        public CmdInvarFor(Expr loopCounterInit, Expr condition, Expr step, ExprList invariant, Cmd cmd, Cmd nextCmd) {
             super(nextCmd);
             this.loopCounterInit = loopCounterInit;
             this.condition = condition;
@@ -416,7 +416,7 @@ public interface AbsTree {
             return step;
         }
 
-        public Expr getInvariant() {
+        public ExprList getInvariant() {
             return invariant;
         }
 
