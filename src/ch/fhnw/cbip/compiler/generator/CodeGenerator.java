@@ -5,8 +5,12 @@ import java.util.HashMap;
 
 import ch.fhnw.cbip.compiler.error.GenerationError;
 import ch.fhnw.cbip.compiler.parser.AbsTree.*;
+import ch.fhnw.cbip.compiler.scanner.enums.ModeAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.OperatorAttribute;
 import ch.fhnw.cbip.compiler.scanner.enums.Terminal;
+import ch.fhnw.cbip.compiler.scanner.enums.TypeAttribute;
+import ch.fhnw.cbip.compiler.scanner.token.Mode.ChangeMode;
+import ch.fhnw.cbip.compiler.scanner.token.Type;
 
 /**
  * This class generates vm code from a abstract syntax tree
@@ -318,13 +322,31 @@ public class CodeGenerator {
      * @param Cmd from the Abstract Tree
      * @throws GenerationError
      */
-    private void buildCmdInvarFor(CmdWhile cmd) throws GenerationError {
-        //private void buildCmdInvarFor(CmdInvarFor cmd) throws GenerationError {
-
-        // count the commands for the expression handling
-        startCountingState();
-        resolveExpression(cmd.getExpr());
-        Integer expCount = stopCountingState();
+    private void buildCmdInvarFor(CmdInvarFor cmd) throws GenerationError {        
+        DeclStore loopCountStoreDecl = new DeclStore(new ChangeMode(ModeAttribute.VAR), 
+                                                cmd.getLoopCounter(), 
+                                                new Type(TypeAttribute.INT32), null);
+        variables.put(loopCountStoreDecl.getIdent().getName(), variables.size()-1);
+        
+        // to build
+        ExprStore loopCountStoreExpr = new ExprStore(cmd.getLoopCounter(), true);
+        
+        // to build
+        CmdAssi loopCounterInitialAssi = new CmdAssi(loopCountStoreExpr, cmd.getLoopCounterInit(), null);
+        
+        CmdAssi stepAssi = new CmdAssi(loopCountStoreExpr, cmd.getStep(), null);
+        
+        // to build & count
+        resolveExpression(cmd.getCondition());
+        
+        ExprList currentInvariant = cmd.getInvariant();
+        do {
+            
+            currentInvariant = currentInvariant.getExprList();
+        } while (currentInvariant.getExprList() != null);
+        
+        
+        
 
         // count the commands in the while loop
         startCountingState();
@@ -333,7 +355,11 @@ public class CodeGenerator {
             buildCommands(currentCmd);
             currentCmd = currentCmd.getNextCmd();
         }
+        buildCommands(stepAssi);
         Integer cmdCount = stopCountingState();
+        
+        
+        
 
         // jump out of the wile when the expression is false
         resolveExpression(cmd.getExpr());
@@ -345,7 +371,10 @@ public class CodeGenerator {
             buildCommands(currentCmd);
             currentCmd = currentCmd.getNextCmd();
         }
-
+        // add the step
+        buildCommands(stepAssi);
+        
+        
         // jump back at the start of expression handling
         addLine("UncondJump", lineCounter - cmdCount - expCount - 1);
     }
