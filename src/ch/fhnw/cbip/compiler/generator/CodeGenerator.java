@@ -152,6 +152,10 @@ public class CodeGenerator {
         // code for a while loop
         else if (cmd instanceof CmdWhile)
             buildCmdWhile((CmdWhile) cmd);
+        
+        // code for a for loop
+        else if (cmd instanceof CmdInvarFor)
+            buildCmdInvarFor((CmdInvarFor) cmd);
 
         else
             throw new GenerationError("unknown Command");
@@ -322,102 +326,63 @@ public class CodeGenerator {
      * @param Cmd from the Abstract Tree
      * @throws GenerationError
      */
-    private void buildCmdInvarFor(CmdInvarFor cmd) throws GenerationError {        
+    private void buildCmdInvarFor(CmdInvarFor cmd) throws GenerationError {
+        // Declaration of loop counter
         DeclStore loopCountStoreDecl = new DeclStore(new ChangeMode(ModeAttribute.VAR), 
                                                 cmd.getLoopCounter(), 
                                                 new Type(TypeAttribute.INT32), null);
         variables.put(loopCountStoreDecl.getIdent().getName(), variables.size()-1);
-        
-        // to build
         ExprStore loopCountStoreExpr = new ExprStore(cmd.getLoopCounter(), true);
+        resolveExpression(loopCountStoreExpr);
         
-        // to build
+        // Initial assignment of loop counter
         CmdAssi loopCounterInitialAssi = new CmdAssi(loopCountStoreExpr, cmd.getLoopCounterInit(), null);
+        buildCommands(loopCounterInitialAssi);
         
+        // step command       
         CmdAssi stepAssi = new CmdAssi(loopCountStoreExpr, cmd.getStep(), null);
-        
         
         // count the commands in the for loop
         startCountingState();
-        Cmd currentCmd = cmd.getCmd();
-        while (currentCmd != null) {
-            buildCommands(currentCmd);
-            currentCmd = currentCmd.getNextCmd();
-        }
-        buildCommands(stepAssi);
-        Integer cmdCount = stopCountingState();
+            Cmd currentCmd = cmd.getCmd();
+            while (currentCmd != null) {
+                buildCommands(currentCmd);
+                currentCmd = currentCmd.getNextCmd();
+            }
+            buildCommands(stepAssi); // happens at the end of the command block
+        Integer cmdCount = stopCountingState();    
         
-        // count init head of loop
         startCountingState();
-        resolveExpression(loopCountStoreExpr);
-        buildCommands(loopCounterInitialAssi);
-        Integer forInitHead = stopCountingState();
-        
-        // count invariant
-        startCountingState();
-        resolveExpression(cmd.getInvariant());
-        addLine("CondJump", lineCounter + cmdCount + 2);
-        addLine("Stop");
+            addLine("Stop");
+            addLine("CondJump", lineCounter + cmdCount + 2);
         Integer forInvJmp= stopCountingState();
         
         // count loop condition
         startCountingState();
-        resolveExpression(cmd.getCondition());
-        //store result
-        //load result
+            resolveExpression(cmd.getCondition());
+            addLine("CondJump", lineCounter + cmdCount + forInvJmp + 2);
         Integer forCondHead = stopCountingState(); // + invariant count
         
         
+        // do it for real
         
-        startCountingState();
-        Integer forLoopJmp= stopCountingState();
+        // loop condition
+        resolveExpression(cmd.getCondition());
         
-        //load
-        Integer forHeaderCountStop = stopCountingState();
-        
-        
-        
-        Expr invariant = cmd.getInvariant();
-        resolveExpression(invariant);
-        // jmp invariant
-        
-        // jmp for loop
-        
-        
-        // count the commands in the for loop
-        startCountingState();
-        Cmd currentCmd = cmd.getCmd();
-        while (currentCmd != null) {
-            buildCommands(currentCmd);
-            currentCmd = currentCmd.getNextCmd();
-        }
-        buildCommands(stepAssi);
-        Integer cmdCount = stopCountingState();
-        
-        
-        
-        startCountingState();
-        
-        Integer cmdCountStop = stopCountingState();
-        
-        
-
-        // jump out of the wile when the expression is false
-        resolveExpression(cmd.getExpr());
+        // invariant
+        resolveExpression(cmd.getInvariant());
+        addLine("CondJump", lineCounter + cmdCount + forInvJmp + 2);
+        addLine("Stop");
         addLine("CondJump", lineCounter + cmdCount + 2);
-
-        // build the commands
+        
+        // command blocks
         currentCmd = cmd.getCmd();
         while (currentCmd != null) {
             buildCommands(currentCmd);
             currentCmd = currentCmd.getNextCmd();
         }
-        // add the step
-        buildCommands(stepAssi);
-        
-        
-        // jump back at the start of expression handling
-        addLine("UncondJump", lineCounter - cmdCount - expCount - 1);
+        buildCommands(stepAssi); // happens at the end of the command block
+        addLine("UncondJump", lineCounter - cmdCount - forInvJmp - forCondHead - 1);
     }
 
     /**
