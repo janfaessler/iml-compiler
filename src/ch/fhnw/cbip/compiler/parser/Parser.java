@@ -272,7 +272,7 @@ public class Parser {
             System.out.println("cmd ::= FOR LPAREN IDENT COLON TYPE SEMICOLON"
                     + " IDENT INIT BECOMES expr SEMICOLON expr SEMICOLON" 
                     + " IDENT BECOMES expr SEMICOLON"
-                    + " INVAR auxExprList RPAREN blockCmd");
+                    + " INVAR expr RPAREN blockCmd");
             consume(Terminal.FOR);
             consume(Terminal.LPAREN);
             Ident loopCounter = (Ident) consume(Terminal.IDENT);
