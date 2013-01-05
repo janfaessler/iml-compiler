@@ -56,7 +56,7 @@ public class Compiler {
 	public static void main(String[] args) {
 		try {
 			
-			InputStreamReader isr = new InputStreamReader(new FileInputStream("res/code.iml"));
+			InputStreamReader isr = new InputStreamReader(new FileInputStream("res/for-example.iml"));
 			Compiler compiler = new Compiler();
 			compiler.compile(new BufferedReader(isr));
 			
