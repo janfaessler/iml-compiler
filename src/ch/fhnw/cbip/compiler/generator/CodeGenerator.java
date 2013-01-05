@@ -331,13 +331,15 @@ public class CodeGenerator {
         DeclStore loopCountStoreDecl = new DeclStore(new ChangeMode(ModeAttribute.VAR), 
                                                 cmd.getLoopCounter(), 
                                                 new Type(TypeAttribute.INT32), null);
-        variables.put(loopCountStoreDecl.getIdent().getName(), variables.size()-1);
+        variables.put(loopCountStoreDecl.getIdent().getName(), variables.size());
         ExprStore loopCountStoreExpr = new ExprStore(cmd.getLoopCounter(), true);
-        resolveExpression(loopCountStoreExpr);
         
         // Initial assignment of loop counter
+        startCountingState();
         CmdAssi loopCounterInitialAssi = new CmdAssi(loopCountStoreExpr, cmd.getLoopCounterInit(), null);
         buildCommands(loopCounterInitialAssi);
+        addLine("Alloc", 1);
+        Integer loopAssiCount = stopCountingState(); 
         
         // step command       
         CmdAssi stepAssi = new CmdAssi(loopCountStoreExpr, cmd.getStep(), null);
@@ -349,31 +351,34 @@ public class CodeGenerator {
                 buildCommands(currentCmd);
                 currentCmd = currentCmd.getNextCmd();
             }
-            buildCommands(stepAssi); // happens at the end of the command block
+            buildCommands(stepAssi); 
         Integer cmdCount = stopCountingState();    
         
         startCountingState();
+            addLine("Alloc", 1);
             addLine("Stop");
-            addLine("CondJump", lineCounter + cmdCount + 2);
         Integer forInvJmp= stopCountingState();
         
         // count loop condition
         startCountingState();
             resolveExpression(cmd.getCondition());
-            addLine("CondJump", lineCounter + cmdCount + forInvJmp + 2);
+            addLine("CondJump", 0);
         Integer forCondHead = stopCountingState(); // + invariant count
         
-        
         // do it for real
+        
+        // Initial assignment of loop counter
+        buildCommands(loopCounterInitialAssi);
+        addLine("Alloc", 1);
         
         // loop condition
         resolveExpression(cmd.getCondition());
         
         // invariant
         resolveExpression(cmd.getInvariant());
-        addLine("CondJump", lineCounter + cmdCount + forInvJmp + 2);
-        addLine("Stop");
-        addLine("CondJump", lineCounter + cmdCount + 2);
+        addLine("CondJump", lineCounter + forInvJmp + cmdCount + 2);
+        addLine("Alloc", 1);
+        addLine("CondJump", lineCounter + cmdCount + 3);
         
         // command blocks
         currentCmd = cmd.getCmd();
@@ -382,7 +387,9 @@ public class CodeGenerator {
             currentCmd = currentCmd.getNextCmd();
         }
         buildCommands(stepAssi); // happens at the end of the command block
-        addLine("UncondJump", lineCounter - cmdCount - forInvJmp - forCondHead - 1);
+        addLine("UncondJump", lineCounter - cmdCount - forInvJmp - forCondHead - loopAssiCount);
+        addLine("Stop");
+        
     }
 
     /**
