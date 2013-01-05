@@ -336,19 +336,8 @@ public class CodeGenerator {
         
         CmdAssi stepAssi = new CmdAssi(loopCountStoreExpr, cmd.getStep(), null);
         
-        // to build & count
-        resolveExpression(cmd.getCondition());
         
-        ExprList currentInvariant = cmd.getInvariant();
-        do {
-            
-            currentInvariant = currentInvariant.getExprList();
-        } while (currentInvariant.getExprList() != null);
-        
-        
-        
-
-        // count the commands in the while loop
+        // count the commands in the for loop
         startCountingState();
         Cmd currentCmd = cmd.getCmd();
         while (currentCmd != null) {
@@ -358,6 +347,58 @@ public class CodeGenerator {
         buildCommands(stepAssi);
         Integer cmdCount = stopCountingState();
         
+        // count init head of loop
+        startCountingState();
+        resolveExpression(loopCountStoreExpr);
+        buildCommands(loopCounterInitialAssi);
+        Integer forInitHead = stopCountingState();
+        
+        // count invariant
+        startCountingState();
+        resolveExpression(cmd.getInvariant());
+        addLine("CondJump", lineCounter + cmdCount + 2);
+        addLine("Stop");
+        Integer forInvJmp= stopCountingState();
+        
+        // count loop condition
+        startCountingState();
+        resolveExpression(cmd.getCondition());
+        //store result
+        //load result
+        Integer forCondHead = stopCountingState(); // + invariant count
+        
+        
+        
+        startCountingState();
+        Integer forLoopJmp= stopCountingState();
+        
+        //load
+        Integer forHeaderCountStop = stopCountingState();
+        
+        
+        
+        Expr invariant = cmd.getInvariant();
+        resolveExpression(invariant);
+        // jmp invariant
+        
+        // jmp for loop
+        
+        
+        // count the commands in the for loop
+        startCountingState();
+        Cmd currentCmd = cmd.getCmd();
+        while (currentCmd != null) {
+            buildCommands(currentCmd);
+            currentCmd = currentCmd.getNextCmd();
+        }
+        buildCommands(stepAssi);
+        Integer cmdCount = stopCountingState();
+        
+        
+        
+        startCountingState();
+        
+        Integer cmdCountStop = stopCountingState();
         
         
 
