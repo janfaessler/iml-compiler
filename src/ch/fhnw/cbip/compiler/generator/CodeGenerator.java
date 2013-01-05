@@ -355,13 +355,13 @@ public class CodeGenerator {
         Integer cmdCount = stopCountingState();    
         
         startCountingState();
-            addLine("Alloc", 1);
             addLine("Stop");
         Integer forInvJmp= stopCountingState();
         
         // count loop condition
         startCountingState();
             resolveExpression(cmd.getCondition());
+            addLine("Alloc", 1);
             addLine("CondJump", 0);
         Integer forCondHead = stopCountingState(); // + invariant count
         
@@ -373,11 +373,11 @@ public class CodeGenerator {
         
         // loop condition
         resolveExpression(cmd.getCondition());
+        addLine("Alloc", 1);
         
         // invariant
         resolveExpression(cmd.getInvariant());
         addLine("CondJump", lineCounter + forInvJmp + cmdCount + 2);
-        addLine("Alloc", 1);
         addLine("CondJump", lineCounter + cmdCount + 3);
         
         // command blocks
