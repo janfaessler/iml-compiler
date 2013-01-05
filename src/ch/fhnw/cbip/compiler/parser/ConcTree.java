@@ -705,10 +705,10 @@ public interface ConcTree {
         private final Expr loopCounterInit;
         private final Expr condition;
         private final Expr step;
-        private final AuxExprList invariant;
+        private final Expr invariant;
         private final BlockCmd blockCmd;
 
-        public CmdInvarFor(Ident loopCounter, Expr loopCounterInit, Expr condition, Expr step, AuxExprList invariant, BlockCmd blockCmd) {
+        public CmdInvarFor(Ident loopCounter, Expr loopCounterInit, Expr condition, Expr step, Expr invariant, BlockCmd blockCmd) {
             this.loopCounter = loopCounter;
             this.loopCounterInit = loopCounterInit;
             this.condition = condition;

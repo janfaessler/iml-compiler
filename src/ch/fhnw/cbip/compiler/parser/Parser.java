@@ -299,10 +299,10 @@ public class Parser {
             ConcTree.Expr stepExpr = expr();
             consume(Terminal.SEMICOLON);
             consume(Terminal.INVAR);
-            ConcTree.AuxExprList invarList = auxExprList();
+            ConcTree.Expr invariant = expr();
             consume(Terminal.RPAREN);
             ConcTree.BlockCmd forCmd = blockCmd();
-            ret = new ConcTree.CmdInvarFor(loopCounter, initExpr, conditionExpr, stepExpr, invarList, forCmd);
+            ret = new ConcTree.CmdInvarFor(loopCounter, initExpr, conditionExpr, stepExpr, invariant, forCmd);
             break;
         case QUESTMARK:
             System.out.println("cmd ::= QUESTMARK expr");
