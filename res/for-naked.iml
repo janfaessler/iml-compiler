@@ -1,0 +1,6 @@
+program nakedFor
+global
+{
+  for (i:int32; i init := 0; i < 10; i := i + 1; invar i /= 10) {
+  };
+}
