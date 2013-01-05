@@ -702,13 +702,13 @@ public interface ConcTree {
 
     public class CmdInvarFor extends Cmd {
         private final Ident loopCounter;
-        private final Expr loopCounterInit;
+        private final FactorLiteral loopCounterInit;
         private final Expr condition;
         private final Expr step;
         private final Expr invariant;
         private final BlockCmd blockCmd;
 
-        public CmdInvarFor(Ident loopCounter, Expr loopCounterInit, Expr condition, Expr step, Expr invariant, BlockCmd blockCmd) {
+        public CmdInvarFor(Ident loopCounter, FactorLiteral loopCounterInit, Expr condition, Expr step, Expr invariant, BlockCmd blockCmd) {
             this.loopCounter = loopCounter;
             this.loopCounterInit = loopCounterInit;
             this.condition = condition;

@@ -377,13 +377,13 @@ public interface AbsTree {
 
     public class CmdInvarFor extends Cmd {
         private final Ident loopCounter;
-        private final Expr loopCounterInit;
+        private final ExprLiteral loopCounterInit;
         private final Expr condition;
         private final Expr step;
         private final Expr invariant; 
         private final Cmd cmd;
 
-        public CmdInvarFor(Ident loopCounter, Expr loopCounterInit, Expr condition, Expr step, Expr invariant, Cmd cmd, Cmd nextCmd) {
+        public CmdInvarFor(Ident loopCounter, ExprLiteral loopCounterInit, Expr condition, Expr step, Expr invariant, Cmd cmd, Cmd nextCmd) {
             super(nextCmd);
             this.loopCounter = loopCounter;
             this.loopCounterInit = loopCounterInit;
@@ -411,7 +411,7 @@ public interface AbsTree {
             return loopCounter;
         }
 
-        public Expr getLoopCounterInit() {
+        public ExprLiteral getLoopCounterInit() {
             return loopCounterInit;
         }
 

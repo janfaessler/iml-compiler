@@ -270,7 +270,7 @@ public class Parser {
             break;
         case FOR:
             System.out.println("cmd ::= FOR LPAREN IDENT COLON TYPE SEMICOLON"
-                    + " IDENT INIT BECOMES expr SEMICOLON expr SEMICOLON" 
+                    + " IDENT INIT BECOMES LITERAL SEMICOLON expr SEMICOLON" 
                     + " IDENT BECOMES expr SEMICOLON"
                     + " INVAR expr RPAREN blockCmd");
             consume(Terminal.FOR);
@@ -287,7 +287,7 @@ public class Parser {
                         loopCounter2.getLine());
             consume(Terminal.INIT);
             consume(Terminal.BECOMES);
-            ConcTree.Expr initExpr = expr();
+            ConcTree.FactorLiteral initVal = new ConcTree.FactorLiteral((Literal) consume(Terminal.LITERAL));
             consume(Terminal.SEMICOLON);
             ConcTree.Expr conditionExpr = expr();
             consume(Terminal.SEMICOLON);
@@ -302,7 +302,7 @@ public class Parser {
             ConcTree.Expr invariant = expr();
             consume(Terminal.RPAREN);
             ConcTree.BlockCmd forCmd = blockCmd();
-            ret = new ConcTree.CmdInvarFor(loopCounter, initExpr, conditionExpr, stepExpr, invariant, forCmd);
+            ret = new ConcTree.CmdInvarFor(loopCounter, initVal, conditionExpr, stepExpr, invariant, forCmd);
             break;
         case QUESTMARK:
             System.out.println("cmd ::= QUESTMARK expr");

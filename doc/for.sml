@@ -225,7 +225,7 @@ val productions =
 		T ELSE, N blockCmd],
 	 [T WHILE, T LPAREN, N expr, T RPAREN, N blockCmd],
 	 [T FOR, T LPAREN, T IDENT, T COLON, T TYPE, 
-		T SEMICOLON, T IDENT, T INIT, T BECOMES, N expr, 
+		T SEMICOLON, T IDENT, T INIT, T BECOMES, T LITERAL, 
 		T SEMICOLON, N expr, T SEMICOLON, T IDENT, T BECOMES, 
 		N expr, T SEMICOLON, T INVAR, N expr, T RPAREN, N blockCmd],
 	 [T QUESTMARK, N expr],
