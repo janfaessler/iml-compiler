@@ -1,0 +1,11 @@
+program diamond
+global
+ var symbol:int32
+ 
+ {
+   symbol init := 0;
+   for (i:int32; i init := 0; i < 5; i := i + 1; invar i /= -1) {
+    symbol := i;
+    ! symbol
+   }
+ }
