@@ -361,7 +361,6 @@ public class CodeGenerator {
         // count loop condition
         startCountingState();
             resolveExpression(cmd.getCondition());
-            addLine("Alloc", 1);
             addLine("CondJump", 0);
         Integer forCondHead = stopCountingState(); // + invariant count
         
@@ -373,7 +372,6 @@ public class CodeGenerator {
         
         // loop condition
         resolveExpression(cmd.getCondition());
-        addLine("Alloc", 1);
         
         // invariant
         resolveExpression(cmd.getInvariant());
