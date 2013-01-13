@@ -1,0 +1,12 @@
+program factorial
+global
+ var f:int32;
+ var n:int32
+{
+  ? n init;
+  f init := 1;
+  for (i:int32; i init := 1; i < n; i := i + 1; invar n >= 0) {
+   f := f * i
+  };
+  ! f
+}

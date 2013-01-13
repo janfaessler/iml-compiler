@@ -355,7 +355,6 @@ public class CodeGenerator {
         Integer cmdCount = stopCountingState();    
         
         startCountingState();
-            addLine("Alloc", 1);
             addLine("Stop");
         Integer forInvJmp= stopCountingState();
         
@@ -377,7 +376,6 @@ public class CodeGenerator {
         // invariant
         resolveExpression(cmd.getInvariant());
         addLine("CondJump", lineCounter + forInvJmp + cmdCount + 2);
-        addLine("Alloc", 1);
         addLine("CondJump", lineCounter + cmdCount + 3);
         
         // command blocks
