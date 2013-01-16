@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
+import ch.fhnw.cbip.compiler.checker.Checker;
 import ch.fhnw.cbip.compiler.error.*;
 import ch.fhnw.cbip.compiler.generator.CodeGenerator;
 import ch.fhnw.cbip.compiler.parser.*;
@@ -17,7 +18,7 @@ import ch.fhnw.lederer.virtualmachineHS2010.IVirtualMachine.ExecutionError;
 
 public class Compiler {
 	
-	public void compile(BufferedReader source) throws IOException, LexicalError, GrammarError, GenerationError, ExecutionError, MachineError {
+	public void compile(BufferedReader source) throws IOException, LexicalError, GrammarError, GenerationError, ExecutionError, MachineError, SemanticError {
 		
 		System.out.println("Compiling iml:");
 		String currentLine = "";
@@ -44,6 +45,9 @@ public class Compiler {
 		System.out.println("Success!");
 		System.out.println("Abstract syntax tree:");
 		System.out.println(abstractTree.toString(""));
+		System.out.println("\nPerforming Static Analysis:");
+		Checker.check(abstractTree);
+		System.out.println("\nSuccess!");
 		System.out.println("\nGenerating code:");
 		CodeGenerator generator = new CodeGenerator(abstractTree);
 		String code = generator.generate();
@@ -56,7 +60,7 @@ public class Compiler {
 	public static void main(String[] args) {
 		try {
 			
-			InputStreamReader isr = new InputStreamReader(new FileInputStream("res/for-example.iml"));
+			InputStreamReader isr = new InputStreamReader(new FileInputStream("../res/for-example.iml"));
 			Compiler compiler = new Compiler();
 			compiler.compile(new BufferedReader(isr));
 			
